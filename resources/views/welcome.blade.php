@@ -317,13 +317,13 @@
 <script type="text/javascript">
 
     $(function () {
-        App.setbasePath("../");
+        App.setbasePath("./");
         App.setGlobalImgPath("images/");
         addTabs({
             id: '10008',
             title: '欢迎页',
             close: false,
-            url: "http://local.admin-iframe.com/test",
+            url: "test",
             urlType: 'abosulte',
         });
 
@@ -334,7 +334,7 @@
                 id: 6,
                 text: "菜单B",
                 icon: "fa fa-laptop",
-                url: "http://local.admin-iframe.com/test",
+                url: "test",
                 urlType: 'abosulte',
                 targetType: "iframe-tab",
             },
@@ -347,7 +347,7 @@
                         id: 5,
                         text: "菜单B",
                         icon: "fa fa-laptop",
-                        url: "http://local.admin-iframe.com/test",
+                        url: "test",
                         urlType: 'abosulte',
                         targetType: "iframe-tab",
                     },
@@ -365,7 +365,7 @@
                                         id: 4,
                                         text: "子菜单4",
                                         icon: "fa fa-circle-o",
-                                        url: "http://local.admin-iframe.com/test",
+                                        url: "test",
                                         urlType: 'abosulte',
                                         targetType: "iframe-tab",
                                     }
