@@ -324,7 +324,7 @@
             title: '欢迎页',
             close: false,
             url: "test",
-            urlType: 'abosulte',
+            urlType: 'relative',
         });
 
         App.fixIframeCotent();

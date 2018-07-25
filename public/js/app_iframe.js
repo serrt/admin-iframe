@@ -1920,8 +1920,7 @@ var addTabs = function (options) {
     options = $.extend(true, defaultTabOptions, options);
 
     if (options.urlType === "relative") {
-        // var url = window.location.protocol + '//' + window.location.host + "/";
-        var basePath = window.location.pathname + "/../";
+        var basePath = window.location.protocol + '//' + window.location.host + "/";
         options.url = basePath + options.url;
     }
 
