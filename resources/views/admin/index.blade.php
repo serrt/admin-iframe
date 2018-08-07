@@ -152,17 +152,18 @@
     $(function () {
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
-        addTabs({
-            id: 22,
-            title: '首页',
-            close: true,
-            url: "admin/home",
-            urlType: 'abosulte',
-        });
-
-        App.fixIframeCotent();
 
         var menus = JSON.parse('{!! $menus !!}');
+        
+        if (menus.length > 0) {
+            var firstMenu = menus[0];
+            if (!firstMenu.title) {
+                firstMenu.title = firstMenu.text;
+            }
+            addTabs(firstMenu);
+        }
+        App.fixIframeCotent();
+
         $('.sidebar-menu').sidebarMenu({data: menus});
     });
 </script>
