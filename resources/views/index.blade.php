@@ -111,7 +111,7 @@
 <!-- FastClick -->
 <script src="{{asset('js/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('js/AdminLTE.js')}}"></script>
+<script src="{{asset('adminlte/AdminLTE.js')}}"></script>
 
 <!--tabs-->
 <script src="{{asset('js/app_iframe.js')}}"></script>
