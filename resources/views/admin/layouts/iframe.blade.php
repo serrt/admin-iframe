@@ -15,5 +15,7 @@
 </section>
 
 @include('admin.layouts.js')
+
+@yield('script')
 </body>
 </html>

@@ -33,6 +33,10 @@ class IndexController extends Controller
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
+        if ($request->filled('pid')) {
+            $query->where('pid', $request->input('pid'));
+        }
+
         $list = $query->paginate();
         return view('admin.index.table', compact('list'));
     }

@@ -13,7 +13,8 @@ class CreateRegionsTable extends Migration
         Schema::create('regions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
-            $table->string('name');
+            $table->string('name', 100);
+            $table->integer('level')->default(1);
             $table->string('code')->nullable();
         });
 
@@ -27,11 +28,11 @@ class CreateRegionsTable extends Migration
     {
         $provinces = json_decode(file_get_contents(public_path('regions/data.json')), true);
         foreach ($provinces as $province) {
-            $provinceId = DB::table('regions')->insertGetId(['name' => $province['name'], 'pid' => 0]);
+            $provinceId = DB::table('regions')->insertGetId(['name' => $province['name'], 'pid' => 0, 'level' => 1]);
             foreach ($province['city'] as $city) {
-                $cityId = DB::table('regions')->insertGetId(['name' => $city['name'], 'pid' => $provinceId]);
+                $cityId = DB::table('regions')->insertGetId(['name' => $city['name'], 'pid' => $provinceId, 'level' => 2]);
                 $areas = array_map(function ($area) use ($cityId) {
-                    return ['name' => $area, 'pid' => $cityId];
+                    return ['name' => $area, 'pid' => $cityId, 'level' => 3];
                 }, $city['area']);
                 DB::table('regions')->insert($areas);
             }
@@ -42,11 +43,11 @@ class CreateRegionsTable extends Migration
     {
         $provinces = json_decode(file_get_contents(public_path('regions/data.json')), true);
         foreach ($provinces as $province) {
-            $provinceId = DB::table('regions')->insertGetId(['name' => $province['title'], 'code' => $province['ad_code'], 'pid' => 0]);
+            $provinceId = DB::table('regions')->insertGetId(['name' => $province['title'], 'code' => $province['ad_code'], 'pid' => 0, 'level' => 1]);
             foreach ($province['child'] as $city) {
-                $cityId = DB::table('regions')->insertGetId(['name' => $city['title'], 'pid' => $provinceId, 'code' => $city['ad_code']]);
+                $cityId = DB::table('regions')->insertGetId(['name' => $city['title'], 'pid' => $provinceId, 'level' => 2, 'code' => $city['ad_code']]);
                 $areas = array_map(function ($area) use ($cityId) {
-                    return ['name' => $area['title'], 'pid' => $cityId, 'code' => $area['ad_code']];
+                    return ['name' => $area['title'], 'pid' => $cityId, 'level' => 3, 'code' => $area['ad_code']];
                 }, $city['child']);
                 DB::table('regions')->insert($areas);
             }
