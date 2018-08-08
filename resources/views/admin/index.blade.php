@@ -160,6 +160,7 @@
             if (!firstMenu.title) {
                 firstMenu.title = firstMenu.text;
             }
+            firstMenu.close = true;
             addTabs(firstMenu);
         }
         App.fixIframeCotent();

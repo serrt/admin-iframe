@@ -9,4 +9,18 @@ $(function () {
         $('body').addClass(skinName)
         currentSkin = skinName
     });
+
+    $('.date').datepicker({
+        autoclose: true,
+        clearBtn: true,
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
+    $('.datetime').datetimepicker({
+        autoclose: true,
+        clearBtn: true,
+        format: 'yyyy-mm-dd hh:ii:ss',
+        language: 'zh-CN'
+    });
 });
