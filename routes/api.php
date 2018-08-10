@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('city', ['uses'=>'Api\RegionsController@index', 'as' => 'api.city.index']);
+Route::post('upload', ['uses'=>'Api\WebController@upload', 'as' => 'api.web.upload']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

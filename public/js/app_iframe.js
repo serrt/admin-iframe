@@ -2235,6 +2235,23 @@ function activeTabByPageId(pageId) {
     findTabPanel(pageId).addClass("active");
     // scrollToTab($('.menu_tab.active'));
     scrollToTab($title[0]);
+
+    // 取消全部 sidebar-menu
+    $('.sidebar-menu .treeview').removeClass('active');
+    $('.sidebar-menu .treeview-menu').hide();
+    var menu = $('.sidebar-menu').find('[data-id='+pageId+']');
+    activeSidebarMenu(menu);
+}
+
+// 激活 sidebar-menu
+function activeSidebarMenu(menu) {
+    menu.addClass('active');
+    var treeview_menu = menu.parent();
+    treeview_menu.show();
+    treeview_menu.parent().addClass('active');
+    if (menu.data('level') > 0) {
+        activeSidebarMenu(menu.parents('.treeview'));
+    }
 }
 
 $(function () {
@@ -2339,7 +2356,7 @@ $(function () {
                 }
 
                 //如果不是header
-                var li = $('<li class="treeview " data-level="' + level + '"></li>');
+                var li = $('<li class="treeview " data-id=' + item.id + ' data-level="' + level + '"></li>');
 
                 //a标签
                 var $a;

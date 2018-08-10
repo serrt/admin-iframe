@@ -10,7 +10,9 @@
                         <option value=""></option>
                     </select>
                 </div>
-                <div class="col-md-2">
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 pull-right">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
                 </div>
             </div>

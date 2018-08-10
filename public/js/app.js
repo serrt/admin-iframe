@@ -10,6 +10,13 @@ $(function () {
         currentSkin = skinName
     });
 
+    $('.select2').select2({
+        language: "zh-CN",
+        allowClear: true,
+        placeholder: '请选择',
+        width: '100%',
+    });
+
     $('.date').datepicker({
         autoclose: true,
         clearBtn: true,

@@ -9,4 +9,7 @@ class AdminUser extends Authenticatable
     protected $fillable = ['id', 'username', 'password', 'name', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
+
+    protected $rememberTokenName = '';
+
 }

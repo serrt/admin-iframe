@@ -37,7 +37,7 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <!-- 打开右边隐藏的部分 -->
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> User</a>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{auth()->user()->name}}</a>
                     </li>
                 </ul>
             </div>
@@ -47,41 +47,45 @@
     <!-- 右边隐藏的部分 -->
     <aside class="control-sidebar control-sidebar-dark">
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-            <li class="active">
+            <li class="">
                 <a href="#control-sidebar-skin" data-toggle="tab">
                     <i class="fa fa-wrench"></i>
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="#control-sidebar-password" data-toggle="tab">
                     <i class="fa fa-gears"></i>
                 </a>
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="control-sidebar-skin">
+            <div class="tab-pane" id="control-sidebar-skin">
                 <h3 class="control-sidebar-heading">Skins</h3>
                 @component('component.skins')
                 @endcomponent
             </div>
-            <div class="tab-pane" id="control-sidebar-password">
-                <h3 class="control-sidebar-heading">Update Profile</h3>
-                <form action="" method="post" autocomplete="off">
-                    <div class="form-group has-feedback">
-                        <input type="email" class="form-control" placeholder="Email">
-                        <span class="fa fa-user-o form-control-feedback"></span>
+            <div class="tab-pane active" id="control-sidebar-password">
+                <h3 class="control-sidebar-heading">个人信息</h3>
+                <form action="{{route('admin.profile')}}" method="post" class="form-line" autocomplete="off">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <p class="form-control-static">登录名: {{auth()->user()->username}}</p>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{auth()->user()->name}}">
+                        <span class="fa fa-user-md form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
                         <span class="fa fa-lock form-control-feedback"></span>
                     </div>
-                    <div class="row">
-                        <!-- /.col -->
-                        <div class="col-xs-6 col-xs-offset-6">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
-                        </div>
-                        <!-- /.col -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">修改</button>
                     </div>
+                    <div class="form-group">
+                        <a href="{{route('admin.logout')}}" class="btn btn-block btn-warning">退出</a>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -97,23 +101,23 @@
     </aside>
 
     <!-- 多标签页 -->
-    <div class="content-wrapper" id="content-wrapper" style="min-height: 421px;">
+    <div class="content-wrapper" id="content-wrapper">
         <div class="content-tabs">
             <button class="roll-nav roll-left tabLeft" onclick="scrollTabLeft()">
                 <i class="fa fa-backward"></i>
             </button>
             <nav class="page-tabs menuTabs tab-ui-menu" id="tab-menu">
-                <div class="page-tabs-content" style="margin-left: 0px;">
+                <div class="page-tabs-content">
                 </div>
             </nav>
             <button class="roll-nav roll-right tabRight" onclick="scrollTabRight()">
-                <i class="fa fa-forward" style="margin-left: 3px;"></i>
+                <i class="fa fa-forward"></i>
             </button>
             <div class="btn-group roll-nav roll-right">
                 <button class="dropdown tabClose" data-toggle="dropdown">
                     页签操作<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right" style="min-width: 128px;">
+                <ul class="dropdown-menu dropdown-menu-right">
                     <li><a class="tabReload" href="javascript:refreshTab();">刷新当前</a></li>
                     <li><a class="tabCloseCurrent" href="javascript:closeCurrentTab();">关闭当前</a></li>
                     <li><a class="tabCloseAll" href="javascript:closeOtherTabs(true);">全部关闭</a></li>
@@ -123,6 +127,7 @@
             <button class="roll-nav roll-right fullscreen" onclick="App.handleFullScreen()"><i class="fa fa-arrows-alt"></i></button>
         </div>
         <div class="content-iframe">
+            <!-- iframe内页 -->
             <div class="tab-content " id="tab-content">
 
             </div>
@@ -130,11 +135,7 @@
     </div>
 
     <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.8
-        </div>
-        <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-        reserved.
+        <b>Serrt</b>
     </footer>
 </div>
 
@@ -150,11 +151,18 @@
 <script type="text/javascript">
 
     $(function () {
+        $('body').on('click', ':not(.dropdown-menu)', function () {
+            if ($('.dropdown-menu').is(':visible')) {
+                $('.dropdown-menu').hide();
+            }
+        });
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
 
         var menus = JSON.parse('{!! $menus !!}');
-        
+
+        $('.sidebar-menu').sidebarMenu({data: menus});
+
         if (menus.length > 0) {
             var firstMenu = menus[0];
             if (!firstMenu.title) {
@@ -164,8 +172,6 @@
             addTabs(firstMenu);
         }
         App.fixIframeCotent();
-
-        $('.sidebar-menu').sidebarMenu({data: menus});
     });
 </script>
 

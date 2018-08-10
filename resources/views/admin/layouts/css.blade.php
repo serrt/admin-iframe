@@ -12,3 +12,7 @@
 <!-- Bootstrap-datepicker -->
 <link rel="stylesheet" href="{{asset('bootstrap/bootstrap-datepicker.css')}}">
 <link rel="stylesheet" href="{{asset('bootstrap/bootstrap-datetimepicker.css')}}">
+<!-- Bootstrap-fileinput -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="{{asset('css/app.css')}}">
