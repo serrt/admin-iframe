@@ -151,11 +151,6 @@
 <script type="text/javascript">
 
     $(function () {
-        $('body').on('click', ':not(.dropdown-menu)', function () {
-            if ($('.dropdown-menu').is(':visible')) {
-                $('.dropdown-menu').hide();
-            }
-        });
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
 
