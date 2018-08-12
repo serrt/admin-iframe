@@ -1,65 +1,26 @@
 # admin-iframe
 Laravel + AdminlLte + Iframe
 
-## 网站管理
+## 环境
 
-### RBAC
+### 依赖
 
-- users: username, name, password, remarks
-- rols: name, key
-- permissions(一个权限代表一个菜单): name, key, url
-- user_roles: user_id, role_id
-- role_permissions: role_id, permission_id
+- `php: ^7.1.3,`
+- `composer`
 
-### 字典管理
+## 初始化
 
-- keywords_type: key, name
-- keywords: p_key, key, name, sort
+1. `composer install`
+2. 复制`.env.example`文件为`.env`
+3. `php artisan key:generate`
+4. 修改`.env`中的`APP_URL`为虚拟主机中配置的域名
 
-## 综治
+### 七牛云上传
 
-### 户籍
+- 在配置文件`.env`中加上一下内容
+> FILESYSTEM_DRIVER = qiniu
+QINIU_ACCESS_KEY=oZi_868vQqvXTz3Hk24ftbEdAw95khfcWlii6E7P
+QINIU_SECRET_KEY=TCnWwIGhNN75k0F1uq45WZImQLOP0ny8iD-HutV_
+QINIU_BUCKET=image
+QINIU_DOMAIN=http://oobpqw2m0.bkt.clouddn.com
 
-#### 户籍人口
-
-#### 户籍变动
-
-- 迁入
-- 迁出
-- 分户
-- 合户
-- 出生
-- 死亡
-
-#### 人口统计
-
-- 按**年份**和**社别**统计, 分别展示每个社别的男、女、总人数、 总户数, 再合计
-- 有点麻烦, 需要过滤每年的`户籍变动`, 没有包括`非户籍人口`
-
-#### 非户籍人口
-
-##### 流动人口
-
-##### 留守人口
-
-##### 境外人口
-
-#### 特殊人群
-
-- 社区矫正人员
-- 刑满释放人员
-- 肇事肇祸精神病人
-- 社区戒毒人员
-- 重点青少年
-- 上访信访人员
-- 艾滋病危险人员
-- 视频监控人员
-- 视频监控报警
-
-#### 困难人群
-
-- 残疾人员
-- 低保五保人员
-- 失独家庭
-- 失业人员
-- 其他困难人员
