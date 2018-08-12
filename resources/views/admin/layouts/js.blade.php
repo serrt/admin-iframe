@@ -14,11 +14,13 @@
 <script src="{{asset('bootstrap/bootstrap-datetimepicker.js')}}"></script>
 <script src="{{asset('bootstrap/bootstrap-datetimepicker.zh-CN.js')}}"></script>
 <!-- Bootstrap-fileinput -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/piexif.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/sortable.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/purify.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/locales/zh.min.js"></script>
+<script src="{{asset('bootstrap-fileinput/piexif.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('bootstrap-fileinput/sortable.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('bootstrap-fileinput/purify.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('bootstrap-fileinput/popper.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('bootstrap-fileinput/fileinput.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('bootstrap-fileinput/zh.js')}}" type="text/javascript"></script>
+<!-- Jquery Validate -->
+<script src="{{asset('js/jquery.validate.min.js')}}"></script>
 
 <script src="{{asset('js/app.js')}}"></script>

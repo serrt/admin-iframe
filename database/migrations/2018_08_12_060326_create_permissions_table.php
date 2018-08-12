@@ -16,8 +16,10 @@ class CreatePermissionsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 100)->nullable()->comment('权限名称');
-			$table->string('key', 100)->nullable()->comment('权限key');
-			$table->string('url')->nullable();
+			$table->integer('pid')->default(0)->comment('上级ID');
+			$table->string('key', 100)->nullable()->comment('图标');
+			$table->string('url')->nullable()->comment('链接地址');
+			$table->integer('sort')->default(0)->comment('排序');
 		});
 	}
 

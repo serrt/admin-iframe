@@ -16,6 +16,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('ajax', ['uses'=>'IndexController@ajax', 'as'=>'admin.index.ajax']);
 
     Route::post('formUpload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
+
+
+    Route::resource('permission', 'PermissionsController')->names('admin.permission');
 });
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);

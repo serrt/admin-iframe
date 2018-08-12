@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | with iframe</title>
+    <title>{{config('app.name')}}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -37,7 +37,8 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <!-- 打开右边隐藏的部分 -->
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{auth()->user()->name}}</a>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{auth()->user()
+                        ->name?:auth()->user()->username}}</a>
                     </li>
                 </ul>
             </div>

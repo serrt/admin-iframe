@@ -23,7 +23,11 @@ class IndexController extends Controller
             ['id' => 3, 'text' => '表单', 'icon' => 'fa fa-edit', 'children' => [
                 ['id' => 4, 'text' => '基本表单', 'icon' => 'fa fa-table', 'url' => 'admin/form', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
                 ['id' => 5, 'text' => 'ajax', 'icon' => 'fa fa-table', 'url' => 'admin/ajax', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
-            ]]
+            ]],
+            ['id' => 6, 'text' => '权限', 'icon' => 'fa fa-coffee', 'children' => [
+                ['id' => 7, 'text' => '菜单', 'icon' => 'fa fa-list', 'url' => 'admin/permission', 'urlType' =>  'absolute', 'targetType' => 'iframe-tab']
+            ]],
+
         ];
         $menus = json_encode($menus, JSON_UNESCAPED_UNICODE);
         \Debugbar::disable();
