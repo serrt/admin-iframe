@@ -17,6 +17,6 @@ class Permission extends Model
 
     public function children()
     {
-        return $this->hasMany(Permission::class, 'id', 'pid');
+        return $this->hasMany(Permission::class, 'pid', 'id');
     }
 }

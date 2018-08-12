@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Permission;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,21 +18,38 @@ class IndexController extends Controller
     public function index()
     {
         // 初始化菜单
-        $menus = [
-            ['id' => 1, 'text' => '首页', 'icon' => 'fa fa-laptop', 'url' => 'admin/home', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
-            ['id' => 2, 'text' => '表格', 'icon' => 'fa fa-table', 'url' => 'admin/table', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
-            ['id' => 3, 'text' => '表单', 'icon' => 'fa fa-edit', 'children' => [
-                ['id' => 4, 'text' => '基本表单', 'icon' => 'fa fa-table', 'url' => 'admin/form', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
-                ['id' => 5, 'text' => 'ajax', 'icon' => 'fa fa-table', 'url' => 'admin/ajax', 'urlType' => 'absolute', 'targetType' => 'iframe-tab'],
-            ]],
-            ['id' => 6, 'text' => '权限', 'icon' => 'fa fa-coffee', 'children' => [
-                ['id' => 7, 'text' => '菜单', 'icon' => 'fa fa-list', 'url' => 'admin/permission', 'urlType' =>  'absolute', 'targetType' => 'iframe-tab']
-            ]],
-
-        ];
+        $list = Permission::get();
+        $menus = [];
+        foreach ($list->where('pid', 0)->sortBy('sort')->all() as $item) {
+            $menu = $this->getMenu($list, $item);
+            array_push($menus, $menu);
+        }
         $menus = json_encode($menus, JSON_UNESCAPED_UNICODE);
-        \Debugbar::disable();
+        // \Debugbar::disable();
         return view('admin.index', compact('menus'));
+    }
+
+    protected function getMenu($list, Permission $item)
+    {
+        $menu = [
+            'id' => $item->id,
+            'text' => $item->name,
+            'icon' => $item->key?:'fa fa-list',
+        ];
+        if (!$item->url) {
+            $children = [];
+            foreach ($list->where('pid', $item->id)->sortBy('sort')->all() as $item1) {
+                $children_menu = $this->getMenu($list, $item1);
+                array_push($children, $children_menu);
+            }
+            $menu['children'] = $children;
+        } else {
+            $menu['url'] = $item->url;
+            $menu['urlType'] = 'absolute';
+            $menu['targetType'] = 'iframe-tab';
+        }
+
+        return $menu;
     }
 
     public function home()
