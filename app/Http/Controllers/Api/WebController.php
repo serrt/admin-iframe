@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\PermissionResource;
+use App\Http\Resources\RegionResource;
+use App\Models\Permission;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Storage;
 
 class WebController extends Controller
@@ -29,4 +34,28 @@ class WebController extends Controller
         return $this->json($result);
     }
 
+    public function city(Request $request)
+    {
+        $query = Region::with('parent');
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $list = $query->paginate();
+        return RegionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function permission(Request $request)
+    {
+        $query = Permission::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $list = $query->paginate();
+
+        return PermissionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
 }

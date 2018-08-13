@@ -26,53 +26,39 @@ class PermissionsController extends Controller
             'name' => 'required',
         ]);
 
-        $permission = Permission::create($request->all());
+        Permission::create($request->all());
 
         return redirect(route('admin.permission.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        return view('admin.permission.edit', compact('permission'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        $permission->update($request->all());
+
+        return redirect(route('admin.permission.index'))->with('flash_message', '修改成功');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+
+        // 删除关联的 role_permissions
+        \DB::table('role_permissions')->where('permission_id', $permission->id)->delete();
+
+        // 删除所有子集
+        $permission->children()->delete();
+
+        $permission->delete();
+
+        return redirect(route('admin.permission.index'))->with('flash_message', '删除成功');
     }
 }

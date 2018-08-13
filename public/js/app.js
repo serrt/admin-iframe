@@ -11,12 +11,12 @@ $(function () {
     });
 
     // select2 选择框
-    $('.select2').select2({
-        language: "zh-CN",
-        allowClear: true,
-        placeholder: '请选择',
-        width: '100%',
-    });
+    // $('.select2').select2({
+    //     language: "zh-CN",
+    //     allowClear: true,
+    //     placeholder: '请选择',
+    //     width: '100%',
+    // });
 
     // 时间控件
     $('.date').datepicker({

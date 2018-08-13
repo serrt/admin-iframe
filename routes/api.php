@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('city', ['uses'=>'Api\RegionsController@index', 'as' => 'api.city.index']);
+Route::get('city', ['uses'=>'Api\WebController@city', 'as' => 'api.web.city']);
 Route::post('upload', ['uses'=>'Api\WebController@upload', 'as' => 'api.web.upload']);
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('permission', ['uses'=>'Api\WebController@permission', 'as' => 'api.web.permission']);

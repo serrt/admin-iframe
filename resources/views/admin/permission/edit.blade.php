@@ -6,12 +6,13 @@
     </div>
 
     <div class="box-body">
-        <form action="{{route('admin.permission.store')}}" class="form-horizontal validate" method="post">
+        <form action="{{route('admin.permission.update', $permission)}}" class="form-horizontal validate" method="post">
             {{csrf_field()}}
+            {{method_field('put')}}
             <div class="form-group">
                 <label for="inputName" class="control-label col-md-2">名称*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" id="inputName" data-rule-required="true">
+                    <input type="text" class="form-control" name="name" id="inputName" value="{{$permission->name}}" data-rule-required="true">
                 </div>
             </div>
             <div class="form-group">
@@ -25,13 +26,13 @@
             <div class="form-group">
                 <label for="inputUrl" class="control-label col-md-2">链接</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="url" id="inputUrl">
+                    <input type="text" class="form-control" name="url" id="inputUrl" value="{{$permission->url}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputKey" class="control-label col-md-2">key</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="key" id="inputKey">
+                    <input type="text" class="form-control" name="key" id="inputKey" value="{{$permission->key}}">
                     <span class="help-block">编辑图标, 例如: fa fa-edge, <a href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html" target="_blank">查看全部图标</a></span>
                 </div>
             </div>
@@ -48,9 +49,14 @@
 @endsection
 @section('script')
 <script>
+    var item = {!! json_encode($permission->parent) !!}
+    if (!item) {
+        item = [{id: 0, name: '无'}];
+    }
     $('#selectPid').select2({
         language: "zh-CN",
         placeholder: '请选择',
+        data: [item],
         allowClear: true,
         dataType: 'json',
         width: '100%',
@@ -80,5 +86,6 @@
             return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
         }
     });
+    $('#selectPid').val([item.id]).trigger('change');
 </script>
 @endsection

@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="" class="col-md-2 control-label">上级</label>
                 <div class="col-md-2">
-                    <select name="pid" title="上级" class="form-control select2" data-ajax-url="{{route('api.city.index')}}">
+                    <select name="pid" title="上级" class="form-control" id="select2" data-ajax-url="{{route('api.web.city')}}">
                         <option value=""></option>
                     </select>
                 </div>
@@ -52,9 +52,13 @@
 
 @section('script')
 <script>
-    $('.select2').select2({
+    $('#select2').on('select2:select', function (e) {
+        $('#searchForm').submit();
+    });
+    var item = {!! json_encode($region) !!}
+    $('#select2').select2({
         language: "zh-CN",
-        allowClear: true,
+        data: [item],
         placeholder: '请选择',
         dataType: 'json',
         width: '100%',
@@ -86,8 +90,9 @@
             return repo.name?repo.name+'--'+unit[repo.level]:''
         }
     });
-    $('.select2').on('select2:select', function (e) {
-        $('#searchForm').submit();
-    });
+    // 初始化 select2
+    if (item) {
+        $('#select2').val([item.id]).trigger('change');
+    }
 </script>
 @endsection

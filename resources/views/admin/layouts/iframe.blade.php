@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>{{config('app.name')}}</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -19,6 +19,14 @@
             @foreach($errors->all() as $error)
             <li>{{$error}}</li>
             @endforeach
+        </ul>
+    </div>
+    @endif
+    @if (Session::has('flash_message'))
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <ul>
+            <li>{{Session::get('flash_message')}}</li>
         </ul>
     </div>
     @endif
