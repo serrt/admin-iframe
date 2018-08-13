@@ -12,4 +12,8 @@ class AdminUser extends Authenticatable
 
     protected $rememberTokenName = '';
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'admin_user_roles', 'role_id', 'user_id');
+    }
 }

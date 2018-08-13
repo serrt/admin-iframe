@@ -24,6 +24,7 @@ DB_USERNAME=homestead
 DB_PASSWORD=secret
 ```
 5. `php artisan migrate --seed` 数据库迁移和填充
+6. 数据库迁移后, 默认的后台用户`username: admin, password: 123456`, 也可以自己后台用户`php artisan generate:admin username password`
 
 ### 七牛云上传
 
