@@ -14,7 +14,7 @@ class AdminUser extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'admin_user_roles', 'role_id', 'user_id');
+        return $this->belongsToMany(Role::class, 'admin_user_roles', 'user_id', 'role_id');
     }
 
     public function permissions()
@@ -23,10 +23,11 @@ class AdminUser extends Authenticatable
         if ($this->isAdmin()) {
             $permissions = Permission::get();
         } else {
-            $roles = $this->roles()->with('permissions')->get();
+            $roles = $this->roles()->with('permissions')->distinct()->get();
             foreach ($roles as $role) {
                 $permissions = $permissions->concat($role->permissions);
             }
+            $permissions = $permissions->unique('id');
         }
         return $permissions;
     }

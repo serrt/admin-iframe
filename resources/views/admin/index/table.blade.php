@@ -59,6 +59,7 @@
     $('#select2').select2({
         language: "zh-CN",
         data: [item],
+        allowClear: true,
         placeholder: '请选择',
         dataType: 'json',
         width: '100%',

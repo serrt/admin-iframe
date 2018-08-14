@@ -27,7 +27,7 @@ function permissionCheckbox(element, checkParent) {
 
 // 元素选中方法
 function permissionCheckSelected(element, bol) {
-    var active = 'c';
+    var active = 'list-group-item-success';
     if (bol) {
         element.parent().addClass(active);
     } else {

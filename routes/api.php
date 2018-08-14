@@ -16,3 +16,5 @@ use Illuminate\Http\Request;
 Route::get('city', ['uses'=>'Api\WebController@city', 'as' => 'api.web.city']);
 Route::post('upload', ['uses'=>'Api\WebController@upload', 'as' => 'api.web.upload']);
 Route::get('permission', ['uses'=>'Api\WebController@permission', 'as' => 'api.web.permission']);
+Route::get('role', ['uses'=>'Api\WebController@role', 'as' => 'api.web.role']);
+Route::get('keywords_type', ['uses'=>'Api\WebController@keywordsType', 'as' => 'api.web.keywords_type']);

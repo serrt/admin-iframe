@@ -25,9 +25,17 @@ class UsersController extends Controller
             });
         }
 
-        $list = $query->paginate();
+        if ($request->filled('role')) {
+            $role_id = $request->input('role');
+            $query->whereHas('roles', function ($query) use ($role_id) {
+                $query->where('role_id', $role_id);
+            });
+        }
 
-        return view('admin.user.index', compact('list'));
+        $list = $query->paginate();
+        $roles = Role::get();
+
+        return view('admin.user.index', compact('list', 'roles'));
     }
 
     public function create()
@@ -82,15 +90,15 @@ class UsersController extends Controller
         return redirect(route('admin.user.index'))->with('flash_message', '修改成功');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $user = AdminUser::findOrFail($id);
+
+        $user->roles()->detach();
+
+        $user->delete();
+
+        return redirect(route('admin.user.index'))->with('flash_message', '删除成功');
     }
 
     public function checkAdmin(Request $request)
