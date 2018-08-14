@@ -14,8 +14,8 @@ class CreateAdminUserRolesTable extends Migration {
 	{
 		Schema::create('admin_user_roles', function(Blueprint $table)
 		{
-			$table->integer('role_id')->nullable();
-			$table->integer('user_id')->nullable()->comment('关联admin_user.id');
+            $table->integer('user_id')->nullable()->comment('关联admin_user.id');
+            $table->integer('role_id')->nullable();
 		});
 	}
 

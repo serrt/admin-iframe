@@ -3,7 +3,7 @@
         @foreach($permissions as $permission)
             @if($permission->pid == $pid)
                 <li class="list-group-item {{$checked->contains($permission->id)?'list-group-item-success':''}}" data-toggle="collapse" data-target="#collapseExample{{$permission->id}}" aria-controls="collapseExample{{$permission->id}}">
-                    <input type="checkbox" name="permission[]"
+                    <input type="checkbox" name="permissions[]"
                            class="permission-checkbox"
                            onclick="permissionCheckbox(this, true)"
                            data-pid="{{$pid}}"

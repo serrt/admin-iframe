@@ -9,9 +9,13 @@ use App\Http\Controllers\Controller;
 
 class RolesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Role::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%'.$request->input('name').'%');
+        }
 
         $list = $query->paginate();
 
@@ -34,7 +38,7 @@ class RolesController extends Controller
         $role = Role::create($request->all());
 
         // 更新权限
-        $permissions = $request->input('permission');
+        $permissions = $request->input('permissions');
         $role->permissions()->attach($permissions);
 
         return redirect(route('admin.role.index'))->with('flash_message', '添加成功');
@@ -58,7 +62,7 @@ class RolesController extends Controller
         $role->update($request->all());
 
         // 更新权限
-        $permissions = $request->input('permission');
+        $permissions = $request->input('permissions');
         $role->permissions()->detach();
         $role->permissions()->attach($permissions);
 

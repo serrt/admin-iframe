@@ -37,8 +37,7 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <!-- 打开右边隐藏的部分 -->
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{auth()->user()
-                        ->name?:auth()->user()->username}}</a>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{$user->name?:$user->username}}</a>
                     </li>
                 </ul>
             </div>
@@ -70,11 +69,12 @@
                 <form action="{{route('admin.profile')}}" method="post" class="form-line" autocomplete="off">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <p class="form-control-static">登录名: {{auth()->user()->username}}</p>
+                        <label for="" class="control-label">登录名</label>
+                        <span>{{$user->username}}</span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{auth()->user()->name}}">
-                        <span class="fa fa-user-md form-control-feedback"></span>
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{$user->name}}">
+                        <span class="fa fa-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <input type="password" name="password" class="form-control" placeholder="Password">
@@ -159,14 +159,26 @@
 
         $('.sidebar-menu').sidebarMenu({data: menus});
 
-        if (menus.length > 0) {
-            var firstMenu = menus[0];
-            if (!firstMenu.title) {
-                firstMenu.title = firstMenu.text;
-            }
-            firstMenu.close = true;
+        var firstMenu = getFirstMenu(menus);
+        if (firstMenu) {
             addTabs(firstMenu);
         }
+
+        function getFirstMenu(menus, i = 0)
+        {
+            var firstMenu = null ;
+            if (menus.length > 0) {
+                firstMenu = menus[i];
+                if (!firstMenu.url && firstMenu.children) {
+                    return getFirstMenu(firstMenu.children, i);
+                }
+                if (!firstMenu.title) {
+                    firstMenu.title = firstMenu.text;
+                }
+            }
+            return firstMenu;
+        }
+
         App.fixIframeCotent();
     });
 </script>

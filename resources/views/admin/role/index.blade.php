@@ -2,7 +2,20 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <a href="{{route('admin.role.create')}}" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
+            <form action="" class="form-horizontal" autocomplete="off">
+                <div class="form-group">
+                    <div class="col-md-2 control-label">名称</div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" name="name" value="{{request('name')}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 pull-right">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                        <a href="{{route('admin.role.create')}}" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div class="box-body">

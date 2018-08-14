@@ -17,14 +17,14 @@ class Role extends Model
 
     public function hasPermission($permission = [])
     {
-        $query = $this->permissions();
+        $query = $this->permissions;
         if (is_array($permission)) {
-            $query->whereIn('permission_id', $permission);
+            $query = $query->whereIn('id', $permission);
         } else if (is_string($permission)) {
             $ar = explode(',', $permission);
-            $query->whereIn('permission_id', $ar);
+            $query = $query->whereIn('id', $ar);
         } else {
-            $query->where('permission_id', $permission);
+            $query = $query->where('id', $permission);
         }
         return $query->count() > 0;
     }

@@ -2,11 +2,17 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <form action="" class="form-horizontal">
+            <form action="" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
                     <div class="col-md-2 control-label">用户名</div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" value="{{request('name')}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 pull-right">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                        <a href="{{route('admin.user.create')}}" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
                     </div>
                 </div>
             </form>
@@ -30,7 +36,7 @@
                         <td>{{$item->id}}</td>
                         <td>{{$item->username}}</td>
                         <td>{{$item->name}}</td>
-                        <td>{{$item->roles->count()?$item->roles->pluck('name')->toString():''}}</td>
+                        <td>{{$item->roles->count()?$item->roles->implode('name', ','):''}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
                             <a href="{{route('admin.user.edit', $item)}}" class="btn btn-info btn-sm">修改</a>

@@ -17,16 +17,17 @@ class IndexController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         // 初始化菜单
-        $list = Permission::get();
         $menus = [];
+        $list = auth()->user()->permissions();
         foreach ($list->where('pid', 0)->sortBy('sort')->all() as $item) {
             $menu = $this->getMenu($list, $item);
             array_push($menus, $menu);
         }
         $menus = json_encode($menus, JSON_UNESCAPED_UNICODE);
         \Debugbar::disable();
-        return view('admin.index', compact('menus'));
+        return view('admin.index', compact('menus', 'user'));
     }
 
     protected function getMenu($list, Permission $item)
