@@ -9,7 +9,7 @@
                 <div class="box-body">
                     <form action="" class="form-horizontal" role="form">
                         <div class="form-group">
-                            <div class="col-lg-12">
+                            <div class="col-md-12">
                                 <input type="file" name="files2" class="form-control file-input3"
                                        data-upload-url="{{route('api.web.upload')}}"
                                        data-initial-preview="{{$imgs_url}}"

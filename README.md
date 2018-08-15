@@ -25,8 +25,9 @@ DB_PASSWORD=secret
 ```
 5. `php artisan migrate --seed` 数据库迁移和填充
 6. 数据库迁移后, 默认的后台用户`username: admin, password: 123456`, 也可以自己后台用户`php artisan generate:admin username password`
+7. `bootstrap/cache` 和 `storage/` 两个目录需要配置**读写**权限
 
-### 七牛云上传
+## 七牛云
 
 - 在配置文件`.env`中加上一下内容
 ```
@@ -38,6 +39,6 @@ QINIU_BUCKET=image
 QINIU_DOMAIN=http://oobpqw2m0.bkt.clouddn.com
 ```
 
-### TODO
+## TODO
 
 - [拖动排序](https://github.com/RubaXa/Sortable)
