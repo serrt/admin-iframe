@@ -29,7 +29,7 @@ DB_PASSWORD=secret
 
 ## 七牛云
 
-- 在配置文件`.env`中加上一下内容
+- 在配置文件`.env`中加上已下内容
 ```
 FILESYSTEM_DRIVER=qiniu
 

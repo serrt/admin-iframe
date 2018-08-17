@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::get('keywords/check', ['uses'=>'KeywordsController@checkType', 'as'=>'admin.keywords.check']);
     Route::resource('keywords', 'KeywordsController', ['except'=>'show'])->names('admin.keywords');
+
+    Route::resource('population', 'PopulationsController')->names('admin.population');
+
 });
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);
