@@ -49,6 +49,7 @@ class KeywordsController extends Controller
         ]);
         $entity = new Keywords();
         $entity->type = $request->input('type');
+        $entity->type_key = KeywordsType::findOrFail($entity->type)->key;
         $entity->key = $request->input('key');
         $entity->name = $request->input('name');
         $entity->save();
@@ -73,6 +74,7 @@ class KeywordsController extends Controller
 
         $entity = Keywords::findOrFail($id);
         $entity->type = $request->input('type');
+        $entity->type_key = KeywordsType::findOrFail($entity->type)->key;
         $entity->key = $request->input('key');
         $entity->name = $request->input('name');
 

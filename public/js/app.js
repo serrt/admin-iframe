@@ -1,3 +1,41 @@
+var token = $('meta[name="csrf-token"]').attr('content');
+function IdCard(UUserCard, num){
+    var result = {};
+    //获取出生日期
+    if(num==1 || num == 'birthday' || num == 'all'){
+        var birth = UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14);
+        if (num == 'all') {
+            result.birthday = birth;
+        } else {
+            result = birth;
+        }
+    }
+    //获取性别
+    if(num==2 || num == 'sex' || num == 'all'){
+        var sex = parseInt(UUserCard.substr(16, 1)) % 2 == 1?1:0;
+        if (num == 'all') {
+            result.sex =  sex;
+        } else {
+            result = sex;
+        }
+    }
+    //获取年龄
+    if(num==3 || num == 'age' || num == 'all'){
+        var myDate = new Date();
+        var month = myDate.getMonth() + 1;
+        var day = myDate.getDate();
+        var age = myDate.getFullYear() - UUserCard.substring(6, 10) - 1;
+        if (UUserCard.substring(10, 12) < month || UUserCard.substring(10, 12) == month && UUserCard.substring(12, 14) <= day) {
+            age++;
+        }
+        if (num == 'all') {
+            result.age =  age;
+        } else {
+            result = age;
+        }
+    }
+    return result;
+}
 $(function () {
     // 切换皮肤
     var currentSkin = 'skin-black-light';
@@ -147,6 +185,72 @@ $(function () {
                 }
             }, param));
             return "pending";
+        }
+    });
+
+    // select2 初始化
+    $('.select2').select2({
+        language: "zh-CN",
+        allowClear: true,
+        placeholder: '请选择',
+        dataType: 'json',
+        width: '100%',
+        ajax: {
+            delay: 250,
+            data: function (params) {
+                return {
+                    key: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.data,
+                    pagination: {
+                        more: data.meta?data.meta.current_page < data.meta.last_page:false
+                    }
+                };
+            },
+        },
+        escapeMarkup: function (markup) { return markup; },
+        templateResult: function (repo) {
+            return repo.name
+        },
+        templateSelection: function (repo) {
+            return repo.name
+        }
+    });
+
+    $('.select2-population').select2({
+        language: "zh-CN",
+        allowClear: true,
+        placeholder: '输入身份证号码或者姓名搜索',
+        dataType: 'json',
+        width: '100%',
+        ajax: {
+            delay: 250,
+            data: function (params) {
+                return {
+                    key: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.data,
+                    pagination: {
+                        more: data.meta?data.meta.current_page < data.meta.last_page:false
+                    }
+                };
+            },
+        },
+        minimumInputLength: 1,
+        escapeMarkup: function (markup) { return markup; },
+        templateResult: function (repo) {
+            return repo.name?repo.id_number+'--'+repo.name:''
+        },
+        templateSelection: function (repo) {
+            return repo.name?repo.id_number+'--'+repo.name:''
         }
     });
 });

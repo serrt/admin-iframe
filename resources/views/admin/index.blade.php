@@ -176,6 +176,7 @@
                     firstMenu.title = firstMenu.text;
                 }
             }
+            firstMenu.close = true;
             return firstMenu;
         }
 

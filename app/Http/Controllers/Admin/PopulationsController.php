@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\PopulationResource;
 use App\Models\Population;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class PopulationsController extends Controller
 {
@@ -16,6 +18,40 @@ class PopulationsController extends Controller
         $list = $query->paginate();
 
         return view('admin.population.index', compact('list'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = Population::query();
+
+        if ($request->filled('name')) {
+            $name = $request->input('name');
+            $query->where(function ($query) use ($name) {
+                $query->where('name', 'like', '%'.$name.'%');
+                $query->orWhere('old_name', 'like', '%'.$name.'%');
+            });
+        }
+
+        if ($request->filled('id_number')) {
+            $query->where('id_number', 'like', '%'.$request->input('id_number').'%');
+        }
+
+        if ($request->filled('key')) {
+            $key = $request->input('key');
+            $query->where(function ($query) use ($key) {
+                $query->where('name', 'like', '%'.$key.'%');
+                $query->orWhere('old_name', 'like', '%'.$key.'%');
+                $query->orWhere('id_number', 'like', '%'.$key.'%');
+            });
+        }
+
+        if ($request->filled('id_number')) {
+            $query->where('id_number', 'like', '%'.$request->input('id_number').'%');
+        }
+
+        $list = $query->paginate();
+
+        return PopulationResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
     }
 
     /**

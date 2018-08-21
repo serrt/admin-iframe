@@ -11,23 +11,48 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permissions')->insert([
-            ['id' => 1, 'name' => '首页', 'pid' => 0, 'key' => 'fa fa-home', 'url' => 'admin/home', 'sort' => 1],
-            ['id' => 2, 'name' => '表格', 'pid' => 0, 'key' => 'fa fa-table', 'url' => 'admin/table', 'sort' => 2],
-            ['id' => 3, 'name' => '表单', 'pid' => 0, 'key' => 'fa fa-edit', 'url' => null, 'sort' => 3],
-            ['id' => 4, 'name' => '系统', 'pid' => 0, 'key' => 'fa fa-gear', 'url' => null, 'sort' => 4],
-            ['id' => 5, 'name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'sort' => 5],
-
-            ['id' => 6, 'name' => '基本表单', 'pid' => 3, 'key' => 'fa fa-newspaper-o', 'url' => 'admin/form', 'sort' => 1],
-            ['id' => 7, 'name' => 'ajax', 'pid' => 3, 'key' => 'fa fa-pencil-square', 'url' => 'admin/ajax', 'sort' => 2],
-
-            ['id' => 8, 'name' => '菜单', 'pid' => 4, 'key' => 'fa fa-list', 'url' => 'admin/permission', 'sort' => 1],
-            ['id' => 9, 'name' => '角色', 'pid' => 4, 'key' => 'fa fa-user-secret', 'url' => 'admin/role', 'sort' => 2],
-            ['id' => 10, 'name' => '用户管理', 'pid' => 4, 'key' => 'fa fa-users', 'url' => 'admin/user', 'sort' => 3],
-
-            ['id' => 11, 'name' => '字典类型', 'pid' => 5, 'key' => 'fa fa-key', 'url' => 'admin/keywords_type', 'sort' => 1],
-            ['id' => 12, 'name' => '字典', 'pid' => 5, 'key' => 'fa fa-key', 'url' => 'admin/keywords', 'sort' => 2],
-
-        ]);
+        $menus = [
+            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin/home'],
+            ['name' => '表格', 'key' => 'fa fa-table', 'url' => 'admin/table'],
+            ['name' => '表单', 'key' => 'fa fa-edit', 'url' => null, 'children' => [
+                ['name' => '基本表单', 'key' => 'fa fa-newspaper-o', 'url' => 'admin/form'],
+                ['name' => 'ajax', 'key' => 'fa fa-pencil-square', 'url' => 'admin/ajax']
+            ]],
+            ['name' => '系统', 'key' => 'fa fa-gear', 'url' => null, 'children' => [
+                ['name' => '菜单', 'key' => 'fa fa-list', 'url' => 'admin/permission'],
+                ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin/role'],
+                ['name' => '用户管理', 'key' => 'fa fa-users', 'url' => 'admin/user']
+            ]],
+            ['name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'children' => [
+                ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin/keywords_type'],
+                ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin/keywords']
+            ]],
+            ['name' => '户籍', 'key' => 'fa fa-university', 'url' => null, 'children' => [
+                ['name' => '户籍人口', 'key' => 'fa fa-user-plus', 'url' => 'admin/population'],
+            ]],
+        ];
+        $data = [];
+        $index = 1;
+        foreach ($menus as $key => $item) {
+            $menu = $item;
+            $menu['id'] = $index;
+            $index++;
+            $menu['pid'] = 0;
+            $menu['sort'] = $key+1;
+            unset($menu['children']);
+            array_push($data, $menu);
+            if (isset($item['children'])) {
+                foreach ($item['children'] as $key1 => $item1) {
+                    $menu1 = $item1;
+                    $menu1['id'] = $index;
+                    $index++;
+                    $menu1['pid'] = $menu['id'];
+                    $menu1['sort'] = $key1+1;
+                    array_push($data, $menu1);
+                }
+            }
+        }
+        DB::table('permissions')->delete();
+        DB::table('permissions')->insert($data);
     }
 }

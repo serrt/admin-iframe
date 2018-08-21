@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\KeywordsResource;
 use App\Http\Resources\KeywordsTypeResource;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\RoleResource;
+use App\Models\Keywords;
 use App\Models\KeywordsType;
 use App\Models\Permission;
 use App\Models\Region;
@@ -91,5 +93,30 @@ class WebController extends Controller
         $list = $query->paginate();
 
         return KeywordsTypeResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function keywords(Request $request)
+    {
+        $query = Keywords::query();
+
+        if ($request->filled('key')) {
+            $name = $request->input('key');
+            $query->where(function ($query) use ($name) {
+                $query->where('name', 'like', '%'.$name.'%');
+                $query->orWhere('key', 'like', '%'.$name.'%');
+            });
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->input('type'));
+        }
+        if ($request->filled('type_key')) {
+            $type_key = $request->input('type_key');
+            $query->where('type_key', $type_key);
+        }
+
+        $list = $query->paginate();
+
+        return KeywordsResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
     }
 }

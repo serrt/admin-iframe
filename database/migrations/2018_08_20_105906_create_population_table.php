@@ -23,7 +23,7 @@ class CreatePopulationTable extends Migration {
 			$table->string('old_name', 20)->nullable()->comment('曾用名');
 			$table->char('id_number', 20)->nullable()->comment('身份证');
 			$table->boolean('sex')->nullable()->default(1)->comment('性别(0:女, 1:男)');
-			$table->timestamp('birthday')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('生日');
+			$table->dateTime('birthday')->comment('生日');
 			$table->string('birth_place', 200)->nullable()->comment('出生地');
 			$table->string('place', 200)->nullable()->comment('籍贯');
 			$table->integer('type')->nullable()->comment('户籍类型(keywords.population_type)');
