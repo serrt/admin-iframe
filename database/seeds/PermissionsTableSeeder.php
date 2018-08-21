@@ -27,9 +27,6 @@ class PermissionsTableSeeder extends Seeder
                 ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin/keywords_type'],
                 ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin/keywords']
             ]],
-            ['name' => '户籍', 'key' => 'fa fa-university', 'url' => null, 'children' => [
-                ['name' => '户籍人口', 'key' => 'fa fa-user-plus', 'url' => 'admin/population'],
-            ]],
         ];
         $data = [];
         $index = 1;

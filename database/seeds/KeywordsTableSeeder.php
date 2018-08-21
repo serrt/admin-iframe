@@ -12,7 +12,7 @@ class KeywordsTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['key' => 'community', 'name' => '社', 'children' => 10],
+            ['key' => 'community', 'name' => '社别', 'children' => 10],
             ['key' => 'population_type', 'name' => '户籍类型', 'children' => ['农业户口', '城镇户口', '农转非', '农村居民']],
             ['key' => 'education', 'name' => '文化程度', 'children' => ['小学', '初中', '高中', '大学本科', '大学专科/高职', '文盲或半文盲', '研究生以上', '学龄前儿童']],
             ['key' => 'nation', 'name' => '民族', 'children' => ['汉族', '苗族', '藏族', '侗族', '彝族', '内蒙', '穿青人	', '土家族', '仡佬族']],
