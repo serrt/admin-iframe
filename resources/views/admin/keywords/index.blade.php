@@ -6,11 +6,8 @@
                 <div class="form-group">
                     <div class="col-md-2 control-label">类型</div>
                     <div class="col-md-2">
-                        <select name="type" class="form-control select2">
+                        <select name="type" class="form-control select2" data-ajax-url="{{route('api.web.keywords_type')}}">
                             <option value="">全部</option>
-                            @foreach($types as $type)
-                                <option value="{{$type->id}}" {{request('type') == $type->id?'selected':''}}>{{$type->name}}</option>
-                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-2 control-label">关键字</div>

@@ -42,4 +42,4 @@ QINIU_DOMAIN=http://oobpqw2m0.bkt.clouddn.com
 ## TODO
 
 - [拖动排序](https://github.com/RubaXa/Sortable)
-
+- [select2](https://select2.org) select2默认值

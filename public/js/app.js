@@ -1,41 +1,5 @@
 var token = $('meta[name="csrf-token"]').attr('content');
-function IdCard(UUserCard, num){
-    var result = {};
-    //获取出生日期
-    if(num==1 || num == 'birthday' || num == 'all'){
-        var birth = UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14);
-        if (num == 'all') {
-            result.birthday = birth;
-        } else {
-            result = birth;
-        }
-    }
-    //获取性别
-    if(num==2 || num == 'sex' || num == 'all'){
-        var sex = parseInt(UUserCard.substr(16, 1)) % 2 == 1?1:0;
-        if (num == 'all') {
-            result.sex =  sex;
-        } else {
-            result = sex;
-        }
-    }
-    //获取年龄
-    if(num==3 || num == 'age' || num == 'all'){
-        var myDate = new Date();
-        var month = myDate.getMonth() + 1;
-        var day = myDate.getDate();
-        var age = myDate.getFullYear() - UUserCard.substring(6, 10) - 1;
-        if (UUserCard.substring(10, 12) < month || UUserCard.substring(10, 12) == month && UUserCard.substring(12, 14) <= day) {
-            age++;
-        }
-        if (num == 'all') {
-            result.age =  age;
-        } else {
-            result = age;
-        }
-    }
-    return result;
-}
+
 $(function () {
     // 切换皮肤
     var currentSkin = 'skin-black-light';
