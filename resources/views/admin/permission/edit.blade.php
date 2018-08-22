@@ -76,7 +76,6 @@
                     };
                 },
             },
-            // minimumInputLength: 1,
             escapeMarkup: function (markup) { return markup; },
             templateResult: function (repo) {
                 return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''

@@ -2,7 +2,7 @@
 @section('content')
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{route('admin.permission.index')}}" class="btn btn-default"> 返回</a>
+        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
     </div>
 
     <div class="box-body">
@@ -39,7 +39,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-2">
                     <button type="submit" class="btn btn-primary">提交</button>
-                    <a href="{{route('admin.permission.index')}}" class="btn btn-default"> 返回</a>
+                    <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
                 </div>
             </div>
         </form>
@@ -48,37 +48,36 @@
 @endsection
 @section('script')
 <script>
-    $('#selectPid').select2({
-        language: "zh-CN",
-        placeholder: '请选择',
-        allowClear: true,
-        dataType: 'json',
-        width: '100%',
-        ajax: {
-            delay: 500,
-            data: function (params) {
-                return {
-                    name: params.term,
-                    page: params.page || 1
-                };
+    $(function () {
+        $('#selectPid').select2({
+            placeholder: '请选择',
+            allowClear: true,
+            dataType: 'json',
+            ajax: {
+                delay: 500,
+                data: function (params) {
+                    return {
+                        name: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: data.meta?data.meta.current_page < data.meta.last_page:false
+                        }
+                    };
+                },
             },
-            processResults: function (data) {
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: data.meta?data.meta.current_page < data.meta.last_page:false
-                    }
-                };
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: function (repo) {
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
             },
-        },
-        minimumInputLength: 1,
-        escapeMarkup: function (markup) { return markup; },
-        templateResult: function (repo) {
-            return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
-        },
-        templateSelection: function (repo) {
-            return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
-        }
-    });
+            templateSelection: function (repo) {
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
+            }
+        });
+    })
 </script>
 @endsection
