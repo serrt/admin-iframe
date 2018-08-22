@@ -28,12 +28,8 @@
                         <div class="form-group">
                             <label for="" class="col-md-2 control-label">Select2</label>
                             <div class="col-md-8">
-                                <select name="" class="form-control select2">
+                                <select name="" class="form-control select2" data-ajax-url="{{route('api.web.keywords_type')}}">
                                     <option value=""></option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
                                 </select>
                             </div>
                         </div>
