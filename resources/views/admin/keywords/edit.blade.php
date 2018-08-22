@@ -2,7 +2,7 @@
 @section('content')
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{route('admin.keywords.index')}}" class="btn btn-default"> 返回</a>
+        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
     </div>
 
     <div class="box-body">
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-2">
                     <button type="submit" class="btn btn-primary">提交</button>
-                    <a href="{{route('admin.keywords.index')}}" class="btn btn-default"> 返回</a>
+                    <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
                 </div>
             </div>
         </form>

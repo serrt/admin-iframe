@@ -90,6 +90,7 @@ $(function () {
 
     $.extend($.validator.methods, {
 
+        // 重写 remote 验证, {code: 200, message: '错误信息'}
         remote: function (value, element, param) {
             if (this.optional(element)) {
                 return "dependency-mismatch";
@@ -157,8 +158,8 @@ $(function () {
         language: "zh-CN",
         allowClear: true,
         placeholder: '请选择',
+        theme: 'bootstrap',
         dataType: 'json',
-        width: '100%',
         ajax: {
             delay: 250,
             data: function (params) {
@@ -188,6 +189,7 @@ $(function () {
     $('.select2-population').select2({
         language: "zh-CN",
         allowClear: true,
+        theme: 'bootstrap',
         placeholder: '输入身份证号码或者姓名搜索',
         dataType: 'json',
         width: '100%',

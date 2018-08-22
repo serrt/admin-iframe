@@ -90,6 +90,10 @@ class WebController extends Controller
             });
         }
 
+        if ($request->filled('id')) {
+            $query->where('id', $request->input('id'));
+        }
+
         $list = $query->paginate();
 
         return KeywordsTypeResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
