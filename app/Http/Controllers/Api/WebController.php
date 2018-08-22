@@ -60,6 +60,10 @@ class WebController extends Controller
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
+        if ($request->filled('pid')) {
+            $query->where('pid',  $request->input('pid'));
+        }
+
         $list = $query->paginate();
 
         return PermissionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);

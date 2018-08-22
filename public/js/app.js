@@ -1,4 +1,5 @@
-var token = $('meta[name="csrf-token"]').attr('content');
+// 网站 csrf_token
+var token = $("meta[name='csrf-token']").attr('content');
 
 $(function () {
     // 切换皮肤
@@ -29,23 +30,23 @@ $(function () {
 
     // Jquery 表单验证
     $.extend($.validator.messages, {
-        required: "这是必填字段",
-        remote: "请修正此字段",
-        email: "请输入有效的电子邮件地址",
-        url: "请输入有效的网址,包含http://,https://",
-        date: "请输入有效的日期",
-        dateISO: "请输入有效的日期 (YYYY-MM-DD)",
-        number: "请输入有效的数字",
-        digits: "只能输入数字",
-        creditcard: "请输入有效的信用卡号码",
-        equalTo: "你的输入不相同",
-        extension: "请输入有效的后缀",
-        maxlength: $.validator.format("最多可以输入 {0} 个字符"),
-        minlength: $.validator.format("最少要输入 {0} 个字符"),
-        rangelength: $.validator.format("请输入长度在 {0} 到 {1} 之间的字符串"),
-        range: $.validator.format("请输入范围在 {0} 到 {1} 之间的数值"),
-        max: $.validator.format("请输入不大于 {0} 的数值"),
-        min: $.validator.format("请输入不小于 {0} 的数值")
+        required: '这是必填字段',
+        remote: '请修正此字段',
+        email: '请输入有效的电子邮件地址',
+        url: '请输入有效的网址,包含http://,https://',
+        date: '请输入有效的日期',
+        dateISO: '请输入有效的日期 (YYYY-MM-DD)',
+        number: '请输入有效的数字',
+        digits: '只能输入数字',
+        creditcard: '请输入有效的信用卡号码',
+        equalTo: '你的输入不相同',
+        extension: '请输入有效的后缀',
+        maxlength: $.validator.format('最多可以输入 {0} 个字符'),
+        minlength: $.validator.format('最少要输入 {0} 个字符'),
+        rangelength: $.validator.format('请输入长度在 {0} 到 {1} 之间的字符串'),
+        range: $.validator.format('请输入范围在 {0} 到 {1} 之间的数值'),
+        max: $.validator.format('请输入不大于 {0} 的数值'),
+        min: $.validator.format('请输入不小于 {0} 的数值')
     });
 
     var form_element = $('form.validate');
@@ -93,7 +94,7 @@ $(function () {
         // 重写 remote 验证, {code: 200, message: '错误信息'}
         remote: function (value, element, param) {
             if (this.optional(element)) {
-                return "dependency-mismatch";
+                return 'dependency-mismatch';
             }
 
             var previous = this.previousValue(element),
@@ -105,7 +106,7 @@ $(function () {
             previous.originalMessage = this.settings.messages[element.name].remote;
             this.settings.messages[element.name].remote = previous.message;
 
-            param = typeof param === "string" && {url: param} || param;
+            param = typeof param === 'string' && {url: param} || param;
 
             if (previous.old === value) {
                 return previous.valid;
@@ -117,9 +118,9 @@ $(function () {
             data = {};
             data[element.name] = value;
             $.ajax($.extend(true, {
-                mode: "abort",
-                port: "validate" + element.name,
-                dataType: "json",
+                mode: 'abort',
+                port: 'validate' + element.name,
+                dataType: 'json',
                 data: data,
                 context: validator.currentForm,
                 success: function (response) {
@@ -137,9 +138,9 @@ $(function () {
                     } else {
                         errors = {};
                         if (typeof response == 'object') {
-                            message = response.message || validator.defaultMessage(element, "remote");
+                            message = response.message || validator.defaultMessage(element, 'remote');
                         } else {
-                            message = response || validator.defaultMessage(element, "remote");
+                            message = response || validator.defaultMessage(element, 'remote');
                         }
                         errors[element.name] = previous.message = $.isFunction(message) ? message(value) : message;
                         validator.invalid[element.name] = true;
@@ -149,19 +150,19 @@ $(function () {
                     validator.stopRequest(element, valid);
                 }
             }, param));
-            return "pending";
+            return 'pending';
         }
     });
 
     // select2 初始化
+    $.fn.select2.defaults.set('language', 'zh-CN');
+    $.fn.select2.defaults.set('theme', 'bootstrap');
     $('.select2').select2({
-        language: "zh-CN",
         allowClear: true,
         placeholder: '请选择',
-        theme: 'bootstrap',
         dataType: 'json',
         ajax: {
-            delay: 250,
+            delay: 500,
             data: function (params) {
                 return {
                     key: params.term,
@@ -179,44 +180,10 @@ $(function () {
         },
         escapeMarkup: function (markup) { return markup; },
         templateResult: function (repo) {
-            return repo.name
+            return repo.text?repo.text:repo.name
         },
         templateSelection: function (repo) {
-            return repo.name
-        }
-    });
-
-    $('.select2-population').select2({
-        language: "zh-CN",
-        allowClear: true,
-        theme: 'bootstrap',
-        placeholder: '输入身份证号码或者姓名搜索',
-        dataType: 'json',
-        width: '100%',
-        ajax: {
-            delay: 250,
-            data: function (params) {
-                return {
-                    key: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: data.meta?data.meta.current_page < data.meta.last_page:false
-                    }
-                };
-            },
-        },
-        minimumInputLength: 1,
-        escapeMarkup: function (markup) { return markup; },
-        templateResult: function (repo) {
-            return repo.name?repo.id_number+'--'+repo.name:''
-        },
-        templateSelection: function (repo) {
-            return repo.name?repo.id_number+'--'+repo.name:''
+            return repo.text?repo.text:repo.name
         }
     });
 });

@@ -24,14 +24,16 @@ class KeywordsController extends Controller
             });
         }
 
+        $type = null;
         if ($request->filled('type')) {
-            $query->where('type', $request->input('type'));
+            $query_type = $request->input('type');
+            $type = KeywordsType::find($query_type);
+            $query->where('type', $query_type);
         }
 
         $list = $query->paginate();
-        $types = KeywordsType::get();
 
-        return view('admin.keywords.index', compact('list', 'types'));
+        return view('admin.keywords.index', compact('list', 'type'));
     }
 
     public function create(Request $request)

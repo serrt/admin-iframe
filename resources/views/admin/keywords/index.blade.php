@@ -4,9 +4,12 @@
         <div class="box-header with-border">
             <form action="" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
-                    <div class="col-md-2 control-label">类型</div>
+                    <label for="selectType" class="col-md-2 control-label">类型</label>
                     <div class="col-md-2">
-                        <select name="type" class="form-control select2" data-value="{{request('type')}}" data-ajax-url="{{route('api.web.keywords_type')}}">
+                        <select name="type" id="selectType" class="form-control select2" data-ajax-url="{{route('api.web.keywords_type')}}">
+                            @if ($type)
+                            <option value="{{$type->id}}" selected="selected">{{$type->name}}</option>
+                            @endif
                         </select>
                     </div>
                     <div class="col-md-2 control-label">关键字</div>

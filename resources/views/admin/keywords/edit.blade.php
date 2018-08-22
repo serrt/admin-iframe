@@ -13,7 +13,7 @@
                 <label for="inputType" class="control-label col-md-2">类型*</label>
                 <div class="col-md-8">
                     <select name="type" id="inputType" class="form-control select2" data-rule-required="true" data-ajax-url="{{route('api.web.keywords_type')}}">
-                        <option value=""></option>
+                        <option value="{{$entity->keyType->id}}" selected="selected">{{$entity->keyType->name}}</option>
                     </select>
                 </div>
             </div>

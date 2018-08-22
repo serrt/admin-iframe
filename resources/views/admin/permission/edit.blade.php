@@ -2,7 +2,7 @@
 @section('content')
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{route('admin.permission.index')}}" class="btn btn-default"> 返回</a>
+        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
     </div>
 
     <div class="box-body">
@@ -40,7 +40,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-2">
                     <button type="submit" class="btn btn-primary">提交</button>
-                    <a href="{{route('admin.permission.index')}}" class="btn btn-default"> 返回</a>
+                    <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
                 </div>
             </div>
         </form>
@@ -49,43 +49,45 @@
 @endsection
 @section('script')
 <script>
-    var item = {!! json_encode($permission->parent) !!}
-    if (!item) {
-        item = [{id: 0, name: '无'}];
-    }
-    $('#selectPid').select2({
-        language: "zh-CN",
-        placeholder: '请选择',
-        data: [item],
-        allowClear: true,
-        dataType: 'json',
-        width: '100%',
-        ajax: {
-            delay: 500,
-            data: function (params) {
-                return {
-                    name: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: data.meta?data.meta.current_page < data.meta.last_page:false
-                    }
-                };
-            },
-        },
-        minimumInputLength: 1,
-        escapeMarkup: function (markup) { return markup; },
-        templateResult: function (repo) {
-            return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
-        },
-        templateSelection: function (repo) {
-            return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
+    $(function () {
+        var item = JSON.parse('{!! json_encode($permission->parent) !!}');
+        if (item) {
+            item.text = item.name
         }
-    });
-    $('#selectPid').val([item.id]).trigger('change');
+        $('#selectPid').select2({
+            placeholder: '请选择',
+            allowClear: true,
+            data: [item],
+            dataType: 'json',
+            ajax: {
+                delay: 500,
+                data: function (params) {
+                    return {
+                        name: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: data.meta?data.meta.current_page < data.meta.last_page:false
+                        }
+                    };
+                },
+            },
+            // minimumInputLength: 1,
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: function (repo) {
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
+            },
+            templateSelection: function (repo) {
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
+            }
+        });
+        if (item) {
+            $('#selectPid').val([item.id]).trigger('change');
+        }
+    })
 </script>
 @endsection
