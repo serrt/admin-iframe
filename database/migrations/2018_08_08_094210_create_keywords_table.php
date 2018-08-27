@@ -16,7 +16,7 @@ class CreateKeywordsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('type')->nullable()->comment('关联kewords_type.id');
-			$table->integer('type_key')->nullable()->comment('关联kewords_type.key');
+			$table->string('type_key', 100)->nullable()->comment('关联kewords_type.key');
 			$table->string('key', 100)->nullable();
 			$table->string('name', 100)->nullable();
 			$table->integer('sort')->default(0);
