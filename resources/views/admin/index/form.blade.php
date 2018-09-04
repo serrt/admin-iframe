@@ -46,38 +46,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-8 col-lg-offset-2">
-                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3>文件上传</h3>
-                </div>
-                <div class="box-body">
-                    <form action="{{route('admin.index.form_upload')}}" method="post" class="form-horizontal"
-                          role="form" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <div class="form-group">
-                            <label for="" class="col-md-2 control-label">单个文件</label>
+                            <label for="" class="col-md-2 control-label">File</label>
                             <div class="col-md-8">
-                                <input type="file" name="file" class="form-control file-input1" data-initial-preview="{{$img_url}}">
+                                <input type="file" class="form-control file-input">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-md-2 control-label">多个文件上传</label>
+                            <label for="" class="col-md-2 control-label">File 预览</label>
                             <div class="col-md-8">
-                                <input type="file" name="files[]" class="form-control file-input2" data-initial-preview="{{$imgs_url}}" multiple>
+                                <input type="file" class="form-control file-input" data-initial-preview="https://colorhub.me/imgsrv/HV9LmR4DgWV2f8G7AqWapN,https://colorhub.me/imgsrv/a89cyUzdPhNnzAM6vRPTaB">
+                                <p class="help-block">添加属性 <b>data-initial-preview="图片地址,图片地址"</b></p>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-8 col-lg-offset-2">
-                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -89,7 +72,7 @@
 @section('script')
     <script>
         $(function () {
-            $('.file-input1').fileinput({
+            $('.file-input').fileinput({
                 language: 'zh',
                 showUpload: false,
                 dropZoneEnabled: false,
@@ -97,15 +80,7 @@
                 fileActionSettings: {showRemove: false, showDrag: false},
                 initialPreviewAsData: true,
                 browseClass: 'btn bg-purple',
-            });
-            $('.file-input2').fileinput({
-                language: 'zh',
-                showUpload: false,
-                uploadAsync: false,
-                fileActionSettings: {showRemove: false, showDrag: false},
-                initialPreviewAsData: true,
                 initialPreviewDelimiter: ',',
-                browseClass: 'btn bg-purple'
             });
         })
     </script>
