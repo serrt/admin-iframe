@@ -49,4 +49,4 @@ QINIU_DOMAIN=http://oobpqw2m0.bkt.clouddn.com
 
 ### [bootstrap-fileinput](http://plugins.krajee.com/file-input)
 
-- 文件未改动, 提交时, 表单数据为空
+- file remove

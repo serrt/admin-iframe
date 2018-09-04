@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-md-2 control-label">File 预览</label>
+                            <label for="" class="col-md-2 control-label">File preview</label>
                             <div class="col-md-8">
                                 <input type="file" class="form-control file-input" data-initial-preview="https://colorhub.me/imgsrv/HV9LmR4DgWV2f8G7AqWapN,https://colorhub.me/imgsrv/a89cyUzdPhNnzAM6vRPTaB">
                                 <p class="help-block">添加属性 <b>data-initial-preview="图片地址,图片地址"</b></p>
@@ -73,14 +73,35 @@
     <script>
         $(function () {
             $('.file-input').fileinput({
+                // 语言
                 language: 'zh',
-                showUpload: false,
+                // 是否允许拖动文件
                 dropZoneEnabled: false,
+                // 是否异步上传
                 uploadAsync: false,
-                fileActionSettings: {showRemove: false, showDrag: false},
-                initialPreviewAsData: true,
+                // 上传按钮
+                showUpload: false,
+                // 预览文件的操作
+                fileActionSettings: {
+                    // 删除按钮
+                    showRemove: false,
+                    // 拖动按钮
+                    showDrag: false
+                },
+                // 浏览文件的按钮样式
                 browseClass: 'btn bg-purple',
+                // 初始化文件预览的分隔符
                 initialPreviewDelimiter: ',',
+                // 初始化文件预览的数据格式
+                initialPreviewAsData: true,
+                // 关闭预览区域按钮
+                showClose: false,
+                // 全部删除按钮
+                showRemove: false,
+                // 允许上传的文件类型 ['image', 'html', 'text', 'video', 'audio', 'flash', 'object']
+                allowedFileTypes: ['image'],
+                // 当选择的不符合规则时, 删除该文件的预览
+                removeFromPreviewOnError: true
             });
         })
     </script>

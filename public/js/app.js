@@ -161,6 +161,7 @@ $(function () {
         allowClear: true,
         placeholder: '请选择',
         dataType: 'json',
+        width: '100%',
         ajax: {
             delay: 500,
             data: function (params) {
