@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed">
+<body class="hold-transition skin-blue sidebar-mini fixed" style="overflow: hidden">
 <div class="wrapper">
     <!-- 顶部 -->
     <header class="main-header">
