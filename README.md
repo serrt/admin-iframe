@@ -41,5 +41,13 @@ QINIU_DOMAIN=http://oobpqw2m0.bkt.clouddn.com
 
 ## TODO
 
-- [拖动排序](https://github.com/RubaXa/Sortable)
-- [select2](https://select2.org) select2默认值
+### [拖动排序](https://github.com/RubaXa/Sortable)
+
+### [select2](https://select2.org)
+
+- select2默认值
+
+### [bootstrap-fileinput](http://plugins.krajee.com/file-input)
+
+- 取消文件预览的删除小图标
+- 文件未改动, 提交时, 表单数据为空
