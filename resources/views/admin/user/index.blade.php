@@ -10,11 +10,8 @@
                     </div>
                     <label for="select2" class="col-md-2 control-label">角色</label>
                     <div class="col-md-2">
-                        <select name="role" class="form-control select2">
+                        <select name="role" class="form-control" id="select2" data-ajax-url="{{route('api.web.role')}}">
                             <option value="">全部</option>
-                            @foreach($roles as $role)
-                                <option value="{{$role->id}}" {{request('role') == $role->id?'selected':''}}>{{$role->name}}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -78,4 +75,46 @@
             {{$list->appends(request()->all())->links()}}
         </div>
     </div>
+@endsection
+@section('script')
+<script>
+    $(function () {
+        var item = {!! json_encode($role) !!}
+        $('#select2').select2({
+            allowClear: true,
+            placeholder: '请选择',
+            data: [item],
+            dataType: 'json',
+            width: '100%',
+            ajax: {
+                delay: 500,
+                data: function (params) {
+                    return {
+                        key: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: data.meta?data.meta.current_page < data.meta.last_page:false
+                        }
+                    };
+                },
+            },
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: function (repo) {
+                return repo.text?repo.text:repo.name
+            },
+            templateSelection: function (repo) {
+                return repo.text?repo.text:repo.name
+            }
+        });
+        // 初始化 select2
+        if (item) {
+            $('#select2').val([item.id]).trigger('change');
+        }
+    })
+</script>
 @endsection
