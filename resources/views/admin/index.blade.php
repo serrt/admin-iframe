@@ -36,6 +36,10 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li>
+                        <!-- 日志 -->
+                        <a href="{{route('log-viewer::dashboard')}}" target="_blank"><i class="fa fa-flag"></i></a>
+                    </li>
+                    <li>
                         <!-- 打开右边隐藏的部分 -->
                         <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{$user->name?:$user->username}}</a>
                     </li>
@@ -69,7 +73,7 @@
                 <form action="{{route('admin.profile')}}" method="post" class="form-line" autocomplete="off">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="" class="control-label">登录名</label>
+                        <label for="" class="control-label">登录名(不可修改)</label>
                         <span>{{$user->username}}</span>
                     </div>
                     <div class="form-group has-feedback">
