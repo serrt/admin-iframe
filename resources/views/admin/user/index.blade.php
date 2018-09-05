@@ -11,7 +11,7 @@
                     <label for="select2" class="col-md-2 control-label">角色</label>
                     <div class="col-md-2">
                         <select name="role" class="form-control" id="select2" data-ajax-url="{{route('api.web.role')}}">
-                            <option value="">全部</option>
+                            <option value=""></option>
                         </select>
                     </div>
                 </div>
@@ -40,13 +40,7 @@
                 @foreach($list as $item)
                     <tr>
                         <td>{{$item->id}}</td>
-                        <td>
-                            @if($item->isAdmin())
-                            {{$item->username}}
-                            @else
-                            <a href="{{route('admin.user.edit', $item)}}" class="btn-link">{{$item->username}}</a>
-                            @endif
-                        </td>
+                        <td>{{$item->username}}</td>
                         <td>{{$item->name}}</td>
                         @if($item->isAdmin())
                         <td class="text-danger">超级管理员拥有全部权限</td>
