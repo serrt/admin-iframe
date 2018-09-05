@@ -25,17 +25,18 @@ class UsersController extends Controller
             });
         }
 
+        $role = null;
         if ($request->filled('role')) {
             $role_id = $request->input('role');
+            $role = Role::find($role_id);
             $query->whereHas('roles', function ($query) use ($role_id) {
                 $query->where('role_id', $role_id);
             });
         }
 
         $list = $query->paginate();
-        $roles = Role::get();
 
-        return view('admin.user.index', compact('list', 'roles'));
+        return view('admin.user.index', compact('list', 'role'));
     }
 
     public function create()
