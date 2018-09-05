@@ -23,15 +23,19 @@
                 <div class="col-lg-3 col-xs-6">
                     <a href="" class="small-box bg-green">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>{{$item->name}}</h3>
 
-                            <p>Bounce Rate</p>
+                            <p>{{$item->role->name}}</p>
                         </div>
-                        <div class="icon">
+                        <div class="icon img-responsive">
+                            @if($item->logo)
+                            <img src="https://colorhub.me/imgsrv/2ruY7FZBY9JQSNJwXmheXV" alt="" width="75">
+                            @else
                             <i class="fa fa-wechat"></i>
+                            @endif
                         </div>
                         <div class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
+                            更多信息 <i class="fa fa-arrow-circle-right"></i>
                         </div>
                     </a>
                 </div>

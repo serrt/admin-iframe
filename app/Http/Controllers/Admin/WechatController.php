@@ -10,9 +10,9 @@ class WechatController extends Controller
 {
     public function index()
     {
-        $query = Wechat::query();
+        $query = Wechat::query()->with('role');
 
-        $list = $query->paginate();
+        $list = $query->paginate(16);
 
         return view('admin.wechat.index', compact('list'));
     }
