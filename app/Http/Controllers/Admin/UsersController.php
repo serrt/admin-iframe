@@ -15,7 +15,14 @@ class UsersController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = AdminUser::query()->with('roles');
+
+        if (!$user->isAdmin()) {
+            $query->whereHas('roles', function ($query) use ($user) {
+                $query->whereIn('id', $user->roles->pluck('id'));
+            });
+        }
 
         if ($request->filled('name')) {
             $name = $request->input('name');
