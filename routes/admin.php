@@ -10,6 +10,8 @@
 Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/', ['uses'=>'IndexController@index', 'as'=>'admin']);
 
+    Route::get('home', ['uses'=>'IndexController@home', 'as'=>'admin.index.home']);
+
     Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
 
     Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');

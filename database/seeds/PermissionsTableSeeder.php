@@ -18,10 +18,6 @@ class PermissionsTableSeeder extends Seeder
                 ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin/role'],
                 ['name' => '用户管理', 'key' => 'fa fa-users', 'url' => 'admin/user']
             ]],
-            ['name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'children' => [
-                ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin/keywords_type'],
-                ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin/keywords']
-            ]],
             ['name' => '微信', 'pid' => 0, 'key' => 'fa fa-wechat', 'url' => null, 'children' => [
                 ['name' => 'APP', 'key' => 'fa fa-apple', 'url' => 'admin/wechat'],
                 ['name' => '用户', 'key' => 'fa fa-users', 'url' => 'admin/wechat_users']
