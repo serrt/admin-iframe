@@ -17,8 +17,9 @@ class CreateWechatTable extends Migration
             $table->increments('id');
             $table->integer('role_id')->nullable()->comment('关联role.id');
             $table->integer('type')->default(0)->nullable()->comment('类型: 0公众号, 1小程序');
-            $table->string('app_id')->nullable()->comment('');
-            $table->string('app_secret')->nullable()->comment('');
+            $table->string('name', 100)->nullable()->comment('名称');
+            $table->string('app_id')->nullable();
+            $table->string('app_secret')->nullable();
             $table->integer('scope')->default(0)->comment('网页授权: 0静默授权, 1非静默授权');
             $table->timestamps();
         });
