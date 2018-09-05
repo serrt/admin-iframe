@@ -8,12 +8,14 @@
                     <div class="col-md-2">
                         <input type="text" class="form-control" name="name" value="{{request('name')}}" placeholder="登录名/姓名">
                     </div>
+                    @if($is_admin)
                     <label for="select2" class="col-md-2 control-label">角色</label>
                     <div class="col-md-2">
                         <select name="role" class="form-control" id="select2" data-ajax-url="{{route('api.web.role')}}">
                             <option value=""></option>
                         </select>
                     </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <div class="col-md-4 pull-right">

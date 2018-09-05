@@ -8,6 +8,14 @@
                     <div class="col-md-2">
                         <input type="text" class="form-control" name="name" value="{{request('name')}}" placeholder="名称">
                     </div>
+                    @if($is_admin)
+                    <label for="select2" class="col-md-2 control-label">角色</label>
+                    <div class="col-md-2">
+                        <select name="role" class="form-control" id="select2" data-ajax-url="{{route('api.web.role')}}">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <div class="col-md-4 pull-right">
@@ -18,32 +26,84 @@
             </form>
         </div>
 
-        <div class="box-body row">
-            @foreach($list as $item)
-                <div class="col-lg-3 col-xs-6">
-                    <a href="" class="small-box bg-green">
-                        <div class="inner">
-                            <h3>{{$item->name}}</h3>
-
-                            <p>{{$item->role->name}}</p>
-                        </div>
-                        <div class="icon img-responsive">
-                            @if($item->logo)
-                            <img src="https://colorhub.me/imgsrv/2ruY7FZBY9JQSNJwXmheXV" alt="" width="75">
-                            @else
-                            <i class="fa fa-wechat"></i>
-                            @endif
-                        </div>
-                        <div class="small-box-footer">
-                            更多信息 <i class="fa fa-arrow-circle-right"></i>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
+        <div class="box-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>角色</th>
+                    <th>名称</th>
+                    <th>创建时间</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($list as $item)
+                    <tr>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->role->name}}</td>
+                        <td>
+                            <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
+                            {{$item->name}}
+                        </td>
+                        <td>{{$item->created_at}}</td>
+                        <td>
+                            <a href="{{route('admin.user.edit', $item)}}" class="btn btn- btn-sm">修改</a>
+                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
+                            <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.user.destroy', $item) }}" method="post">
+                                {{ csrf_field() }} {{ method_field('DELETE') }}
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
 
         <div class="box-footer clearfix">
             {{$list->appends(request()->all())->links()}}
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(function () {
+            var item = {!! json_encode($role) !!}
+            $('#select2').select2({
+                allowClear: true,
+                placeholder: '请选择',
+                data: [item],
+                dataType: 'json',
+                width: '100%',
+                ajax: {
+                    delay: 500,
+                    data: function (params) {
+                        return {
+                            key: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: data.meta?data.meta.current_page < data.meta.last_page:false
+                            }
+                        };
+                    },
+                },
+                escapeMarkup: function (markup) { return markup; },
+                templateResult: function (repo) {
+                    return repo.text?repo.text:repo.name
+                },
+                templateSelection: function (repo) {
+                    return repo.text?repo.text:repo.name
+                }
+            });
+            // 初始化 select2
+            if (item) {
+                $('#select2').val([item.id]).trigger('change');
+            }
+        })
+    </script>
 @endsection

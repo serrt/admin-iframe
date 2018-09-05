@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\Wechat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class WechatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Wechat::query()->with('role');
 
+        $user = auth()->user();
+        $is_admin = $user->isAdmin();
+
+        if (!$is_admin) {
+            $query->whereIn('role_id', $user->roles->pluck('id'));
+        }
+
+        $role = null;
+        if ($request->filled('role')) {
+            $role_id = $request->input('role');
+            $role = Role::find($role_id);
+            $query->where('role_id', $role_id);
+        }
+
         $list = $query->paginate(16);
 
-        return view('admin.wechat.index', compact('list'));
+        return view('admin.wechat.index', compact('list', 'role', 'is_admin'));
     }
 
     /**

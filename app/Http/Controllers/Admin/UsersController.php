@@ -18,7 +18,8 @@ class UsersController extends Controller
         $user = auth()->user();
         $query = AdminUser::query()->with('roles');
 
-        if (!$user->isAdmin()) {
+        $is_admin = $user->isAdmin();
+        if (!$is_admin) {
             $query->whereHas('roles', function ($query) use ($user) {
                 $query->whereIn('id', $user->roles->pluck('id'));
             });
@@ -43,7 +44,7 @@ class UsersController extends Controller
 
         $list = $query->paginate();
 
-        return view('admin.user.index', compact('list', 'role'));
+        return view('admin.user.index', compact('list', 'role', 'is_admin'));
     }
 
     public function create()
