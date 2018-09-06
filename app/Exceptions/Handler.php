@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -57,7 +58,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['message' => $exception->getMessage()], 401);
+            return response()->json(['message' => '无token参数或者token错误', 'code' => Response::HTTP_UNAUTHORIZED], 401);
         } else {
             return in_array('admin', $exception->guards()) ? redirect()->guest(route('admin.login')) : redirect()->guest('login');
         }
