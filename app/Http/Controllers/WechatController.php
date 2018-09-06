@@ -22,14 +22,28 @@ class WechatController extends Controller
         abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $app_id.' 公众号尚未在后台添加');
 
         $app = $this->getApp($wechat);
+        // 微信公众号
+        if ($wechat->type == Wechat::TYPE_MP) {
 
-        $scope = $request->input('scope', $wechat->scope);
-        $scopes = [Wechat::SCOPE_BASE => 'snsapi_base', Wechat::SCOPE_USERINFO => 'snsapi_userinfo'];
+            $scope = $request->input('scope', $wechat->scope);
+            $scopes = [Wechat::SCOPE_BASE => 'snsapi_base', Wechat::SCOPE_USERINFO => 'snsapi_userinfo'];
 
-        $redirectUrl = $wechat->redirect_url.'?app_id='.$app_id;
-        $response = $app->oauth->scopes([$scopes[$scope]])->redirect($redirectUrl);
+            $redirectUrl = $wechat->redirect_url.'?app_id='.$app_id;
+            $response = $app->oauth->scopes([$scopes[$scope]])->redirect($redirectUrl);
 
-        return $response;
+            return $response;
+        }
+        // 微信小程序
+        else if ($wechat->type == Wechat::TYPE_MIN){
+            $code = $request->input('code');
+            try {
+                return $app->auth->session($code);
+            } catch (\EasyWeChat\Kernel\Exceptions\InvalidConfigException $e) {
+                return $this->error($e->getMessage());
+            }
+
+        }
+        return $this->error('未知的公众号类型');
     }
 
     public function redirect(Request $request)
@@ -88,8 +102,12 @@ class WechatController extends Controller
                 'file' => __DIR__.'/wechat.log',
             ],
         ];
-
-        $app = Factory::officialAccount($config);
+        if ($wechat->type == Wechat::TYPE_MP) {
+            $app = Factory::officialAccount($config);
+        }
+        else if ($wechat->type == Wechat::TYPE_MIN){
+            $app = Factory::miniProgram($config);
+        }
         return $app;
     }
 }
