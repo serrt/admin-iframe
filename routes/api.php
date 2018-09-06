@@ -21,3 +21,8 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('keywords_type', ['uses'=>'Api\WebController@keywordsType', 'as' => 'api.web.keywords_type']);
     Route::get('keywords', ['uses'=>'Api\WebController@keywords', 'as' => 'api.web.keywords']);
 });
+
+
+Route::group(['middleware' => ['auth:wechat']], function () {
+    Route::get('auth', ['uses'=>'WechatController@auth']);
+});

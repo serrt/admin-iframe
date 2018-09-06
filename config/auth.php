@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'wechat' => [
+            'driver' => 'token',
+            'provider' => 'wechat',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -49,7 +54,7 @@ return [
         'admin' => [
             'driver' => 'session',
             'provider' => 'admin'
-        ]
+        ],
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\AdminUser::class,
         ],
+
+        'wechat' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\WechatUser::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

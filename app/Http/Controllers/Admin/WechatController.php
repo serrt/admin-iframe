@@ -32,14 +32,9 @@ class WechatController extends Controller
         return view('admin.wechat.index', compact('list', 'role', 'is_admin'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.wechat.create');
     }
 
     /**

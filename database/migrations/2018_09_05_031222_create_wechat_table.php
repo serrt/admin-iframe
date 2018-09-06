@@ -21,6 +21,8 @@ class CreateWechatTable extends Migration
             $table->string('logo')->nullable()->comment('logo图片');
             $table->string('app_id')->nullable();
             $table->string('app_secret')->nullable();
+            $table->string('redirect_url')->nullable()->comment('在微信平台上配置的回跳地址');
+            $table->string('success_url')->nullable()->comment('授权成功后的地址');
             $table->integer('scope')->default(0)->comment('网页授权: 0静默授权, 1非静默授权');
             $table->timestamps();
         });
@@ -33,8 +35,9 @@ class CreateWechatTable extends Migration
             $table->integer('wechat_id')->nullable()->comment('关联wechat.id');
             $table->string('openid')->nullable();
             $table->string('nickname', 100)->nullable();
-            $table->integer('sex')->default(1)->nullable();
+            $table->integer('sex')->default(0)->nullable()->comment('用户的性别，值为1时是男性，值为2时是女性，值为0时是未知');
             $table->string('headimgurl')->nullable();
+            $table->string('api_token', 100)->nullable()->comment('auth-token');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE `wechat_users` comment '微信用户'");

@@ -8,6 +8,8 @@ $factory->define(App\Models\Wechat::class, function (Faker $faker) {
     return [
         'role_id' => $role->id,
         'type' => $faker->numberBetween(0, 1),
+        'logo' => 'https://colorhub.me/imgsrv/rQaTxiBLE3WkbspaL29CLW',
+        'redirect_url' => $faker->url,
         'name' => $faker->word,
         'app_id' => uniqid(),
         'app_secret' => Hash::make(uniqid()),

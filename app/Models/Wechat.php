@@ -8,7 +8,7 @@ class Wechat extends Model
 {
     protected $table = 'wechat';
 
-    protected $fillable = ['id', 'role_id', 'type', 'name', 'logo', 'app_id', 'app_secret', 'scope', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'role_id', 'type', 'name', 'logo', 'app_id', 'app_secret', 'scope', 'redirect_url', 'created_at', 'updated_at'];
 
     // 静默授权
     const SCOPE_BASE = 0;

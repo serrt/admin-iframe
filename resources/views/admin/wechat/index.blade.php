@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <div class="col-md-4 pull-right">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-                        <a href="{{route('admin.user.create')}}" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
+                        <a href="{{route('admin.wechat.create')}}" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
                     </div>
                 </div>
             </form>
@@ -48,9 +48,9 @@
                         </td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <a href="{{route('admin.user.edit', $item)}}" class="btn btn- btn-sm">修改</a>
+                            <a href="{{route('admin.wechat.edit', $item)}}" class="btn btn-bitbucket btn-sm">修改</a>
                             <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
-                            <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.user.destroy', $item) }}" method="post">
+                            <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.wechat.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
                             </form>
                         </td>
