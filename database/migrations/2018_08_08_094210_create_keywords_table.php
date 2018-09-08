@@ -15,7 +15,8 @@ class CreateKeywordsTable extends Migration {
 		Schema::create('keywords', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('type', 100)->nullable()->comment('关联kewords_type.key');
+			$table->integer('type')->nullable()->comment('关联kewords_type.id');
+			$table->string('type_key', 100)->nullable()->comment('关联kewords_type.key');
 			$table->string('key', 100)->nullable();
 			$table->string('name', 100)->nullable();
 			$table->integer('sort')->default(0);

@@ -2,8 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\KeywordsResource;
+use App\Http\Resources\KeywordsTypeResource;
+use App\Http\Resources\PermissionResource;
+use App\Http\Resources\RegionResource;
+use App\Http\Resources\RoleResource;
+use App\Models\Keywords;
+use App\Models\KeywordsType;
+use App\Models\Permission;
+use App\Models\Region;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Storage;
 
 class WebController extends Controller
@@ -29,4 +40,91 @@ class WebController extends Controller
         return $this->json($result);
     }
 
+    public function city(Request $request)
+    {
+        $query = Region::with('parent');
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $list = $query->paginate();
+        return RegionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function permission(Request $request)
+    {
+        $query = Permission::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('pid')) {
+            $query->where('pid',  $request->input('pid'));
+        }
+
+        $list = $query->paginate();
+
+        return PermissionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function role(Request $request)
+    {
+        $query = Role::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $list = $query->paginate();
+
+        return RoleResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function keywordsType(Request $request)
+    {
+        $query = KeywordsType::query();
+
+        if ($request->filled('key')) {
+            $name = $request->input('key');
+            $query->where(function ($query) use ($name) {
+                $query->where('name', 'like', '%'.$name.'%');
+                $query->orWhere('key', 'like', '%'.$name.'%');
+            });
+        }
+
+        if ($request->filled('id')) {
+            $query->where('id', $request->input('id'));
+        }
+
+        $list = $query->paginate();
+
+        return KeywordsTypeResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function keywords(Request $request)
+    {
+        $query = Keywords::query();
+
+        if ($request->filled('key')) {
+            $name = $request->input('key');
+            $query->where(function ($query) use ($name) {
+                $query->where('name', 'like', '%'.$name.'%');
+                $query->orWhere('key', 'like', '%'.$name.'%');
+            });
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->input('type'));
+        }
+        if ($request->filled('type_key')) {
+            $type_key = $request->input('type_key');
+            $query->where('type_key', $type_key);
+        }
+
+        $list = $query->paginate();
+
+        return KeywordsResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
 }

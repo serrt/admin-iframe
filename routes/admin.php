@@ -17,8 +17,19 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::post('formUpload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
 
+    Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
 
-    Route::resource('permission', 'PermissionsController')->names('admin.permission');
+    Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');
+
+    Route::get('user/check', ['uses'=>'UsersController@checkAdmin', 'as'=>'admin.user.check']);
+    Route::resource('user', 'UsersController', ['except'=>'show'])->names('admin.user');
+
+    Route::get('keywords_type/check', ['uses'=>'KeywordsTypeController@checkType', 'as'=>'admin.keywords_type.check']);
+    Route::resource('keywords_type', 'KeywordsTypeController', ['except'=>'show'])->names('admin.keywords_type');
+
+    Route::get('keywords/check', ['uses'=>'KeywordsController@checkType', 'as'=>'admin.keywords.check']);
+    Route::resource('keywords', 'KeywordsController', ['except'=>'show'])->names('admin.keywords');
+
 });
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);

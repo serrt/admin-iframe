@@ -19,4 +19,9 @@ class Permission extends Model
     {
         return $this->hasMany(Permission::class, 'pid', 'id');
     }
+
+    public function setPidAttribute($value)
+    {
+        $this->attributes['pid'] = $value?:0;
+    }
 }
