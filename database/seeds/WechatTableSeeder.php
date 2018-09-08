@@ -19,7 +19,7 @@ class WechatTableSeeder extends Seeder
             'type' => 0,
             'name' => '培迪科技',
             'logo' => 'https://colorhub.me/imgsrv/rQaTxiBLE3WkbspaL29CLW',
-            'redirect_url' => 'https://www.baidu.com',
+            'redirect_url' => 'http://melanin.hmily.club',
             'app_id' => 'wx58692e1ab1b2f7e5',
             'app_secret' => 'a2f460b01d918a7072559a3648482536',
             'scope' => 1,

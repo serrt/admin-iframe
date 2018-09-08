@@ -12,7 +12,21 @@ class WechatUser extends Model
 
     public function save(array $options = [])
     {
-        $this->api_token = str_random(32);
+        $this->api_token = static::getToken();
         return parent::save($options);
+    }
+
+    public function getApiTokenAttribute()
+    {
+        if (!$this->attributes['api_token']) {
+            $this->attributes['api_token'] = static::getToken();
+            $this->save();
+        }
+        return $this->attributes['api_token'];
+    }
+
+    public static function getToken()
+    {
+        return str_random(32);
     }
 }

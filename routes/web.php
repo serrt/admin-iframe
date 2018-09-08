@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('wechat', ['uses'=> 'WechatController@index']);
+Route::get('wechat', ['uses' => 'WechatController@index', 'as' => 'wechat.index']);
+Route::get('redirect', ['uses' => 'WechatController@redirect', 'as' => 'wechat.redirect']);

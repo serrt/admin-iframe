@@ -6,14 +6,17 @@ use App\Models\Role;
 use App\Models\Wechat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Response;
 
 class WechatController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Wechat::query()->with('role');
+        $query = Wechat::query()->with('role')->orderBy('created_at', 'desc');
 
-        $user = auth()->user();
+        $user = auth('admin')->user();
         $is_admin = $user->isAdmin();
 
         if (!$is_admin) {
@@ -26,10 +29,14 @@ class WechatController extends Controller
             $role = Role::find($role_id);
             $query->where('role_id', $role_id);
         }
+        $type = $request->input('type', 'all');
+        if ($type !== 'all') {
+            $query->where('type', $type);
+        }
 
-        $list = $query->paginate(16);
+        $list = $query->paginate();
 
-        return view('admin.wechat.index', compact('list', 'role', 'is_admin'));
+        return view('admin.wechat.index', compact('list', 'role', 'is_admin', 'type'));
     }
 
     public function create()
@@ -37,15 +44,20 @@ class WechatController extends Controller
         return view('admin.wechat.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $user = auth('admin')->user();
+        $request->validate([
+            'app_id' => 'required|unique:wechat,app_id',
+            'app_secret' => 'required'
+        ]);
+
+        $wechat = new Wechat($request->all());
+        $wechat->role_id = $user->isAdmin()?0:$user->roles->pluck('id')->first();
+        $wechat->redirect_url = route('wechat.redirect');
+        $wechat->save();
+
+        return redirect(route('admin.wechat.index'))->with('flash_message', '添加成功');
     }
 
     /**
@@ -59,37 +71,55 @@ class WechatController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $info = Wechat::findOrFail($id);
+
+        return view('admin.wechat.edit', compact('info'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $wechat = Wechat::findOrFail($id);
+        $request->validate([
+            'app_id' => ['required', Rule::unique('wechat', 'app_id')->ignore($wechat->id, 'id')],
+            'app_secret' => 'required'
+        ]);
+
+        $user = auth('admin')->user();
+        if (!$user->isAdmin() && !$user->hasRole($wechat->role_id)) {
+            return back()->withErrors(['没有权限删除']);
+        }
+
+        $wechat->update($request->all());
+
+        return redirect(route('admin.wechat.index'))->with('flash_message', '修改成功');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $wechat = Wechat::findOrFail($id);
+        $user = auth('admin')->user();
+        if (!$user->isAdmin() && !$user->hasRole($wechat->role_id)) {
+            return back()->withErrors(['没有权限删除']);
+        }
+        $wechat->delete();
+
+        return back()->with('flash_message', '删除成功');
+    }
+
+    public function checkWechat(Request $request)
+    {
+        $unique_rule = Rule::unique('wechat', 'app_id');
+        if ($request->filled('ignore')) {
+            $unique_rule->ignore($request->input('ignore'), 'id');
+        }
+        $validate = Validator::make($request->all(), [
+            'app_id' => ['required', $unique_rule]
+        ]);
+
+        $exists = $validate->fails();
+
+        return $this->json([], $exists?Response::HTTP_BAD_REQUEST:Response::HTTP_OK, $exists?$validate->errors('app_id')->first():'');
     }
 }

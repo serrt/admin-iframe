@@ -8,6 +8,14 @@
                     <div class="col-md-2">
                         <input type="text" class="form-control" name="name" value="{{request('name')}}" placeholder="名称">
                     </div>
+                    <div class="col-md-2 control-label">类型</div>
+                    <div class="col-md-2">
+                        <select class="form-control" name="type" data-type="{{$type}}">
+                            <option value="all" {{$type=='all'?'selected':''}}>全部</option>
+                            <option value="0" {{!$type?'selected':''}}>公众号</option>
+                            <option value="1" {{$type==1?'selected':''}}>小程序</option>
+                        </select>
+                    </div>
                     @if($is_admin)
                     <label for="select2" class="col-md-2 control-label">角色</label>
                     <div class="col-md-2">
@@ -32,7 +40,9 @@
                 <tr>
                     <th>#</th>
                     <th>角色</th>
+                    <th>类型</th>
                     <th>名称</th>
+                    <th>授权地址</th>
                     <th>创建时间</th>
                     <th></th>
                 </tr>
@@ -42,13 +52,16 @@
                     <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->role?$item->role->name:''}}</td>
+                        <td>{{$item->type?'小程序':'公众号'}}</td>
                         <td>
                             <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
                             {{$item->name}}
                         </td>
+                        <td>{{$item->auth_url}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <a href="{{route('admin.wechat.edit', $item)}}" class="btn btn-info btn-sm">修改</a>
+                            <a href="{{route('admin.wechat.show', $item)}}" class="btn btn-info btn-sm">查看</a>
+                            <a href="{{route('admin.wechat.edit', $item)}}" class="btn btn-primary btn-sm">修改</a>
                             <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
                             <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.wechat.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
