@@ -22,6 +22,10 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('keywords', ['uses'=>'Api\WebController@keywords', 'as' => 'api.web.keywords']);
 });
 
+Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
+    Route::apiResource('message', 'WechatUserMsgController')->names('api.wechat_user_msg');
+});
+
 
 Route::group(['middleware' => ['auth:wechat']], function () {
     Route::get('auth', ['uses'=>'WechatController@auth']);
