@@ -18,8 +18,8 @@ class CreateWechatUserMsgTable extends Migration
             $table->integer('role_id')->nullable()->comment('关联role.id');
             $table->integer('wechat_id')->nullable()->comment('关联wechat.id');
             $table->integer('user_id')->nullable()->comment('关联wechat_users.id');
-            $table->string('name')->nullable()->comment('姓名');
-            $table->string('phone', 20)->nullable()->comment('电话');
+            $table->string('name', 100)->nullable()->comment('姓名');
+            $table->string('phone',100)->nullable()->comment('电话');
             $table->string('address')->nullable()->comment('地址');
             $table->string('province', 50)->nullable()->comment('省级');
             $table->string('city', 50)->nullable()->comment('市级');

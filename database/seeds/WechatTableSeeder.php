@@ -27,5 +27,11 @@ class WechatTableSeeder extends Seeder
             'updated_at' => $time
         ]);
         DB::table('wechat')->insert($data);
+
+        $users = factory(\App\Models\WechatUser::class, 50)->make();
+        DB::table('wechat_users')->insert($users->toArray());
+
+        $msg = factory(\App\Models\WechatUserMsg::class, 50)->make();
+        DB::table('wechat_user_msg')->insert($msg->toArray());
     }
 }

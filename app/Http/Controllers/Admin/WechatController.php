@@ -15,7 +15,11 @@ class WechatController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Wechat::query()->with('role')->withCount('users')->orderBy('created_at', 'desc');
+        $query = Wechat::query()
+            ->with('role')
+            ->withCount('users')
+            ->withCount('messages')
+            ->orderBy('created_at', 'desc');
 
         $user = auth('admin')->user();
         $is_admin = $user->isAdmin();

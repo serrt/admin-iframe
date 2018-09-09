@@ -30,6 +30,11 @@ class Wechat extends Model
         return $this->hasMany(WechatUser::class, 'wechat_id', 'id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(WechatUserMsg::class, 'wechat_id', 'id');
+    }
+
     public function setLogoAttribute($file = null)
     {
         if (gettype($file) == 'object') {

@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('wechat', 'WechatController')->names('admin.wechat');
 
     Route::get('wechat_users', ['uses'=>'WechatUsersController@index', 'as'=>'admin.wechat_users.index']);
+
+    Route::resource('wechat_user_msg', 'WechatUserMsgController', ['only' => ['index', 'show']])->names('admin.wechat_user_msg');
 });
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);
