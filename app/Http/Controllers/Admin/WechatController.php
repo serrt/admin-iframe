@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\WechatResource;
 use App\Models\Role;
 use App\Models\Wechat;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class WechatController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Wechat::query()->with('role')->orderBy('created_at', 'desc');
+        $query = Wechat::query()->with('role')->withCount('users')->orderBy('created_at', 'desc');
 
         $user = auth('admin')->user();
         $is_admin = $user->isAdmin();
@@ -60,15 +61,10 @@ class WechatController extends Controller
         return redirect(route('admin.wechat.index'))->with('flash_message', '添加成功');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $info = Wechat::withCount('users')->with('role')->findOrFail($id);
+        return view('admin.wechat.show', compact('info'));
     }
 
     public function edit($id)
@@ -121,5 +117,25 @@ class WechatController extends Controller
         $exists = $validate->fails();
 
         return $this->json([], $exists?Response::HTTP_BAD_REQUEST:Response::HTTP_OK, $exists?$validate->errors('app_id')->first():'');
+    }
+
+    public function search(Request $request)
+    {
+        $query = Wechat::query()->orderBy('created_at', 'desc');
+
+        $user = auth('admin')->user();
+        $is_admin = $user->isAdmin();
+
+        if (!$is_admin) {
+            $query->whereIn('role_id', $user->roles->pluck('id'));
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $list = $query->paginate();
+
+        return WechatResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
     }
 }

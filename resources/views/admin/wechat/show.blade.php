@@ -1,11 +1,69 @@
 @extends('admin.layouts.iframe')
 @section('content')
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
-        </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive" src="{{$info->logo}}" alt="logo">
 
-        <div class="box-body">
+                    <h3 class="profile-username text-center">{{$info->name}}</h3>
+                    <p class="text-muted text-center">{{$info->type?'小程序':'公众号'}}</p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>用户</b> <a href="{{route('admin.wechat_users.index')}}" class="pull-right">{{$info->users_count}}</a>
+                        </li>
+                    </ul>
+
+                    <a href="javascript:history.back()" class="btn btn-default btn-block">返回</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#info" data-toggle="tab">基本信息</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="info">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">角色</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->role?$info->role->name:''}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">APP_Id</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->app_id}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">APP_SECRET</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->app_secret}}</div>
+                                </div>
+                            </div>
+                            @if (!$info->type)
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">回跳地址</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->success_url}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">授权方式</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->scope?'非静默授权':'静默授权'}}</div>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

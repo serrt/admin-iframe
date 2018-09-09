@@ -10,6 +10,16 @@ class WechatUser extends Model
 
     protected $hidden = ['api_token'];
 
+    public function wechat()
+    {
+        return $this->hasOne(Wechat::class, 'id', 'wechat_id');
+    }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
     public function save(array $options = [])
     {
         $this->api_token = static::getToken();

@@ -25,6 +25,11 @@ class Wechat extends Model
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(WechatUser::class, 'wechat_id', 'id');
+    }
+
     public function setLogoAttribute($file = null)
     {
         if (gettype($file) == 'object') {

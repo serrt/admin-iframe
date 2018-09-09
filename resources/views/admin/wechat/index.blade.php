@@ -42,7 +42,7 @@
                     <th>角色</th>
                     <th>类型</th>
                     <th>名称</th>
-                    <th>授权地址</th>
+                    <th>用户</th>
                     <th>创建时间</th>
                     <th></th>
                 </tr>
@@ -55,9 +55,9 @@
                         <td>{{$item->type?'小程序':'公众号'}}</td>
                         <td>
                             <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
-                            {{$item->name}}
+                            <a href="{{route('admin.wechat.show', $item)}}">{{$item->name}}</a>
                         </td>
-                        <td>{{$item->auth_url}}</td>
+                        <td><a href="{{route('admin.wechat_users.index', ['wechat'=>$item->id])}}">{{$item->users_count}}</a></td>
                         <td>{{$item->created_at}}</td>
                         <td>
                             <a href="{{route('admin.wechat.show', $item)}}" class="btn btn-info btn-sm">查看</a>
