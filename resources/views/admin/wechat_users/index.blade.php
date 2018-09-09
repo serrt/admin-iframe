@@ -52,7 +52,7 @@
                         <td>{{$item->openid}}</td>
                         <td>
                             <img src="{{$item->headimgurl}}" alt="" width="50" class="img-thumbnail">
-                            {{$item->nickname}}
+                            <span>{{$item->nickname}}</span>
                             <!-- 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知 -->
                             @if ($item->sex == 0)
                                 <i class="fa fa-question text-primary"></i>

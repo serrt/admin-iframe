@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Permission;
 use App\Http\Controllers\Controller;
+use App\Models\Wechat;
+use App\Models\WechatUser;
+use App\Models\WechatUserMsg;
 
 class IndexController extends Controller
 {
@@ -52,6 +55,19 @@ class IndexController extends Controller
 
     public function home()
     {
-        return view('admin.index.home');
+        $user = auth('admin')->user();
+        $wechat_count = Wechat::query()->when(!$user->isAdmin(), function ($query) use ($user) {
+            $query->whereIn('role_id', $user->roles->pluck('id'));
+        })->count();
+
+        $user_count = WechatUser::query()->when(!$user->isAdmin(), function ($query) use ($user) {
+            $query->whereIn('role_id', $user->roles->pluck('id'));
+        })->count();
+
+        $message_count = WechatUserMsg::query()->when(!$user->isAdmin(), function ($query) use ($user) {
+            $query->whereIn('role_id', $user->roles->pluck('id'));
+        })->count();
+
+        return view('admin.index.home', compact('wechat_count', 'user_count', 'message_count'));
     }
 }

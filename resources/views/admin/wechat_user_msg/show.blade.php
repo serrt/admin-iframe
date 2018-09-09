@@ -25,6 +25,15 @@
                                 {{$info->wechat->name}}
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <b>注册时间</b>
+                            <a href="javascript:void(0)" class="pull-right">{{$info->user->created_at}}</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <b>留资时间</b>
+                            <a href="javascript:void(0)" class="pull-right">{{$info->created_at}}</a>
+                        </li>
                     </ul>
 
                     <a href="javascript:history.back()" class="btn btn-default btn-block">返回</a>

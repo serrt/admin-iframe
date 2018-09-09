@@ -11,7 +11,11 @@ class WechatUserMsgController extends Controller
 {
     public function index(Request $request)
     {
-        $query = WechatUserMsg::query()->with('wechat')->with('user');
+        $query = WechatUserMsg::query()
+            ->with('wechat')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc');
 
         $user = auth('admin')->user();
         $is_admin = $user->isAdmin();

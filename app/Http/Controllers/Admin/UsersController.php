@@ -49,7 +49,10 @@ class UsersController extends Controller
 
     public function create()
     {
-        $roles = Role::get();
+        $user = auth('admin')->user();
+        $roles = Role::query()->when(!$user->isAdmin(), function ($query) use ($user) {
+            $query->whereIn('id', $user->roles->pluck('id'));
+        })->get();
         return view('admin.user.create', compact('roles'));
     }
 
@@ -73,8 +76,12 @@ class UsersController extends Controller
 
     public function edit($id)
     {
+        $auth_user = auth('admin')->user();
+        $roles = Role::query()->when(!$auth_user->isAdmin(), function ($query) use ($auth_user) {
+            $query->whereIn('id', $auth_user->roles->pluck('id'));
+        })->get();
+
         $user = AdminUser::with('roles')->findOrFail($id);
-        $roles = Role::get();
 
         return view('admin.user.edit', compact('roles', 'user'));
     }

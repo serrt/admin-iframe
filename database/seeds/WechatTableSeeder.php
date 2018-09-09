@@ -11,7 +11,7 @@ class WechatTableSeeder extends Seeder
      */
     public function run()
     {
-        $result = factory(\App\Models\Wechat::class, 20)->make();
+        $result = factory(\App\Models\Wechat::class, 60)->make();
         $data = $result->toArray();
         $time = date('Y-m-d H:i:s');
         array_unshift($data, [
@@ -28,10 +28,10 @@ class WechatTableSeeder extends Seeder
         ]);
         DB::table('wechat')->insert($data);
 
-        $users = factory(\App\Models\WechatUser::class, 50)->make();
+        $users = factory(\App\Models\WechatUser::class, 150)->make();
         DB::table('wechat_users')->insert($users->toArray());
 
-        $msg = factory(\App\Models\WechatUserMsg::class, 50)->make();
+        $msg = factory(\App\Models\WechatUserMsg::class, 150)->make();
         DB::table('wechat_user_msg')->insert($msg->toArray());
     }
 }

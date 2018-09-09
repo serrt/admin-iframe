@@ -19,7 +19,8 @@ class WechatController extends Controller
             ->with('role')
             ->withCount('users')
             ->withCount('messages')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc');
 
         $user = auth('admin')->user();
         $is_admin = $user->isAdmin();
@@ -103,6 +104,11 @@ class WechatController extends Controller
         if (!$user->isAdmin() && !$user->hasRole($wechat->role_id)) {
             return back()->withErrors(['没有权限删除']);
         }
+        // 删除用户留资
+        $wechat->messages()->delete();
+        // 删除用户记录
+        $wechat->users()->delete();
+        // 删除APP
         $wechat->delete();
 
         return back()->with('flash_message', '删除成功');
