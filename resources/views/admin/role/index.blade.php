@@ -24,7 +24,7 @@
                 <tr>
                     <th>#</th>
                     <th>名称</th>
-                    <th>创建时间</th>
+                    <th>APP</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -33,6 +33,7 @@
                     <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
+                        <td><a href="{{route('admin.wechat.index', ['role' => $item->id])}}">{{$item->wechats_count}}</a></td>
                         <td>
                             <a href="{{route('admin.role.edit', $item)}}" class="btn btn-info btn-sm">分配权限</a>
                             <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>

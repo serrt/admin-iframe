@@ -11,7 +11,7 @@ class RolesController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Role::query();
+        $query = Role::query()->withCount('wechats');
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%'.$request->input('name').'%');

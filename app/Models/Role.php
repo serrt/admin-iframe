@@ -15,6 +15,11 @@ class Role extends Model
         return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id');
     }
 
+    public function wechats()
+    {
+        return $this->hasMany(Wechat::class, 'role_id', 'id');
+    }
+
     public function hasPermission($permission = [])
     {
         $query = $this->permissions;
