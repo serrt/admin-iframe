@@ -15,6 +15,11 @@ class WechatUser extends Model
         return $this->hasOne(Wechat::class, 'id', 'wechat_id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(WechatUserMsg::class, 'user_id', 'id');
+    }
+
     public function role()
     {
         return $this->hasOne(Role::class, 'id', 'role_id');

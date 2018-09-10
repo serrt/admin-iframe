@@ -40,6 +40,7 @@
                     <th>APP</th>
                     <th>openid</th>
                     <th>用户</th>
+                    <th>资料</th>
                     <th>创建时间</th>
                 </tr>
                 </thead>
@@ -61,6 +62,9 @@
                             @elseif ($item->sex == 2)
                                 <i class="fa fa-female text-danger"></i>
                             @endif
+                        </td>
+                        <td>
+                            <a href="{{route('admin.wechat_user_msg.index', ['user'=>$item->id])}}">{{$item->messages_count}}</a>
                         </td>
                         <td>{{$item->created_at}}</td>
                     </tr>

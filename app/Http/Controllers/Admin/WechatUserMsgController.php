@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Wechat;
+use App\Models\WechatUser;
 use App\Models\WechatUserMsg;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,10 +30,16 @@ class WechatUserMsgController extends Controller
             $wechat = Wechat::find($wechat_id);
             $query->where('wechat_id', $wechat_id);
         }
+        $user = null;
+        if ($request->filled('user')) {
+            $user_id = $request->input('user');
+            $user = WechatUser::find($user_id);
+            $query->where('user_id', $user_id);
+        }
 
         $list = $query->paginate();
 
-        return view('admin.wechat_user_msg.index', compact('list', 'wechat'));
+        return view('admin.wechat_user_msg.index', compact('list', 'wechat', 'user'));
     }
 
     public function show($id)

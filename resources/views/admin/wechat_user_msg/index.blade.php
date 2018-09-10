@@ -4,9 +4,11 @@
         <div class="box-header with-border">
             <form action="" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
-                    <div class="col-md-2 control-label">昵称</div>
+                    <div class="col-md-2 control-label">用户</div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="name" value="{{request('name')}}" placeholder="昵称">
+                        <select name="user" class="form-control" id="user" data-ajax-url="{{route('admin.wechat_users.search')}}">
+                            <option value=""></option>
+                        </select>
                     </div>
                     <label for="select2" class="col-md-2 control-label">APP</label>
                     <div class="col-md-2">
@@ -114,6 +116,49 @@
             // 初始化 select2
             if (item_app) {
                 $('#wechat').val([item_app.id]).trigger('change');
+            }
+
+            var item_user = {!! json_encode($user) !!}
+            $('#user').select2({
+                allowClear: true,
+                placeholder: '请选择',
+                data: [item_user],
+                dataType: 'json',
+                width: '100%',
+                ajax: {
+                    delay: 500,
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: data.meta?data.meta.current_page < data.meta.last_page:false
+                            }
+                        };
+                    },
+                },
+                escapeMarkup: function (markup) { return markup; },
+                templateResult: function (repo) {
+                    if (repo.loading) {
+                        return repo.text;
+                    }
+                    return '<div><img src="'+repo.headimgurl+'" alt="" width="20" height="20"> '+repo.nickname+'</div>';
+                },
+                templateSelection: function (repo) {
+                    if (!repo.headimgurl) {
+                        return '';
+                    }
+                    return '<div><img src="'+repo.headimgurl+'" alt="" width="20" height="20"> '+repo.nickname+'</div>';
+                }
+            });
+            // 初始化 select2
+            if (item_user) {
+                $('#user').val([item_user.id]).trigger('change');
             }
         })
     </script>

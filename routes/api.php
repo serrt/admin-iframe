@@ -29,4 +29,7 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' =
 
 Route::group(['middleware' => ['auth:wechat']], function () {
     Route::get('auth', ['uses'=>'WechatController@auth']);
+
+    Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
+    Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');
 });
