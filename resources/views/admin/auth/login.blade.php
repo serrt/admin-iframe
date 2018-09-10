@@ -36,7 +36,7 @@
                 <div class="row">
                     <!-- /.col -->
                     <div class="col-xs-4 col-xs-offset-8">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">登陆</button>
                     </div>
                     <!-- /.col -->
                 </div>
