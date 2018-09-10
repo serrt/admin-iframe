@@ -47,7 +47,9 @@ class WechatController extends Controller
 
     public function create()
     {
-        return view('admin.wechat.create');
+        $user = auth('admin')->user();
+        $is_admin = $user->isAdmin();
+        return view('admin.wechat.create', compact('is_admin'));
     }
 
     public function store(Request $request)
@@ -59,7 +61,11 @@ class WechatController extends Controller
         ]);
 
         $wechat = new Wechat($request->all());
-        $wechat->role_id = $user->isAdmin()?0:$user->roles->pluck('id')->first();
+        if ($user->isAdmin()) {
+            $wechat->role_id = $request->input('role_id', 0);
+        } else {
+            $wechat->role_id = $user->roles->pluck('id')->first();
+        }
         $wechat->redirect_url = route('wechat.redirect');
         $wechat->save();
 

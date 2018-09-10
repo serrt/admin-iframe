@@ -8,6 +8,16 @@
         <div class="box-body">
             <form action="{{route('admin.wechat.store')}}" class="form-horizontal validate" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
+                @if ($is_admin)
+                    <div class="form-group">
+                        <label for="selectRole" class="col-md-2 control-label">角色</label>
+                        <div class="col-md-8">
+                            <select name="role_id" id="selectRole" class="form-control select2" data-ajax-url="{{route('api.web.role')}}">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class="form-group">
                     <label for="inputLogo" class="col-md-2 control-label">logo</label>
                     <div class="col-md-8">
