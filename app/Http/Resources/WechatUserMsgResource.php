@@ -25,6 +25,8 @@ class WechatUserMsgResource extends JsonResource
             'city' => $this->city,
             'area' => $this->area,
             'remarks' => $this->remarks,
+            'wx_id' => $this->wx_id,
+            'data' => json_decode($this->data)?:'',
         ];
     }
 
