@@ -27,7 +27,7 @@ class WechatController extends Controller
             $scope = $request->input('scope', $wechat->scope);
             $scopes = [Wechat::SCOPE_BASE => 'snsapi_base', Wechat::SCOPE_USERINFO => 'snsapi_userinfo'];
 
-            $redirectUrl = $wechat->redirect_url.'?app_id='.$wechat->app_id;
+            $redirectUrl = $wechat->redirect_url.'?id='.$wechat->id;
             $response = $app->oauth->scopes([$scopes[$scope]])->redirect($redirectUrl);
 
             if ($request->filled('success_url')) {
