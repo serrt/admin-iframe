@@ -50,6 +50,14 @@
                 <div class="tab-content">
                     <div class="active tab-pane" id="info">
                         <div class="form-horizontal">
+                            @if($info->wx_id)
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">微信号</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->wx_id}}</div>
+                                </div>
+                            </div>
+                            @endif
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">姓名</div>
                                 <div class="col-md-10">
@@ -62,18 +70,32 @@
                                     <div class="form-control-static">{{$info->phone}}</div>
                                 </div>
                             </div>
+                            @if ($info->province || $info->city || $info->area)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">地区</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->province.'-'.$info->city.'-'.$info->area}}</div>
                                 </div>
                             </div>
+                            @endif
+                            @if($info->address)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">地址</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->address}}</div>
                                 </div>
                             </div>
+                            @endif
+                            @if($info->data)
+                            @foreach(json_decode($info->data) as $key => $value)
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">{{$key}}</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$value}}</div>
+                                </div>
+                            </div>
+                            @endforeach
+                            @endif
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">备注</div>
                                 <div class="col-md-10">

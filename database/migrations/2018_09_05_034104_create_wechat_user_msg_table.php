@@ -18,6 +18,7 @@ class CreateWechatUserMsgTable extends Migration
             $table->integer('role_id')->nullable()->comment('关联role.id');
             $table->integer('wechat_id')->nullable()->comment('关联wechat.id');
             $table->integer('user_id')->nullable()->comment('关联wechat_users.id');
+            $table->string('wx_id', 100)->nullable()->comment('微信号');
             $table->string('name', 100)->nullable()->comment('姓名');
             $table->string('phone',100)->nullable()->comment('电话');
             $table->string('address')->nullable()->comment('地址');
@@ -25,6 +26,7 @@ class CreateWechatUserMsgTable extends Migration
             $table->string('city', 50)->nullable()->comment('市级');
             $table->string('area', 50)->nullable()->comment('区级');
             $table->string('remarks')->nullable()->comment('备注');
+            $table->text('data')->nullable()->comment('备用键值对');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE `wechat_user_msg` comment '微信留信息'");
