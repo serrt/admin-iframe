@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="inputRedirectUrl" class="col-md-2 control-label">redirect_url</label>
                         <div class="col-md-8">
-                            <input type="url" id="inputRedirectUrl" class="form-control" value="{{route('wechat.redirect')}}" readonly="readonly">
+                            <input type="url" id="inputRedirectUrl" class="form-control" value="{{config('app.url')}}" readonly="readonly">
                             <p class="help-block">请在公众号中配置的此回跳地址</p>
                         </div>
                     </div>

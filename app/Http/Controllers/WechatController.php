@@ -94,15 +94,18 @@ class WechatController extends Controller
         }
         $user_origin = $user->getOriginal();
 
-        $wechat_user = WechatUser::query()->firstOrCreate([
+        $where = [
             'role_id' => $wechat->role_id,
             'wechat_id' => $wechat->id,
             'openid' => $user->getId(),
-        ],[
+        ];
+        WechatUser::query()->updateOrCreate($where, [
             'nickname' => $user->getName(),
             'headimgurl' => $user->getAvatar(),
             'sex' => isset($user_origin['sex'])?$user_origin['sex']:0,
         ]);
+
+        $wechat_user = WechatUser::where($where)->first();
 
         $stub = str_contains($wechat->success_url, '?')?'&':'?';
         $url = $wechat->success_url.$stub.'token='.$wechat_user->api_token.'&token_type=Bearer';
