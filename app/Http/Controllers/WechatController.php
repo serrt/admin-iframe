@@ -101,7 +101,7 @@ class WechatController extends Controller
         ],[
             'nickname' => $user->getName(),
             'headimgurl' => $user->getAvatar(),
-            'sex' => $user_origin['sex'],
+            'sex' => isset($user_origin['sex'])?$user_origin['sex']:0,
         ]);
 
         $stub = str_contains($wechat->success_url, '?')?'&':'?';
