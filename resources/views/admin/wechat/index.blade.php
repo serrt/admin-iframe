@@ -55,7 +55,9 @@
                         <td>{{$item->role?$item->role->name:''}}</td>
                         <td>{{$item->type?'小程序':'公众号'}}</td>
                         <td>
-                            <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
+                            @if($item->logo)
+                                <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
+                            @endif
                             <a href="{{route('admin.wechat.show', $item)}}">{{$item->name}}</a>
                         </td>
                         <td><a href="{{route('admin.wechat_users.index', ['wechat'=>$item->id])}}">{{$item->users_count}}</a></td>
