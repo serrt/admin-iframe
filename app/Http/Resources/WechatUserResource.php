@@ -28,4 +28,9 @@ class WechatUserResource extends JsonResource
     {
         return ['code' => Response::HTTP_OK, 'message' => ''];
     }
+
+    public function with($request)
+    {
+        return ['code' => Response::HTTP_OK, 'message' => ''];
+    }
 }
