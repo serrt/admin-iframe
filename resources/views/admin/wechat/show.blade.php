@@ -14,8 +14,10 @@
                         </li>
                         <li class="list-group-item">
                             <b>测试</b>
-                            <a href="{{route('wechat.index', ['id' => $info->id])}}" class="">{{route('wechat.index', ['id' => $info->id])}}</a>
-                            <img class="text-right" src="data:image/png;base64, {{ base64_encode(\QrCode::format('png')->size(100)->generate(route('wechat.index', ['id' => $info->id]))) }}" alt="">
+                            <a href="{{route('wechat.index', ['id' => $info->id])}}" class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('png')->size(100)->generate(route('wechat.index', ['id' => $info->id]))) }}" alt="">
                         </li>
                     </ul>
 
