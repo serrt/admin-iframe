@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label for="inputAppId" class="col-md-2 control-label">app_id*</label>
                     <div class="col-md-8">
-                        <input type="text" id="inputAppId" class="form-control" name="app_id" value="{{$info->app_id}}" data-rule-required="true" data-rule-remote="{{route('admin.wechat.check', ['ignore'=>$info->id]) }}">
+                        <input type="text" id="inputAppId" class="form-control" name="app_id" value="{{$info->app_id}}" data-rule-required="true">
                     </div>
                 </div>
                 <div class="form-group">

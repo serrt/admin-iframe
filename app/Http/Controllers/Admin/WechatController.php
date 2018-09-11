@@ -7,8 +7,6 @@ use App\Models\Role;
 use App\Models\Wechat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Response;
 
 class WechatController extends Controller
@@ -54,7 +52,7 @@ class WechatController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'app_id' => 'required|unique:wechat,app_id',
+            'app_id' => 'required',
             'app_secret' => 'required',
             'role_id' => 'required'
         ]);
@@ -83,7 +81,7 @@ class WechatController extends Controller
     {
         $wechat = Wechat::findOrFail($id);
         $request->validate([
-            'app_id' => ['required', Rule::unique('wechat', 'app_id')->ignore($wechat->id, 'id')],
+            'app_id' => ['required'],
             'app_secret' => 'required'
         ]);
 
@@ -112,21 +110,6 @@ class WechatController extends Controller
         $wechat->delete();
 
         return back()->with('flash_message', '删除成功');
-    }
-
-    public function checkWechat(Request $request)
-    {
-        $unique_rule = Rule::unique('wechat', 'app_id');
-        if ($request->filled('ignore')) {
-            $unique_rule->ignore($request->input('ignore'), 'id');
-        }
-        $validate = Validator::make($request->all(), [
-            'app_id' => ['required', $unique_rule]
-        ]);
-
-        $exists = $validate->fails();
-
-        return $this->json([], $exists?Response::HTTP_BAD_REQUEST:Response::HTTP_OK, $exists?$validate->errors('app_id')->first():'');
     }
 
     public function search(Request $request)

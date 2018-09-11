@@ -13,7 +13,7 @@
                             <b>用户</b> <a href="{{route('admin.wechat_users.index')}}" class="pull-right">{{$info->users_count}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>测试</b> <a href="{{route('wechat.index', ['app_id' => $info->app_id])}}" class="pull-right">{{route('wechat.index', ['app_id' => $info->app_id])}}</a>
+                            <b>测试</b> <a href="{{route('wechat.index', ['id' => $info->id])}}" class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</a>
                         </li>
                     </ul>
 

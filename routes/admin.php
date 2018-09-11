@@ -19,7 +19,6 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('user/check', ['uses'=>'UsersController@checkAdmin', 'as'=>'admin.user.check']);
     Route::resource('user', 'UsersController', ['except'=>'show'])->names('admin.user');
 
-    Route::get('wechat/check', ['uses'=>'WechatController@checkWechat', 'as'=>'admin.wechat.check']);
     Route::get('wechat/search', ['uses'=>'WechatController@search', 'as'=>'admin.wechat.search']);
     Route::resource('wechat', 'WechatController')->names('admin.wechat');
 

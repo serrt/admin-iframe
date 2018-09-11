@@ -14,13 +14,11 @@ class WechatController extends Controller
 {
     public function index(Request $request)
     {
-        $app_id = $request->input('app_id');
+        $id = $request->input('id');
 
-        abort_if(!$app_id, Response::HTTP_BAD_REQUEST, 'app_id 参数必填');
+        abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
 
-        $wechat = $this->getWechat($app_id);
-
-        abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $app_id.' 公众号尚未在后台添加');
+        $wechat = $this->getWechat($id);
 
         $app = $this->getApp($wechat);
         // 微信公众号
@@ -29,7 +27,7 @@ class WechatController extends Controller
             $scope = $request->input('scope', $wechat->scope);
             $scopes = [Wechat::SCOPE_BASE => 'snsapi_base', Wechat::SCOPE_USERINFO => 'snsapi_userinfo'];
 
-            $redirectUrl = $wechat->redirect_url.'?app_id='.$app_id;
+            $redirectUrl = $wechat->redirect_url.'?app_id='.$wechat->app_id;
             $response = $app->oauth->scopes([$scopes[$scope]])->redirect($redirectUrl);
 
             if ($request->filled('success_url')) {
@@ -59,13 +57,11 @@ class WechatController extends Controller
 
     public function redirect(Request $request)
     {
-        $app_id = $request->input('app_id');
+        $app_id = $request->input('id');
 
-        abort_if(!$app_id, Response::HTTP_BAD_REQUEST, 'app_id 参数必填');
+        abort_if(!$app_id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
 
         $wechat = $this->getWechat($app_id);
-
-        abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $app_id.' 公众号尚未在后台添加');
 
         $app = $this->getApp($wechat);
 
@@ -119,11 +115,11 @@ class WechatController extends Controller
         return WechatUserResource::make($wechat_user);
     }
 
-    protected function getWechat($app_id)
+    protected function getWechat($id)
     {
-        $wechat = Wechat::where('app_id', $app_id)->first();
+        $wechat = Wechat::find($id);
 
-        abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $app_id.' 公众号尚未在后台添加');
+        abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $id.' 公众号尚未在后台添加');
 
         return $wechat;
     }
