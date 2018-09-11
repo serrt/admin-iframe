@@ -42,13 +42,6 @@
                 </div>
                 <div id="collapseExample" class="collapse {{$info->type==1?'in':''}}">
                     <div class="form-group">
-                        <label for="inputRedirectUrl" class="col-md-2 control-label">redirect_url</label>
-                        <div class="col-md-8">
-                            <input type="url" id="inputRedirectUrl" class="form-control" value="{{$info->redirect_url}}" readonly="readonly">
-                            <p class="help-block">请在公众号中配置的此回跳地址</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="inputSuccessUrl" class="col-md-2 control-label">success_url</label>
                         <div class="col-md-8">
                             <input type="url" id="inputSuccessUrl" class="form-control" name="success_url" value="{{$info->success_url}}">

@@ -60,7 +60,7 @@ class WechatController extends Controller
         ]);
 
         $wechat = new Wechat($request->all());
-        $wechat->redirect_url = config('app.url');
+        $wechat->redirect_url = route('wechat.redirect');
         $wechat->save();
 
         return redirect(route('admin.wechat.index'))->with('flash_message', '添加成功');
