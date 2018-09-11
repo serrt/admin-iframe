@@ -32,6 +32,8 @@ DB_PASSWORD=secret
 
 ## TODO
 
+### id 加密
+
 ### 配置微信分享
 
 ### 后台扫码登陆
