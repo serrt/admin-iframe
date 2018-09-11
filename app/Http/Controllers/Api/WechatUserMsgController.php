@@ -21,19 +21,19 @@ class WechatUserMsgController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-        ], [
-            'name.required' => '姓名必填',
-            'phone.required' => '电话号码必填',
-            'address.required' => '地址必填'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors()->first());
-        }
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required',
+//            'phone' => 'required',
+//            'address' => 'required',
+//        ], [
+//            'name.required' => '姓名必填',
+//            'phone.required' => '电话号码必填',
+//            'address.required' => '地址必填'
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return $this->error($validator->errors()->first());
+//        }
 
         $user = auth('wechat')->user();
 

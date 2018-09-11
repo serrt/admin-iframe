@@ -58,18 +58,22 @@
                                 </div>
                             </div>
                             @endif
+                            @if($info->name)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">姓名</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->name}}</div>
                                 </div>
                             </div>
+                            @endif
+                            @if($info->phone)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">电话</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->phone}}</div>
                                 </div>
                             </div>
+                            @endif
                             @if ($info->province || $info->city || $info->area)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">地区</div>
@@ -96,12 +100,14 @@
                             </div>
                             @endforeach
                             @endif
+                            @if($info->remarks)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">备注</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->remarks}}</div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

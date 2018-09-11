@@ -8,7 +8,7 @@ class WechatUserMsg extends Model
 {
     protected $table = 'wechat_user_msg';
 
-    protected $fillable = ['id', 'role_id', 'wechat_id', 'user_id', 'name', 'phone', 'address', 'province', 'city', 'area', 'remarks', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'role_id', 'wechat_id', 'user_id', 'wx_id', 'name', 'phone', 'address', 'province', 'city', 'area', 'remarks', 'data', 'created_at', 'updated_at'];
 
     public function wechat()
     {
