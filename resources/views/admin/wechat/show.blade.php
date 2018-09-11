@@ -48,9 +48,17 @@
                             </div>
                             @if (!$info->type)
                             <div class="form-group">
+                                <div class="col-sm-2 control-label">授权地址</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->redirect_url}}</div>
+                                    <p class="text-danger">请在公众号中配置此地址</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-2 control-label">回跳地址</div>
                                 <div class="col-md-10">
                                     <div class="form-control-static">{{$info->success_url}}</div>
+                                    <p class="text-danger">授权成功后,默认回跳地址,并带上唯一token</p>
                                 </div>
                             </div>
                             <div class="form-group">

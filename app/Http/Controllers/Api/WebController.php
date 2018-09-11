@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RoleResource;
+use App\Models\AdminUser;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -54,6 +55,11 @@ class WebController extends Controller
     public function role(Request $request)
     {
         $query = Role::query();
+
+        if ($request->filled('user_id')) {
+            $user = AdminUser::find($request->input('user_id'));
+            $query = $user->roles();
+        }
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->input('name') . '%');
