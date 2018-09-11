@@ -36,7 +36,7 @@ class WechatController extends Controller
             }
 
             if (config('app.debug')) {
-                return redirect(route('wechat.redirect', ['app_id'=>$wechat->app_id]));
+                return redirect(route('wechat.redirect', ['id'=>$wechat->id]));
             }
 
             return $response;
