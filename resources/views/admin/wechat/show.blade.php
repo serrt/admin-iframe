@@ -4,7 +4,9 @@
         <div class="col-md-4">
             <div class="box box-primary">
                 <div class="box-body box-profile">
+                    @if($info->logo)
                     <img class="profile-user-img img-responsive" src="{{$info->logo}}" alt="logo">
+                    @endif
 
                     <h3 class="profile-username text-center">{{$info->name}}</h3>
                     <p class="text-muted text-center">{{$info->type?'小程序':'公众号'}}</p>

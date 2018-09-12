@@ -44,7 +44,9 @@
                         <td>{{$item->id}}</td>
                         <td><a href="{{route('admin.wechat.show', $item->wechat_id)}}">{{$item->wechat->name}}</a></td>
                         <td>
+                            @if($item->user->headimgurl)
                             <img src="{{$item->user->headimgurl}}" alt="" width="50" class="img-thumbnail">
+                            @endif
                             <span>{{$item->user->nickname}}</span>
                             <!-- 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知 -->
                             @if ($item->user->sex == 0)
