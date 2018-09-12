@@ -17,7 +17,7 @@
                             <a href="{{route('wechat.index', ['id' => $info->id])}}" class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</a>
                         </li>
                         <li class="list-group-item">
-                            <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('png')->size(100)->generate(route('wechat.index', ['id' => $info->id]))) }}" alt="">
+                            <img class="center-block" src="data:image/png;base64, {{ base64_encode($qrcode) }}" alt="">
                         </li>
                     </ul>
 

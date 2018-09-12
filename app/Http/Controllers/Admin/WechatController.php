@@ -67,7 +67,12 @@ class WechatController extends Controller
     public function show($id)
     {
         $info = Wechat::withCount('users')->with('role')->findOrFail($id);
-        return view('admin.wechat.show', compact('info'));
+        $qrcode = \QrCode::format('png')->size(200);
+        if ($info->logo) {
+            $qrcode->merge($info->logo, 0.3, true);
+        }
+        $qrcode = $qrcode->generate(route('wechat.index', ['id' => $info->id]));
+        return view('admin.wechat.show', compact('info', 'qrcode'));
     }
 
     public function edit($id)
