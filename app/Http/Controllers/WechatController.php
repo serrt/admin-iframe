@@ -118,7 +118,12 @@ class WechatController extends Controller
 
     public function jsConfig(Request $request)
     {
-        $officialAccount = EasyWeChat::officialAccount();
+        if ($request->has('id')) {
+            $wechat = $this->getWechat($request->input('id', 1));
+            $officialAccount = $this->getApp($wechat);
+        } else {
+            $officialAccount = EasyWeChat::officialAccount();
+        }
         $origin = $request->header('origin');
         $referer = $request->header('Referer');
 
@@ -248,10 +253,8 @@ class WechatController extends Controller
                 'file' => __DIR__.'/wechat.log',
             ],
         ];
-        if ($wechat->type == Wechat::TYPE_MP) {
-            $app = Factory::officialAccount($config);
-        }
-        else if ($wechat->type == Wechat::TYPE_MIN){
+        $app = Factory::officialAccount($config);
+        if ($wechat->type == Wechat::TYPE_MIN){
             $app = Factory::miniProgram($config);
         }
         return $app;
