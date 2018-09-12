@@ -1962,8 +1962,7 @@ var addTabs = function (options) {
                 // animate: true
             });
 
-            // .css("width", "100%")
-            var $iframe = $("<iframe></iframe>").attr("src", options.url).attr("frameborder", "no").attr("id", "iframe_" + pageId).addClass("tab_iframe").attr(pageIdField, pageId);
+            var $iframe = $("<iframe></iframe>").attr("src", options.url).css("width", "100%").attr("frameborder", "no").attr("id", "iframe_" + pageId).addClass("tab_iframe").attr(pageIdField, pageId);
             //frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes"  allowtransparency="yes"
 
             //iframe 加载完成事件
