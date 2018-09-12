@@ -38,3 +38,5 @@ DB_PASSWORD=secret
 ### [bootstrap-fileinput](http://plugins.krajee.com/file-input)
 
 - file remove
+
+### 单页应用
