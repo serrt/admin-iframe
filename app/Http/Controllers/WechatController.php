@@ -133,6 +133,92 @@ class WechatController extends Controller
         return $this->json($configure);
     }
 
+    public function accessToken(Request $request)
+    {
+        if ($request->post('key') != 'pd153486') {
+            return $this->error('权限出错');
+        }
+
+        $wechat = $this->getWechat($request->input('id', 1));
+        $officialAccount = $this->getApp($wechat);
+
+        $accessToken = $officialAccount->access_token;
+
+        if ($request->has('force')) {
+            $token = $accessToken->getToken(true);
+        } else {
+            $token = $accessToken->getToken();
+        }
+        return response()->json(['code' => 200, 'access_token' => $token['access_token']]);
+    }
+
+    public function wxAuth(Request $request)
+    {
+        $key = $request->get('key');
+        $url = $request->get('redirectUrl');
+
+
+        if (empty($key) || empty($url)) {
+            echo "用户未授权";
+            exit;
+        }
+
+        $key = substr($key, 3, -3);
+
+        $key = base64_decode($key);
+
+        if ($key == 'pd123456') {
+            //返回 opnid
+            $uinfo = session('wechat.oauth_user.default')->getOriginal();
+            $uinfo = urlencode(str_random(3) . json_encode($uinfo) . str_random(3));
+            $url   = base64_decode($url);
+
+            $stub = '?';
+            if (str_contains($url, $stub)) {
+                $stub = '&';
+            }
+
+            return redirect($url.$stub.'params='.$uinfo);
+        } else {
+            echo "用户未授权";
+            exit;
+        }
+    }
+
+    public function wxBaseAuth(Request $request)
+    {
+        $key = $request->get('key');
+        $url = $request->get('redirectUrl');
+
+
+        if (empty($key) || empty($url)) {
+            echo "用户未授权";
+            exit;
+        }
+
+        $key = substr($key, 3, -3);
+
+        $key = base64_decode($key);
+
+        if ($key == 'pd123456') {
+            //返回 opnid
+            $uinfo  = session('wechat.oauth_user.default');
+            $openid = $uinfo->getId();
+            $openid = urlencode(str_random(3) . base64_encode($openid) . str_random(3));
+            $url    = base64_decode($url);
+
+            $stub = '?';
+            if (str_contains($url, $stub)) {
+                $stub = '&';
+            }
+
+            return redirect($url.$stub.'params='.$openid);
+        } else {
+            echo "用户未授权";
+            exit;
+        }
+    }
+
     protected function getWechat($id)
     {
         $wechat = Wechat::find($id);
