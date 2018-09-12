@@ -26,16 +26,11 @@ class WechatUserMsgResource extends JsonResource
             'area' => $this->area,
             'remarks' => $this->remarks,
             'wx_id' => $this->wx_id,
-            'data' => json_decode($this->data)?:'',
+            'info' => json_decode($this->data)?:'',
         ];
     }
 
     public function with($request)
-    {
-        return ['code' => Response::HTTP_OK, 'message' => ''];
-    }
-
-    public function additional(array $data)
     {
         return ['code' => Response::HTTP_OK, 'message' => ''];
     }

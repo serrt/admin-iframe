@@ -115,6 +115,24 @@ class WechatController extends Controller
         return WechatUserResource::make($wechat_user);
     }
 
+    public function jsConfig(Request $request)
+    {
+        $wechat = $this->getWechat($request->input('id', 1));
+        $officialAccount = $this->getApp($wechat);
+
+        $jsConfigure = $request->post('configure', ['onMenuShareTimeline', 'onMenuShareAppMessage']);
+
+        if (is_string($jsConfigure)) {
+            $jsConfigure = json_decode($jsConfigure, true);
+        }
+
+        $debug = $request->input('debug', false);
+
+        $configure = $officialAccount->jssdk->buildConfig($jsConfigure, $debug);
+
+        return $this->json($configure);
+    }
+
     protected function getWechat($id)
     {
         $wechat = Wechat::find($id);

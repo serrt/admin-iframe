@@ -17,3 +17,9 @@ Route::get('/', function () {
 
 Route::get('wechat', ['uses' => 'WechatController@index', 'as' => 'wechat.index']);
 Route::get('redirect', ['uses' => 'WechatController@redirect', 'as' => 'wechat.redirect']);
+
+Route::post('js-config', ['uses' => 'WechatController@jsConfig', 'as' => 'wechat.js_config']);
+//Route::post('access_token', ['uses' => 'WechatController@accessToken', 'as' => 'wechat.access_token']);
+//
+//Route::get('wx-auth', ['uses' => 'WechatController@wxAuth', 'as' => 'wechat.wx_auth']);
+//Route::get('wx-base-auth', ['uses' => 'WechatController@wxBaseAuth', 'as' => 'wechat.wx_base_auth']);
