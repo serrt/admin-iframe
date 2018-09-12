@@ -145,8 +145,7 @@
 </div>
 
 @include('admin.layouts.js')
-<!-- Slimscroll -->
-<script src="{{asset('js/jquery.slimscroll.min.js')}}"></script>
+
 <!-- FastClick -->
 <script src="{{asset('js/fastclick.js')}}"></script>
 
@@ -159,7 +158,7 @@
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
 
-        var menus = JSON.parse('{!! $menus !!}');
+        var menus = JSON.parse('{!! json_encode($menus) !!}');
 
         $('.sidebar-menu').sidebarMenu({data: menus});
 
