@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use EasyWeChat\Factory;
 use Overtrue\Socialite\User as SocialiteUser;
+use Overtrue\LaravelWeChat\Facade as EasyWechat;
 
 class WechatController extends Controller
 {
@@ -117,8 +118,7 @@ class WechatController extends Controller
 
     public function jsConfig(Request $request)
     {
-        $wechat = $this->getWechat($request->input('id', 1));
-        $officialAccount = $this->getApp($wechat);
+        $officialAccount = EasyWeChat::officialAccount();
 
         $jsConfigure = $request->post('configure', ['onMenuShareTimeline', 'onMenuShareAppMessage']);
 
@@ -139,8 +139,7 @@ class WechatController extends Controller
             return $this->error('权限出错');
         }
 
-        $wechat = $this->getWechat($request->input('id', 1));
-        $officialAccount = $this->getApp($wechat);
+        $officialAccount = EasyWeChat::officialAccount();
 
         $accessToken = $officialAccount->access_token;
 
