@@ -12,14 +12,11 @@
                     <p class="text-muted text-center">{{$info->type?'小程序':'公众号'}}</p>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <b>用户</b> <a href="{{route('admin.wechat_users.index')}}" class="pull-right">{{$info->users_count}}</a>
+                            <b>用户</b> <a href="{{route('admin.wechat_users.index', ['wechat'=>$info->id])}}" class="pull-right">{{$info->users_count}}</a>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item clearfix">
                             <b>测试</b>
                             <a href="{{route('wechat.index', ['id' => $info->id])}}" class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <img class="center-block" src="data:image/png;base64, {{ base64_encode($qrcode) }}" alt="">
                         </li>
                     </ul>
 

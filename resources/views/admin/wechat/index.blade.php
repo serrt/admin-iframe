@@ -34,47 +34,49 @@
             </form>
         </div>
 
-        <div class="box-body table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>角色</th>
-                    <th>类型</th>
-                    <th>名称</th>
-                    <th>用户</th>
-                    <th>资料</th>
-                    <th>创建时间</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($list as $item)
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
                     <tr>
-                        <td>{{$item->id}}</td>
-                        <td>{{$item->role?$item->role->name:''}}</td>
-                        <td>{{$item->type?'小程序':'公众号'}}</td>
-                        <td>
-                            @if($item->logo)
-                                <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
-                            @endif
-                            <a href="{{route('admin.wechat.show', $item)}}">{{$item->name}}</a>
-                        </td>
-                        <td><a href="{{route('admin.wechat_users.index', ['wechat'=>$item->id])}}">{{$item->users_count}}</a></td>
-                        <td><a href="{{route('admin.wechat_user_msg.index', ['wechat'=>$item->id])}}">{{$item->messages_count}}</a></td>
-                        <td>{{$item->created_at}}</td>
-                        <td>
-                            <a href="{{route('admin.wechat.show', $item)}}" class="btn btn-info btn-sm">查看</a>
-                            <a href="{{route('admin.wechat.edit', $item)}}" class="btn btn-primary btn-sm">修改</a>
-                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
-                            <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.wechat.destroy', $item) }}" method="post">
-                                {{ csrf_field() }} {{ method_field('DELETE') }}
-                            </form>
-                        </td>
+                        <th>#</th>
+                        <th>角色</th>
+                        <th>类型</th>
+                        <th>名称</th>
+                        <th>用户</th>
+                        <th>资料</th>
+                        <th>创建时间</th>
+                        <th></th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($list as $item)
+                        <tr>
+                            <td>{{$item->id}}</td>
+                            <td>{{$item->role?$item->role->name:''}}</td>
+                            <td>{{$item->type?'小程序':'公众号'}}</td>
+                            <td>
+                                @if($item->logo)
+                                    <img src="{{$item->logo}}" alt="" width="50" class="img-thumbnail">
+                                @endif
+                                <a href="{{route('admin.wechat.show', $item)}}">{{$item->name}}</a>
+                            </td>
+                            <td><a href="{{route('admin.wechat_users.index', ['wechat'=>$item->id])}}">{{$item->users_count}}</a></td>
+                            <td><a href="{{route('admin.wechat_user_msg.index', ['wechat'=>$item->id])}}">{{$item->messages_count}}</a></td>
+                            <td>{{$item->created_at}}</td>
+                            <td>
+                                <a href="{{route('admin.wechat.show', $item)}}" class="btn btn-info btn-sm">查看</a>
+                                <a href="{{route('admin.wechat.edit', $item)}}" class="btn btn-primary btn-sm">修改</a>
+                                <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
+                                <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.wechat.destroy', $item) }}" method="post">
+                                    {{ csrf_field() }} {{ method_field('DELETE') }}
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="box-footer clearfix">
