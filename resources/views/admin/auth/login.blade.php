@@ -20,14 +20,14 @@
             <form action="{{route('admin.doLogin')}}" method="post" autocomplete="off">
                 {{csrf_field()}}
                 <div class="form-group has-feedback {{$errors->has('username')?'has-error':''}}">
-                    <input type="text" name="username" class="form-control" placeholder="Username" value="{{old('username')?:'admin'}}" required>
+                    <input type="text" name="username" class="form-control" placeholder="Username" value="{{old('username', 'admin')}}" required>
                     <span class="fa fa-user form-control-feedback"></span>
                     @if($errors->has('username'))
                     <span class="help-block">{{$errors->first('username')}}</span>
                     @endif
                 </div>
                 <div class="form-group has-feedback {{$errors->has('password')?'has-error':''}}">
-                    <input type="password" name="password" class="form-control" placeholder="Password" value="123456" required>
+                    <input type="password" name="password" class="form-control" placeholder="Password" value="" required>
                     <span class="fa fa-lock form-control-feedback"></span>
                     @if($errors->has('password'))
                         <span class="help-block">{{$errors->first('password')}}</span>
