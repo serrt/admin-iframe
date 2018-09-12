@@ -119,6 +119,14 @@ class WechatController extends Controller
     public function jsConfig(Request $request)
     {
         $officialAccount = EasyWeChat::officialAccount();
+        $origin          = $request->header('origin');
+        $referer         = $request->header('Referer');
+
+        if (empty($origin)) {
+            return response()->json(['msg' => '授权地址出错', 'code' => 501], 200);
+        }
+
+        $officialAccount->jssdk->setUrl($referer);
 
         $jsConfigure = $request->post('configure', ['onMenuShareTimeline', 'onMenuShareAppMessage']);
 
