@@ -66,16 +66,22 @@ class Face
         return $result;
     }
 
-    public function mergeface($template, $merge)
+    public function mergeface($template, $merge, $template_detect = [])
     {
         $options = [];
 
-        $template_detect = $this->detect($template);
-        if (!isset($template_detect['faces']) || empty($template_detect['faces'])) {
-            return ['error' => '模板文件未识别到人脸'];
+        if (!$template_detect) {
+            $template_detect = $this->detect($template);
+            if (!isset($template_detect['faces']) || empty($template_detect['faces'])) {
+                return ['error' => '模板文件未识别到人脸'];
+            }
+            $rectangle = $template_detect['faces'][0]['face_rectangle'];
+        } else {
+            $rectangle = json_decode($template_detect, true)['face_rectangle'];
         }
-        $rectangle = $template_detect['faces'][0]['face_rectangle'];
+
         $template_rectangle = implode(',', [$rectangle['top'], $rectangle['left'], $rectangle['width'], $rectangle['height']]);
+
 
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $template, $result)) {
             $type = $result[2];
@@ -97,6 +103,7 @@ class Face
                     ['name' => 'api_key', 'contents' => $this->api_key],
                     ['name' => 'api_secret', 'contents' => $this->api_secret],
                     ['name' => 'template_file', 'contents' => fopen($template->path(), 'r')],
+                    ['name' => 'template_rectangle', 'contents' => $template_rectangle],
                     ['name' => 'merge_file', 'contents' => fopen($merge->path(), 'r')],
                 ]
             ];
@@ -106,6 +113,7 @@ class Face
                     'api_key' => $this->api_key,
                     'api_secret' => $this->api_secret,
                     'template_url' => $template,
+                    'template_rectangle' => $template_rectangle,
                     'merge_url' => $merge,
                 ],
             ];

@@ -36,9 +36,11 @@ class FaceController extends Controller
         if ($validator->fails()) {
             return $this->error($validator->errors()->first());
         }
-        $result = Face::init()->mergeface($request->template, $request->merge);
+        $result = Face::init()->mergeface($request->template, $request->merge, $request->input('template_detect'));
 
         if (isset($result['result']) && $result['result']) {
+            return response(base64_decode($result['result']), 200, ['Content-Type' => 'image/png']);
+
             $path = 'face/'.uniqid().'.jpg';
             $storage = Storage::disk('public');
             $storage->put($path, base64_decode($result['result']));
