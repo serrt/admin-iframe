@@ -32,7 +32,7 @@ class WechatController extends Controller
             $response = $app->oauth->scopes([$scopes[$scope]])->redirect($redirectUrl);
 
             if ($request->filled('success_url')) {
-                $wechat->success_url = $request->filled('success_url');
+                $wechat->success_url = $request->input('success_url');
                 $wechat->save();
             }
 

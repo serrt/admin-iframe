@@ -16,7 +16,7 @@
                         </li>
                         <li class="list-group-item clearfix">
                             <b>测试</b>
-                            <a href="{{route('wechat.index', ['id' => $info->id])}}" class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</a>
+                            <code class="pull-right">{{route('wechat.index', ['id' => $info->id])}}</code>
                         </li>
                     </ul>
 
