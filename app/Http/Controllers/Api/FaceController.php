@@ -40,7 +40,7 @@ class FaceController extends Controller
 
         if (isset($result['result']) && $result['result']) {
             $path = 'face/'.uniqid().'.jpg';
-            $storage = Storage::disk('oss');
+            $storage = Storage::disk('public');
             $storage->put($path, base64_decode($result['result']));
 
             $url = $storage->url($path);
