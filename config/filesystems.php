@@ -63,6 +63,17 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+
+        'oss' => [
+            'driver' => 'oss',
+            'access_id' => env('ALIOSS_KEY', 'LTAIMZX864owJ8iJ'),
+            'access_key' => env('ALIOSS_SECRET', 'ylEzsadVZ3kjLFyMvdFwToJj4fiN3g'),
+            'bucket' => env('ALIOSS_BUCKET', 'sw4w23sr4f5'),
+            'endpoint' => env('ALIOSS_ENDPOINT', 'oss-cn-hangzhou.aliyuncs.com'),
+            // 如果上面使用了节点名称，这里设置为false，如果使用了自定义域名，为true
+            'isCName' => env('ALIOSS_ISCNAME', false),
+            'debug' => env('ALIOSS_DEBUG', false),
+        ],
     ],
 
 ];
