@@ -27,7 +27,9 @@ class WechatUser extends Model
 
     public function save(array $options = [])
     {
-        $this->api_token = static::getToken();
+        if (!$this->api_token) {
+            $this->api_token = static::getToken();
+        }
         return parent::save($options);
     }
 
