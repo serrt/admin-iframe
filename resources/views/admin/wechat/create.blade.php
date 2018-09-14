@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="inputSuccessUrl" class="col-md-2 control-label">success_url</label>
                         <div class="col-md-8">
-                            <input type="url" id="inputSuccessUrl" class="form-control" name="success_url" value="{{old('success_url')}}">
+                            <input type="text" id="inputSuccessUrl" class="form-control" name="success_url" value="{{old('success_url')}}">
                             <p class="help-block">授权成功后跳转的地址</p>
                         </div>
                     </div>
