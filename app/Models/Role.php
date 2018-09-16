@@ -2,30 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as BaseRole;
 
-class Role extends Model
+class Role extends BaseRole
 {
-    protected $fillable = ['id', 'name', 'key'];
+    protected $fillable = ['id', 'name', 'guard_name', 'display_name', 'created_at', 'updated_at'];
 
-    public $timestamps = false;
-
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id');
-    }
-
-    public function hasPermission($permission = [])
-    {
-        $query = $this->permissions;
-        if (is_array($permission)) {
-            $query = $query->whereIn('id', $permission);
-        } else if (is_string($permission)) {
-            $ar = explode(',', $permission);
-            $query = $query->whereIn('id', $ar);
-        } else {
-            $query = $query->where('id', $permission);
-        }
-        return $query->count() > 0;
-    }
 }

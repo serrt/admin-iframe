@@ -2,26 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission as BasePermission;
 
-class Permission extends Model
+class Permission extends BasePermission
 {
-    protected $fillable = ['id', 'name', 'pid', 'key', 'url', 'sort'];
-
-    public $timestamps = false;
-
-    public function parent()
-    {
-        return $this->hasOne(Permission::class, 'id', 'pid');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Permission::class, 'pid', 'id');
-    }
-
-    public function setPidAttribute($value)
-    {
-        $this->attributes['pid'] = $value?:0;
-    }
+    protected $fillable = ['id', 'name', 'guard_name', 'pid', 'sort', 'display_name', 'menu', 'created_at', 'updated_at'];
 }
