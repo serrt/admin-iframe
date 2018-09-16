@@ -48,9 +48,6 @@ class PermissionsTableSeeder extends Seeder
                 'guard_name' => 'admin',
                 'name' => $key1,
                 'display_name' => $key1,
-                'pid' => 0,
-                'menu'=>'',
-                'sort'=>$index1
             ]);
             $index1++;
             $index2=1;
@@ -59,9 +56,7 @@ class PermissionsTableSeeder extends Seeder
                 $sub_permission = Permission::create([
                     'guard_name' => $guard,
                     'name' => $value,
-                    'display_name' => $value,
-                    'pid' => $permission->id,
-                    'sort'=>$index2
+                    'display_name' => $value
                 ]);
                 $index2++;
                 $permissions->push($sub_permission);
