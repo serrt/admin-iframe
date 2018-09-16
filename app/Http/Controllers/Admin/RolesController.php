@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class RolesController extends Controller
 {
@@ -13,8 +14,12 @@ class RolesController extends Controller
     {
         $query = Role::query();
 
-        if ($request->filled('name')) {
-            $query->where('name', 'like', '%'.$request->input('name').'%');
+        if ($request->filled('key')) {
+            $key = $request->input('key');
+            $query->where(function ($query) use ($key) {
+                $query->where('display_name', 'like', '%'.$key.'%');
+                $query->orWhere('name', 'like', '%'.$key.'%');
+            });
         }
 
         $list = $query->paginate();
@@ -24,7 +29,7 @@ class RolesController extends Controller
 
     public function create()
     {
-        $list = Permission::orderBy('sort')->orderBy('id')->get();
+        $list = Permission::get();
 
         return view('admin.role.create', compact('list'));
     }
@@ -32,14 +37,12 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required|unique:roles,name',
+            'display_name' => 'required'
         ]);
 
         $role = Role::create($request->all());
-
-        // 更新权限
-        $permissions = $request->input('permissions');
-        $role->permissions()->attach($permissions);
+        $role->givePermissionTo($request->input('permissions'));
 
         return redirect(route('admin.role.index'))->with('flash_message', '添加成功');
     }
@@ -47,24 +50,23 @@ class RolesController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $list = Permission::orderBy('sort')->orderBy('id')->get();
+        $list = Permission::get();
         return view('admin.role.edit', compact('role', 'list'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         $role = Role::findOrFail($id);
+
+        $unique_rule = Rule::unique('roles', 'name')->ignore($role->id, 'id');
+        $request->validate([
+            'name' => ['required', $unique_rule],
+            'display_name' => 'required'
+        ]);
 
         $role->update($request->all());
 
-        // 更新权限
-        $permissions = $request->input('permissions');
-        $role->permissions()->detach();
-        $role->permissions()->attach($permissions);
+        $role->syncPermissions($request->input('permissions'));
 
         return redirect(route('admin.role.index'))->with('flash_message', '修改成功');
     }

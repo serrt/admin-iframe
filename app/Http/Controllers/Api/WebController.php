@@ -4,17 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\KeywordsResource;
 use App\Http\Resources\KeywordsTypeResource;
+use App\Http\Resources\MenuResource;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RegionResource;
 use App\Http\Resources\RoleResource;
 use App\Models\Keywords;
 use App\Models\KeywordsType;
+use App\Models\Menu;
 use App\Models\Permission;
 use App\Models\Region;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Storage;
 
 class WebController extends Controller
@@ -57,7 +61,7 @@ class WebController extends Controller
         $query = Permission::query();
 
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+            $query->where('display_name', 'like', '%' . $request->input('display_name') . '%');
         }
 
         if ($request->filled('pid')) {
@@ -69,12 +73,29 @@ class WebController extends Controller
         return PermissionResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
     }
 
+    public function menu(Request $request)
+    {
+        $query = Menu::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('pid')) {
+            $query->where('pid',  $request->input('pid'));
+        }
+
+        $list = $query->paginate();
+
+        return MenuResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
     public function role(Request $request)
     {
         $query = Role::query();
 
-        if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        if ($request->filled('key')) {
+            $query->where('display_name', 'like', '%' . $request->input('key') . '%');
         }
 
         $list = $query->paginate();
@@ -126,5 +147,30 @@ class WebController extends Controller
         $list = $query->paginate();
 
         return KeywordsResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function unique(Request $request)
+    {
+        $code = Response::HTTP_BAD_REQUEST;
+        $error = '无参数: unique, table';
+        // 验证是否唯一
+        if ($request->filled('unique') && $request->filled('table')) {
+            $column = $request->input('unique');
+            $table = $request->input('table');
+            $unique_rule = Rule::unique($table, $column);
+            if ($request->filled('ignore')) {
+                $unique_rule->ignore($request->input('ignore'), 'id');
+            }
+            $validate = Validator::make($request->all(), [
+                $column => ['required', $unique_rule]
+            ], [
+                $column.'.unique' => ':input 已经存在'
+            ]);
+
+            $code = $validate->fails()?Response::HTTP_BAD_REQUEST:Response::HTTP_OK;
+            $error = $validate->fails()?$validate->errors()->first():'';
+        }
+
+        return $this->json([], $code, $error);
     }
 }

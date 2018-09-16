@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
-class PermissionResource extends JsonResource
+class MenuResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,13 +15,15 @@ class PermissionResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data = [
+        return [
             'id' => $this->id,
+            'key' => $this->key,
             'name' => $this->name,
-            'display_name' => $this->display_name,
-            'text' => $this->display_name,
-            'pid' => $this->pid,
         ];
-        return $data;
+    }
+
+    public function with($request)
+    {
+        return ['code' => Response::HTTP_OK, 'message' => ''];
     }
 }

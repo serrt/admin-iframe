@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Permission;
+use App\Models\Menu;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +20,7 @@ class IndexController extends Controller
         $user = auth()->user();
         // 初始化菜单
         $menus = [];
-        $list = auth()->user()->permissions();
+        $list = $user->menus;
 
         foreach ($list->where('pid', 0)->sortBy('sort')->all() as $item) {
             $menu = $this->getMenu($list, $item);
@@ -31,7 +31,7 @@ class IndexController extends Controller
         return view('admin.iframe', compact('menus', 'user'));
     }
 
-    protected function getMenu($list, Permission $item)
+    protected function getMenu($list, Menu $item)
     {
         $menu = [
             'id' => $item->id,

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\AdminUser;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -11,45 +14,62 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        $menus = [
-            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin/home'],
-            ['name' => '表格', 'key' => 'fa fa-table', 'url' => 'admin/table'],
-            ['name' => '表单', 'key' => 'fa fa-edit', 'url' => null, 'children' => [
-                ['name' => '基本表单', 'key' => 'fa fa-newspaper-o', 'url' => 'admin/form'],
-                ['name' => 'ajax', 'key' => 'fa fa-pencil-square', 'url' => 'admin/ajax']
-            ]],
-            ['name' => '系统', 'key' => 'fa fa-gear', 'url' => null, 'children' => [
-                ['name' => '菜单', 'key' => 'fa fa-list', 'url' => 'admin/permission'],
-                ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin/role'],
-                ['name' => '用户管理', 'key' => 'fa fa-users', 'url' => 'admin/user']
-            ]],
-            ['name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'children' => [
-                ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin/keywords_type'],
-                ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin/keywords']
-            ]],
-        ];
+        // 清空权限缓存
+        app()['cache']->forget('spatie.permission.cache');
+        // 清空已有的权限
+        $tableNames = config('permission.table_names');
+        foreach ($tableNames as $key=>$value) {
+            DB::table($value)->truncate();
+        }
+        $route_list = app('router')->getRoutes()->getRoutes();
         $data = [];
-        $index = 1;
-        foreach ($menus as $key => $item) {
-            $menu = $item;
-            $menu['id'] = $index;
-            $index++;
-            $menu['pid'] = 0;
-            $menu['sort'] = $key+1;
-            unset($menu['children']);
-            array_push($data, $menu);
-            if (isset($item['children'])) {
-                foreach ($item['children'] as $key1 => $item1) {
-                    $menu1 = $item1;
-                    $menu1['id'] = $index;
-                    $index++;
-                    $menu1['pid'] = $menu['id'];
-                    $menu1['sort'] = $key1+1;
-                    array_push($data, $menu1);
+        foreach ($route_list as $item) {
+            $action = $item->action;
+            // 路由必须命名
+            if (!isset($action['as'])) {
+                continue;
+            }
+            // 取出admin下面的路由
+            if (strpos($action['prefix'], 'admin') !== false) {
+                $ext = explode('.', $action['as']);
+                // 仅限3级
+                if (count($ext) == 3) {
+                    $num1 = $ext[0];
+                    $num2 = $ext[0].'.'.$ext[1];
+                    $num3 = $action['as'];
+                    $data[$num1][$num2][] = $num3;
                 }
             }
         }
-        DB::table('permissions')->delete();
-        DB::table('permissions')->insert($data);
+        $index1 = 1;
+        $guard = 'admin';
+        $permissions = collect();
+        foreach ($data['admin'] as $key1 => $item1) {
+            $permission = Permission::create([
+                'guard_name' => 'admin',
+                'name' => $key1,
+                'display_name' => __('permission.'.$key1),
+                'pid' => 0,
+            ]);
+            $index1++;
+            $index2=1;
+            $permissions->push($permission);
+            foreach ($item1 as $value) {
+                $tran = $permission->display_name.'-'.__('permission.'.explode('.',$value)[2]);
+                $sub_permission = Permission::create([
+                    'guard_name' => $guard,
+                    'name' => $value,
+                    'display_name' => $tran,
+                    'pid' => $permission->id,
+                ]);
+                $index2++;
+                $permissions->push($sub_permission);
+            }
+        }
+        $role = Role::create(['name'=>'administer', 'guard_name' => $guard, 'display_name' => '超级管理员']);
+        $role->givePermissionTo($permissions);
+
+        $user = AdminUser::first();
+        $user->assignRole($role);
     }
 }

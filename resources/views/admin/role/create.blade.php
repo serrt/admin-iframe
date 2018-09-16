@@ -2,22 +2,37 @@
 @section('content')
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{route('admin.role.index')}}" class="btn btn-default"> 返回</a>
+        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
     </div>
 
     <div class="box-body">
         <form action="{{route('admin.role.store')}}" class="form-horizontal validate" method="post">
             {{csrf_field()}}
             <div class="form-group">
-                <label for="inputName" class="control-label col-md-2">名称*</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" id="inputName" data-rule-required="true">
+                <label class="control-label col-md-2">使用区域</label>
+                <div class="col-md-8 checkbox">
+                    <label><input type="radio" name="guard" value="admin" checked> 后台</label>
+                    <p class="help-block">目前只支持后台</p>
                 </div>
             </div>
             <div class="form-group">
-                <div class="control-label col-md-2">权限</div>
+                <label for="inputDisplayName" class="control-label col-md-2">名称*</label>
                 <div class="col-md-8">
-                    @component('admin.role.permission', ['permissions'=>$list, 'pid'=>0, 'checked' => collect()])
+                    <input type="text" class="form-control" name="display_name" value="{{old('display_name')}}" id="inputDisplayName" data-rule-required="true">
+                    <p class="help-block">角色的中文名称, 不能重复</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2">key*</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="name" value="{{old('name')}}" id="inputName" data-rule-required="true" data-rule-remote="{{route('api.web.unique',['table'=>'roles', 'unique'=>'name'])}}">
+                    <p class="help-block">角色的英文名称, 不能重复</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">权限</label>
+                <div class="col-md-8">
+                    @component('admin.role.tree', ['permissions'=>$list, 'pid'=>0, 'checked' => collect()])
                     @endcomponent
                 </div>
             </div>

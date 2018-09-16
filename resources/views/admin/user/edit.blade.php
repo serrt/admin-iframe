@@ -14,7 +14,7 @@
                 <div class="col-md-8">
                     <input type="text" class="form-control" name="username" id="inputUserName" value="{{$user->username}}"
                            data-rule-required="true"
-                           data-rule-remote="{{route('admin.user.check', ['ignore'=>$user->id])}}">
+                           data-rule-remote="{{route('api.web.unique',['table'=>'admin_users','unique'=>'username','ignore'=>$user->id])}}">
                 </div>
             </div>
             <div class="form-group">
@@ -32,13 +32,11 @@
             </div>
 
             <div class="form-group">
-                <div class="control-label col-md-2">角色</div>
-                <div class="col-md-8 btn-group" data-toggle="buttons">
-                    @foreach($roles as $role)
-                        <button type="button" class="btn btn-default {{$user->hasRole($role->id)?'active':''}}">
-                            <input type="checkbox" name="roles[]" value="{{$role->id}}" autocomplete="off" {{$user->hasRole($role->id)?'checked':''}}>{{$role->name}}
-                        </button>
-                    @endforeach
+                <label for="select2" class="control-label col-md-2">角色</label>
+                <div class="col-md-8 btn-group">
+                    <select name="roles[]" class="form-control" id="select2" data-ajax-url="{{route('api.web.role')}}" multiple>
+                        <option value=""></option>
+                    </select>
                 </div>
             </div>
 
@@ -51,4 +49,49 @@
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+        $(function () {
+            var items = JSON.parse('{!! json_encode($user_roles) !!}');
+            $('#select2').select2({
+                allowClear: true,
+                placeholder: '请选择',
+                data: items,
+                dataType: 'json',
+                width: '100%',
+                ajax: {
+                    delay: 500,
+                    data: function (params) {
+                        return {
+                            key: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: data.meta?data.meta.current_page < data.meta.last_page:false
+                            }
+                        };
+                    },
+                },
+                escapeMarkup: function (markup) { return markup; },
+                templateResult: function (repo) {
+                    return repo.text?repo.text:repo.name
+                },
+                templateSelection: function (repo) {
+                    return repo.text?repo.text:repo.name
+                }
+            });
+            if (items) {
+                var selected_ids = [];
+                for (var i in items) {
+                    selected_ids.push(items[i].id);
+                }
+                $('#select2').val(selected_ids).trigger('change');
+            }
+        })
+    </script>
 @endsection

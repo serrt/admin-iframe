@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\RoleResource;
 use App\Models\AdminUser;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -39,10 +40,17 @@ class UsersController extends Controller
         return view('admin.user.index', compact('list', 'role'));
     }
 
+    public function show($id)
+    {
+        $user = AdminUser::findOrFail($id);
+        $user_permissions = $user->getAllPermissions();
+        $user_roles = $user->roles;
+        return view('admin.user.show', compact('user', 'user_permissions', 'user_roles'));
+    }
+
     public function create()
     {
-        $roles = Role::get();
-        return view('admin.user.create', compact('roles'));
+        return view('admin.user.create');
     }
 
     public function store(Request $request)
@@ -58,7 +66,7 @@ class UsersController extends Controller
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
-        $user->roles()->attach($request->input('roles'));
+        $user->syncRoles($request->input('roles'));
 
         return redirect(route('admin.user.index'))->with('flash_message', '添加成功');
     }
@@ -66,9 +74,10 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = AdminUser::with('roles')->findOrFail($id);
-        $roles = Role::get();
 
-        return view('admin.user.edit', compact('roles', 'user'));
+        $user_roles = RoleResource::collection($user->roles);
+
+        return view('admin.user.edit', compact('user', 'user_roles'));
     }
 
     public function update(Request $request, $id)
@@ -85,8 +94,7 @@ class UsersController extends Controller
         }
         $user->save();
 
-        $user->roles()->detach();
-        $user->roles()->attach($request->input('roles'));
+        $user->syncRoles($request->input('roles'));
 
         return redirect(route('admin.user.index'))->with('flash_message', '修改成功');
     }
@@ -95,25 +103,17 @@ class UsersController extends Controller
     {
         $user = AdminUser::findOrFail($id);
 
+        // 删除拥有的角色
         $user->roles()->detach();
+
+        // 删除用户拥有的权限
+        $user->revokePermissionTo($user->permissions);
+
+        // 删除拥有的菜单
+        $user->menus()->detach();
 
         $user->delete();
 
         return redirect(route('admin.user.index'))->with('flash_message', '删除成功');
-    }
-
-    public function checkAdmin(Request $request)
-    {
-        $unique_rule = Rule::unique('admin_users', 'username');
-        if ($request->filled('ignore')) {
-            $unique_rule->ignore($request->input('ignore'), 'id');
-        }
-        $validate = Validator::make($request->all(), [
-            'username' => ['required', $unique_rule]
-        ]);
-
-        $exists = $validate->fails();
-
-        return $this->json([], $exists?Response::HTTP_BAD_REQUEST:Response::HTTP_OK, $exists?$validate->errors('username')->first():'');
     }
 }
