@@ -41,3 +41,5 @@ DB_PASSWORD=secret
 - file remove
 
 ### 单页应用
+
+### [laravel-permission](https://github.com/spatie/laravel-permission)
