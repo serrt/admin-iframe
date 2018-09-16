@@ -13,7 +13,7 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [//
+    protected $dontReport = [
     ];
 
     /**
@@ -43,6 +43,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->route()->action['prefix'] == 'admin') {
+            return response()->view('admin.errors.'.$exception->getStatusCode(), compact('exception'));
+        }
         return parent::render($request, $exception);
     }
 

@@ -3,19 +3,14 @@
         @foreach($permissions as $permission)
             @if($permission->pid == $pid)
                 <li class="list-group-item {{$checked->contains($permission->id)?'list-group-item-success':''}}" data-toggle="collapse" data-target="#collapseExample{{$permission->id}}" aria-controls="collapseExample{{$permission->id}}">
-                    <input type="checkbox" name="permissions[]"
-                           class="permission-checkbox"
-                           onclick="permissionCheckbox(this, true)"
-                           data-pid="{{$pid}}"
-                           {{$checked->contains($permission->id)?'checked':''}}
-                           value="{{$permission->id}}">
+                    <input type="checkbox" name="permissions[]" class="permission-checkbox" onclick="permissionCheckbox(this, true)" data-pid="{{$pid}}" {{$checked->contains($permission->id)?'checked':''}} value="{{$permission->id}}">
                     <i class="{{$permission->key}}"></i>
-                    {{$permission->name}}
-                    @if(!$permission->url)
+                    {{$permission->display_name}}
+                    @if(!$permission->pid)
                     <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.role.permission', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
+                @component('admin.role.tree', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
                 @endcomponent
             @endif
         @endforeach

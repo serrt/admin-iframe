@@ -7,7 +7,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth:admin']], function () {
+Route::group(['middleware' => ['auth:admin', 'permission']], function () {
     Route::get('/', ['uses'=>'IndexController@index', 'as'=>'admin']);
 
     Route::get('home', ['uses'=>'IndexController@home', 'as'=>'admin.index.home']);
@@ -17,12 +17,14 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::post('formUpload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
 
+    Route::resource('menu', 'MenusController', ['except'=>'show'])->names('admin.menu');
     Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
 
     Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');
 
-    Route::get('user/check', ['uses'=>'UsersController@checkAdmin', 'as'=>'admin.user.check']);
-    Route::resource('user', 'UsersController', ['except'=>'show'])->names('admin.user');
+    Route::get('user/{id}/role', ['uses'=>'UsersController@role', 'as'=>'admin.user.role']);
+    Route::get('user/{id}/permission', ['uses'=>'UsersController@permission', 'as'=>'admin.user.permission']);
+    Route::resource('user', 'UsersController')->names('admin.user');
 
     Route::get('keywords_type/check', ['uses'=>'KeywordsTypeController@checkType', 'as'=>'admin.keywords_type.check']);
     Route::resource('keywords_type', 'KeywordsTypeController', ['except'=>'show'])->names('admin.keywords_type');
