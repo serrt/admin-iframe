@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Log in</title>
+    <title>登陆 | {{config('app.name')}}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     @include('admin.layouts.css')
@@ -11,11 +11,11 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="/"><b>Admin</b>LTE</a>
+            <a href="/">{{config('app.name')}}</a>
         </div>
 
         <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">登陆</p>
 
             <form action="{{route('admin.doLogin')}}" method="post" autocomplete="off">
                 {{csrf_field()}}
@@ -36,7 +36,7 @@
                 <div class="row">
                     <!-- /.col -->
                     <div class="col-xs-4 col-xs-offset-8">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">确认</button>
                     </div>
                     <!-- /.col -->
                 </div>

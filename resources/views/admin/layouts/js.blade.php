@@ -1,5 +1,7 @@
 <!-- jQuery 2.2.3 -->
 <script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>
+<!-- Slimscroll -->
+<script src="{{asset('js/jquery.slimscroll.min.js')}}"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('bootstrap/bootstrap.min.js')}}"></script>
 <!-- AdminLTE App -->

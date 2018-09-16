@@ -18,9 +18,9 @@
         <!-- Logo -->
         <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini">{{config('app.name')}}</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg">{{config('app.name')}}</span>
         </a>
         <!-- 顶部菜单 -->
         <nav class="navbar navbar-static-top">
@@ -145,8 +145,7 @@
 </div>
 
 @include('admin.layouts.js')
-<!-- Slimscroll -->
-<script src="{{asset('js/jquery.slimscroll.min.js')}}"></script>
+
 <!-- FastClick -->
 <script src="{{asset('js/fastclick.js')}}"></script>
 
@@ -159,7 +158,7 @@
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
 
-        var menus = JSON.parse('{!! $menus !!}');
+        var menus = JSON.parse('{!! json_encode($menus) !!}');
 
         $('.sidebar-menu').sidebarMenu({data: menus});
 

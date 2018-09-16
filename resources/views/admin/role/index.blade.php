@@ -24,7 +24,6 @@
                 <tr>
                     <th>#</th>
                     <th>名称</th>
-                    <th>创建时间</th>
                     <th></th>
                 </tr>
                 </thead>
