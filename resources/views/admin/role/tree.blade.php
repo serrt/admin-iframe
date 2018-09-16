@@ -10,12 +10,12 @@
                            {{$checked->contains($permission->id)?'checked':''}}
                            value="{{$permission->id}}">
                     <i class="{{$permission->key}}"></i>
-                    {{$permission->name}}
-                    @if(!$permission->url)
+                    {{$permission->display_name}}
+                    @if(!$permission->pid)
                     <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.role.permission', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
+                @component('admin.role.tree', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
                 @endcomponent
             @endif
         @endforeach

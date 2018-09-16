@@ -24,7 +24,7 @@ class RolesController extends Controller
 
     public function create()
     {
-        $list = Permission::orderBy('sort')->orderBy('id')->get();
+        $list = Permission::orderBy('id')->get();
 
         return view('admin.role.create', compact('list'));
     }
@@ -32,7 +32,8 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required|unique:roles,name',
+            'display_name' => 'required'
         ]);
 
         $role = Role::create($request->all());
@@ -47,7 +48,7 @@ class RolesController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $list = Permission::orderBy('sort')->orderBy('id')->get();
+        $list = Permission::orderBy('id')->get();
         return view('admin.role.edit', compact('role', 'list'));
     }
 

@@ -21,9 +21,7 @@ class CreatePermissionTables extends Migration
             $table->string('name')->comment('路由name');
             $table->string('guard_name');
             $table->string('display_name')->nullable()->comment('名称');
-//            $table->integer('pid')->default(0)->comment('父级id');
-//            $table->integer('sort')->default(0)->comment('排序asc');
-//            $table->string('menu')->nullable()->comment('菜单');
+            $table->integer('pid')->default(0)->comment('父级id');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE ".$tableNames['permissions']." comment '权限菜单'");

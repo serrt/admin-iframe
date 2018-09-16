@@ -16,6 +16,11 @@ class PermissionsTableSeeder extends Seeder
     {
         // 清空权限缓存
         app()['cache']->forget('spatie.permission.cache');
+        // 清空已有的权限
+        $tableNames = config('permission.table_names');
+        foreach ($tableNames as $key=>$value) {
+            DB::table($value)->truncate();
+        }
         $route_list = app('router')->getRoutes()->getRoutes();
         $data = [];
         foreach ($route_list as $item) {
@@ -30,15 +35,11 @@ class PermissionsTableSeeder extends Seeder
                 // 仅限3级
                 if (count($ext) == 3) {
                     $num1 = $ext[0];
-                    $num2 = $ext[1];
+                    $num2 = $ext[0].'.'.$ext[1];
                     $num3 = $action['as'];
                     $data[$num1][$num2][] = $num3;
                 }
             }
-        }
-        $tableNames = config('permission.table_names');
-        foreach ($tableNames as $key=>$value) {
-            DB::table($value)->truncate();
         }
         $index1 = 1;
         $guard = 'admin';
@@ -47,16 +48,19 @@ class PermissionsTableSeeder extends Seeder
             $permission = Permission::create([
                 'guard_name' => 'admin',
                 'name' => $key1,
-                'display_name' => $key1,
+                'display_name' => __('permission.'.$key1),
+                'pid' => 0,
             ]);
             $index1++;
             $index2=1;
             $permissions->push($permission);
             foreach ($item1 as $value) {
+                $tran = $permission->display_name.'-'.__('permission.'.explode('.',$value)[2]);
                 $sub_permission = Permission::create([
                     'guard_name' => $guard,
                     'name' => $value,
-                    'display_name' => $value
+                    'display_name' => $tran,
+                    'pid' => $permission->id,
                 ]);
                 $index2++;
                 $permissions->push($sub_permission);

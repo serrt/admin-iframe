@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::post('formUpload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
 
+    Route::resource('menu', 'MenusController', ['except'=>'show'])->names('admin.menu');
     Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
 
     Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');
