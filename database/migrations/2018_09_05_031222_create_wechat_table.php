@@ -50,6 +50,7 @@ class CreateWechatTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('wechat');
         Schema::dropIfExists('wechat_users');
     }
 }
