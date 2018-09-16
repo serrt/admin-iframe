@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');
 
+    Route::get('user/{id}/role', ['uses'=>'UsersController@role', 'as'=>'admin.user.role']);
+    Route::get('user/{id}/permission', ['uses'=>'UsersController@permission', 'as'=>'admin.user.permission']);
     Route::resource('user', 'UsersController')->names('admin.user');
 
     Route::get('keywords_type/check', ['uses'=>'KeywordsTypeController@checkType', 'as'=>'admin.keywords_type.check']);

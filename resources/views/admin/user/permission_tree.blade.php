@@ -9,7 +9,7 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.user.permissions', ['permissions'=>$permissions, 'pid'=>$permission->id])
+                @component('admin.user.permission_tree', ['permissions'=>$permissions, 'pid'=>$permission->id])
                 @endcomponent
             @endif
         @endforeach

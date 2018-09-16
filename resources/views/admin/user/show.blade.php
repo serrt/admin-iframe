@@ -35,7 +35,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="permission" onselectstart="return false;">
-                        @component('admin.user.permissions', ['permissions'=>$user_permissions, 'pid'=>0])
+                        @component('admin.user.permission_tree', ['permissions'=>$user_permissions, 'pid'=>0])
                         @endcomponent
                     </div>
                     <div class="tab-pane" id="role">

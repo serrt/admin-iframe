@@ -33,5 +33,8 @@ return [
     'edit' => '修改',
     'update' => '执行修改',
     'destroy' => '删除',
-    'show' => '详细'
+    'show' => '详细',
+
+    'admin.user.role' => '修改用户角色',
+    'admin.user.permission' => '修改用户权限',
 ];

@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\RoleResource;
 use App\Models\AdminUser;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Validator;
 
 class UsersController extends Controller
 {
@@ -82,19 +81,27 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'username' => ['required', Rule::unique('admin_users', 'username')->ignore($id, 'id')],
-        ]);
         $user = AdminUser::findOrFail($id);
-        $user->username = $request->input('username');
-        $user->name = $request->input('name');
+        if ($request->filled('username')) {
+            $request->validate([
+                'username' => ['required', Rule::unique('admin_users', 'username')->ignore($id, 'id')],
+            ]);
+            $user->username = $request->input('username');
+            $user->name = $request->input('name');
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+            $user->save();
         }
-        $user->save();
 
-        $user->syncRoles($request->input('roles'));
+        if ($request->filled('roles')) {
+            $user->syncRoles($request->input('roles'));
+        }
+
+        if ($request->filled('permissions')) {
+            $user->syncPermissions($request->input('permissions'));
+        }
 
         return redirect(route('admin.user.index'))->with('flash_message', '修改成功');
     }
@@ -115,5 +122,25 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect(route('admin.user.index'))->with('flash_message', '删除成功');
+    }
+
+    public function role($id)
+    {
+        $user = AdminUser::findOrFail($id);
+
+        $user_roles = RoleResource::collection($user->roles);
+
+        return view('admin.user.role', compact('user', 'user_roles'));
+    }
+
+    public function permission($id)
+    {
+        $user = AdminUser::findOrFail($id);
+
+        $permissions = Permission::get();
+
+        $user_permissions = $user->permissions;
+
+        return view('admin.user.permission', compact('user', 'user_permissions', 'permissions'));
     }
 }

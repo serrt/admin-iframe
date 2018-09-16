@@ -24,7 +24,7 @@
             </form>
         </div>
 
-        <div class="box-body table-responsive">
+        <div class="box-body table-responsive" style="min-height: 350px;">
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -51,10 +51,12 @@
                         <td>
                             <a href="{{route('admin.user.show', $item)}}" class="btn btn-info btn-sm">详细</a>
                             <a href="{{route('admin.user.edit', $item)}}" class="btn btn-bitbucket btn-sm">修改</a>
-                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
+                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-danger btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
                             <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.user.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
                             </form>
+                            <a href="{{route('admin.user.role', $item)}}" class="btn btn-default btn-sm">修改角色</a>
+                            <a href="{{route('admin.user.permission', $item)}}" class="btn btn-warning btn-sm">修改权限</a>
                         </td>
                     </tr>
                 @endforeach
