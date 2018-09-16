@@ -7,7 +7,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth:admin']], function () {
+Route::group(['middleware' => ['auth:admin', 'permission']], function () {
     Route::get('/', ['uses'=>'IndexController@index', 'as'=>'admin']);
 
     Route::get('home', ['uses'=>'IndexController@home', 'as'=>'admin.index.home']);

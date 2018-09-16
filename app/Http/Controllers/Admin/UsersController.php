@@ -74,9 +74,8 @@ class UsersController extends Controller
     {
         $user = AdminUser::with('roles')->findOrFail($id);
 
-        $user_roles = RoleResource::collection($user->roles);
 
-        return view('admin.user.edit', compact('user', 'user_roles'));
+        return view('admin.user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
