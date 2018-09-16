@@ -8,8 +8,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     @include('admin.layouts.css')
-
-    <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed" style="overflow: hidden">
 <div class="wrapper">
