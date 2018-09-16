@@ -9,7 +9,7 @@
 
     @include('admin.layouts.css')
 </head>
-<body class="hold-transition">
+<body>
 
 <section class="content">
     @if ($errors->any())
