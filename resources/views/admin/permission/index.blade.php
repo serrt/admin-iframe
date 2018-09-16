@@ -13,15 +13,5 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        $('.collapse').on('hide.bs.collapse', function () {
-            var id = $(this).attr('id')
-            var element = $('[data-target="#'+id+'"]')
-            element.find('.fa.pull-right').addClass('fa-angle-left').removeClass('fa-angle-down');
-        }).on('show.bs.collapse', function () {
-            var id = $(this).attr('id')
-            var element = $('[data-target="#'+id+'"]')
-            element.find('.fa.pull-right').addClass('fa-angle-down').removeClass('fa-angle-left');
-        })
-    </script>
+    <script src="{{asset('js/checkbox.js')}}"></script>
 @endsection

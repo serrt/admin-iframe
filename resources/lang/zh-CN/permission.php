@@ -33,4 +33,5 @@ return [
     'edit' => '修改',
     'update' => '执行修改',
     'destroy' => '删除',
+    'show' => '详细'
 ];

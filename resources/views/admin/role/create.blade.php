@@ -2,7 +2,7 @@
 @section('content')
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{route('admin.role.index')}}" class="btn btn-default"> 返回</a>
+        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
     </div>
 
     <div class="box-body">
@@ -18,14 +18,14 @@
             <div class="form-group">
                 <label for="inputDisplayName" class="control-label col-md-2">名称*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="display_name" id="inputDisplayName" data-rule-required="true">
+                    <input type="text" class="form-control" name="display_name" value="{{old('display_name')}}" id="inputDisplayName" data-rule-required="true">
                     <p class="help-block">角色的中文名称, 不能重复</p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputName" class="control-label col-md-2">key*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" id="inputName" data-rule-required="true">
+                    <input type="text" class="form-control" name="name" value="{{old('name')}}" id="inputName" data-rule-required="true" data-rule-remote="{{route('api.web.unique',['table'=>'roles', 'unique'=>'name'])}}">
                     <p class="help-block">角色的英文名称, 不能重复</p>
                 </div>
             </div>

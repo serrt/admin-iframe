@@ -65,14 +65,19 @@ class PermissionsController extends Controller
 
     public function destroy($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = Permission::with('children')->findOrFail($id);
+        // 权限子级
+        $permissions = $permission->children->push($permission);
 
-        // 删除关联的 role_permissions
-        \DB::table('role_permissions')->where('permission_id', $permission->id)->delete();
+        $permission->users->map(function ($item) use ($permissions) {
+            $item->revokePermissionTo($permissions);
+        });
 
-        // 删除所有子集
+        $permission->roles->map(function ($item) use ($permissions) {
+            $item->revokePermissionTo($permissions);
+        });
+
         $permission->children()->delete();
-
         $permission->delete();
 
         return redirect(route('admin.permission.index'))->with('flash_message', '删除成功');

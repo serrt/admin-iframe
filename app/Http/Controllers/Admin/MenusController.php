@@ -49,13 +49,16 @@ class MenusController extends Controller
 
     public function destroy($id)
     {
-        $permission = Menu::findOrFail($id);
+        $menu = Menu::with('children')->findOrFail($id);
 
-        // 删除关联的 user_menus
-        \DB::table('user_menus')->where('menu_id', $permission->id)->delete();
+        // 移除用户的菜单
+        $menu->users()->detach($menu->children->push($menu));
 
+        // 删除子菜单
+        $menu->children()->delete();
 
-        $permission->delete();
+        // 删除菜单
+        $menu->delete();
 
         return redirect(route('admin.menu.index'))->with('flash_message', '删除成功');
     }

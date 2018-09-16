@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <div class="col-md-2 control-label">名称</div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="name" value="{{request('name')}}">
+                        <input type="text" class="form-control" name="key" value="{{request('key')}}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -23,6 +23,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>Key</th>
                     <th>名称</th>
                     <th></th>
                 </tr>
@@ -32,8 +33,9 @@
                     <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
+                        <td>{{$item->display_name}}</td>
                         <td>
-                            <a href="{{route('admin.role.edit', $item)}}" class="btn btn-info btn-sm">分配权限</a>
+                            <a href="{{route('admin.role.edit', $item)}}" class="btn btn-info btn-sm"><i class="fa fa-gear"></i> 修改</a>
                             <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
                             <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.role.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}

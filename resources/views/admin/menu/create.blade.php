@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label for="selectPid" class="control-label col-md-2">上级</label>
                 <div class="col-md-8">
-                    <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.permission')}}">
+                    <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.menu')}}">
                         <option value=""></option>
                     </select>
                 </div>
@@ -72,10 +72,10 @@
             },
             escapeMarkup: function (markup) { return markup; },
             templateResult: function (repo) {
-                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
             },
             templateSelection: function (repo) {
-                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
+                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
             }
         });
     })

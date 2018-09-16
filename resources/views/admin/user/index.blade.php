@@ -49,7 +49,8 @@
                         </td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <a href="{{route('admin.user.edit', $item)}}" class="btn btn-info btn-sm">修改</a>
+                            <a href="{{route('admin.user.show', $item)}}" class="btn btn-info btn-sm">详细</a>
+                            <a href="{{route('admin.user.edit', $item)}}" class="btn btn-bitbucket btn-sm">修改</a>
                             <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
                             <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.user.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
