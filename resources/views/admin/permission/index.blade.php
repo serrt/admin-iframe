@@ -6,7 +6,7 @@
         </div>
         <div class="box-body row">
             <div class="col-md-6" onselectstart="return false;">
-                @component('admin.permission.permission', ['permissions'=>$list, 'pid'=>0])
+                @component('admin.permission.tree', ['permissions'=>$list, 'pid'=>0])
                 @endcomponent
             </div>
         </div>

@@ -15,6 +15,8 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Storage;
 
 class WebController extends Controller
@@ -54,10 +56,29 @@ class WebController extends Controller
 
     public function permission(Request $request)
     {
+        // 验证是否唯一
+        if ($request->filled('unique')) {
+            $column = $request->input('unique');
+            $unique_rule = Rule::unique('permissions', $column);
+            if ($request->filled('ignore')) {
+                $unique_rule->ignore($request->input('ignore'), 'id');
+            }
+            $validate = Validator::make($request->all(), [
+                $column => ['required', $unique_rule]
+            ], [
+                $column.'.unique' => '已经存在!!'
+            ]);
+
+            $exists = $validate->fails();
+
+            return $this->json([], $exists?Response::HTTP_BAD_REQUEST:Response::HTTP_OK, $exists?$validate->errors('username')->first():'');
+        }
+
+        // 查询
         $query = Permission::query();
 
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+            $query->where('display_name', 'like', '%' . $request->input('display_name') . '%');
         }
 
         if ($request->filled('pid')) {

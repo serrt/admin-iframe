@@ -21,7 +21,7 @@ class MenusTableSeeder extends Seeder
             ['name' => '系统', 'key' => 'fa fa-gear', 'url' => null, 'children' => [
                 ['name' => '菜单', 'key' => 'fa fa-list', 'url' => 'admin/menu'],
                 ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin/role'],
-                ['name' => '权限', 'key' => 'fa fa-user-secret', 'url' => 'admin/permission'],
+                ['name' => '权限', 'key' => 'fa fa-battery-full', 'url' => 'admin/permission'],
                 ['name' => '管理员', 'key' => 'fa fa-users', 'url' => 'admin/user']
             ]],
             ['name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'children' => [

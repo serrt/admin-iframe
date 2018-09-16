@@ -9,30 +9,32 @@
         <form action="{{route('admin.permission.store')}}" class="form-horizontal validate" method="post">
             {{csrf_field()}}
             <div class="form-group">
-                <label for="inputName" class="control-label col-md-2">名称*</label>
+                <label class="control-label col-md-2">使用区域</label>
+                <div class="col-md-8 checkbox">
+                    <label><input type="radio" name="guard_name" value="admin" checked> 后台</label>
+                    <p class="help-block">目前只支持后台</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputName" class="control-label col-md-2">Key*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" id="inputName" data-rule-required="true">
+                    <input type="text" class="form-control" name="name" value="{{old('name')}}" id="inputName" data-rule-required="true" data-rule-remote="{{route('api.web.permission', ['unique'=>'name'])}}">
+                    <p class="help-block">权限的路由 <code>name</code>, 请询问 <code>网站开发者</code></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDisplayName" class="control-label col-md-2">名称*</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="display_name" value="{{old('display_name')}}"  id="inputDisplayName" data-rule-required="true">
+                    <p class="help-block">权限的中文名称, 不能重复</p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="selectPid" class="control-label col-md-2">上级</label>
                 <div class="col-md-8">
-                    <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.permission')}}">
+                    <select name="pid" class="form-control select2" id="selectPid" data-ajax-url="{{route('api.web.permission', ['pid' => 0])}}">
                         <option value=""></option>
                     </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputUrl" class="control-label col-md-2">链接</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" name="url" id="inputUrl">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputKey" class="control-label col-md-2">key</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" name="key" id="inputKey">
-                    <span class="help-block">编辑图标, 例如: fa fa-edge, <a href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html" target="_blank">查看全部图标</a></span>
                 </div>
             </div>
 
@@ -45,39 +47,4 @@
         </form>
     </div>
 </div>
-@endsection
-@section('script')
-<script>
-    $(function () {
-        $('#selectPid').select2({
-            placeholder: '请选择',
-            allowClear: true,
-            dataType: 'json',
-            ajax: {
-                delay: 500,
-                data: function (params) {
-                    return {
-                        name: params.term,
-                        page: params.page || 1
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: data.meta?data.meta.current_page < data.meta.last_page:false
-                        }
-                    };
-                },
-            },
-            escapeMarkup: function (markup) { return markup; },
-            templateResult: function (repo) {
-                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
-            },
-            templateSelection: function (repo) {
-                return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.text:''
-            }
-        });
-    })
-</script>
 @endsection
