@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\WechatUserMsgExport;
 use App\Models\Wechat;
 use App\Models\WechatUser;
 use App\Models\WechatUserMsg;
@@ -35,6 +36,10 @@ class WechatUserMsgController extends Controller
             $user_id = $request->input('user');
             $user = WechatUser::find($user_id);
             $query->where('user_id', $user_id);
+        }
+
+        if ($request->has('export')) {
+            return (new WechatUserMsgExport($query))->download('用户流资.xlsx');
         }
 
         $list = $query->paginate();

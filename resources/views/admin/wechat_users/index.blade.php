@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-4 pull-right">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                        <button type="submit" class="btn btn-default" name="export"><i class="glyphicon glyphicon-export"></i> 导出</button>
                     </div>
                 </div>
             </form>

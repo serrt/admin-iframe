@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\WechatUsersExport;
 use App\Http\Resources\WechatUserResource;
 use App\Models\Role;
 use App\Models\Wechat;
@@ -32,6 +33,10 @@ class WechatUsersController extends Controller
         if ($request->filled('wechat')) {
             $wechat_id = $request->input('wechat');
             $wechat = Wechat::find($wechat_id);
+        }
+
+        if ($request->has('export')) {
+            return (new WechatUsersExport($query))->download('微信用户.xlsx');
         }
 
         $list = $query->paginate();
