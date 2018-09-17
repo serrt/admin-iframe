@@ -36,6 +36,8 @@ DB_PASSWORD=secret
 
 ### Excel导出
 
+数据比较多的时候，考虑使用 [队列导出](https://laravel-china.org/docs/laravel/5.6/queues/1395), [Excel-Queue](https://laravel-excel.maatwebsite.nl/3.0/exports/queued.html)
+
 ### 配置微信分享
 
 ### 后台扫码登陆
