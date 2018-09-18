@@ -34,6 +34,8 @@ DB_PASSWORD=secret
 
 ### id 加密
 
+[hashids](https://github.com/vinkla/laravel-hashids)
+
 ### Excel导出
 
 数据比较多的时候，考虑使用 [队列导出](https://laravel-china.org/docs/laravel/5.6/queues/1395), [Excel-Queue](https://laravel-excel.maatwebsite.nl/3.0/exports/queued.html)
