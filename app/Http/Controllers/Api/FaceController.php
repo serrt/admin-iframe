@@ -49,4 +49,37 @@ class FaceController extends Controller
         }
         return $this->error('合成失败');
     }
+
+    public function multipleMerge(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'template' => 'required',
+            'merge' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first());
+        }
+        dd($request->template);
+        $template_array = is_array($request->template)?$request->template:[$request->template];
+        $merge_array = is_array($request->merge)?$request->merge:[$request->merge];
+        $data = [];
+
+        set_time_limit(0);
+        foreach ($template_array as $template) {
+            foreach ($merge_array as $merge) {
+                $result = Face::init()->mergeface($template, $merge);
+                $url = '';
+                if (isset($result['result']) && $result['result']) {
+                    $path = 'face/'.uniqid().'.jpg';
+                    $storage = Storage::disk('public');
+                    $storage->put($path, base64_decode($result['result']));
+
+                    $url = $storage->url($path);
+                }
+                array_push($data, $url);
+            }
+        }
+
+        return $this->json($data);
+    }
 }
