@@ -54,20 +54,24 @@ class FaceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'template' => 'required',
-            'merge' => 'required'
+            'merge' => 'required',
         ]);
         if ($validator->fails()) {
             return $this->error($validator->errors()->first());
         }
-        dd($request->template);
         $template_array = is_array($request->template)?$request->template:[$request->template];
         $merge_array = is_array($request->merge)?$request->merge:[$request->merge];
+        $template_detect_array = is_array($request->template_detect)?$request->template_detect:[$request->template_detect];
         $data = [];
 
         set_time_limit(0);
-        foreach ($template_array as $template) {
+        foreach ($template_array as $key => $template) {
             foreach ($merge_array as $merge) {
-                $result = Face::init()->mergeface($template, $merge);
+                $template_detect = [];
+                if (isset($template_detect_array[$key])) {
+                    $template_detect = $template_detect[$key];
+                }
+                $result = Face::init()->mergeface($template, $merge, $template_detect);
                 $url = '';
                 if (isset($result['result']) && $result['result']) {
                     $path = 'face/'.uniqid().'.jpg';
