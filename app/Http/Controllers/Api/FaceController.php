@@ -46,7 +46,8 @@ class FaceController extends Controller
 
             // $url = $storage->url($path);
             // return $this->json(['url' => $url]);
-            $data = 'data:image/png;base64,'.base64_decode($result['result']);
+            // $data = 'data:image/png;base64,'.base64_decode($result['result']);
+            $data = $result['result'];
             return $this->json($data);
         }
         return $this->error('合成失败');
