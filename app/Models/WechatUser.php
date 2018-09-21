@@ -28,13 +28,20 @@ class WechatUser extends Model
     public function save(array $options = [])
     {
         if (!$this->api_token) {
-            $this->api_token = static::getToken();
+            $this->api_token = static::getToken($this->openid);
         }
         return parent::save($options);
     }
 
-    public static function getToken()
+    public static function getToken($slat = '')
     {
-        return str_random(32);
+        if ($slat) {
+            $slat = str_random(32);
+        }
+        $token = md5($slat);
+        if (WechatUser::where('api_token', $token)->exists()) {
+            $token = WechatUser::getToken($slat);
+        }
+        return $token;
     }
 }
