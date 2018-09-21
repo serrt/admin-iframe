@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth:wechat']], function () {
 });
 
 Route::group(['prefix' => 'face', 'namespace' => 'Api'], function () {
-    Route::post('detect', ['uses' => 'FaceController@detect'])->name('api.face.detect');
-    Route::post('merge', ['uses' => 'FaceController@merge'])->name('api.face.merge');
-    Route::post('multiple_merge', ['uses' => 'FaceController@multipleMerge'])->name('api.face.multiple_merge');
+    Route::any('detect', ['uses' => 'FaceController@detect'])->name('api.face.detect');
+    Route::any('merge', ['uses' => 'FaceController@merge'])->name('api.face.merge');
+    Route::any('multiple_merge', ['uses' => 'FaceController@multipleMerge'])->name('api.face.multiple_merge');
 });

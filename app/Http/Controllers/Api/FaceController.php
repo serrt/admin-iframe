@@ -39,13 +39,15 @@ class FaceController extends Controller
         $result = Face::init()->mergeface($request->template, $request->merge, $request->input('template_detect'));
 
         if (isset($result['result']) && $result['result']) {
-//            return response(base64_decode($result['result']), 200, ['Content-Type' => 'image/png']);
-            $path = 'face/'.uniqid().'.jpg';
-            $storage = Storage::disk('public');
-            $storage->put($path, base64_decode($result['result']));
+            return response(base64_decode($result['result']), 200, ['Content-Type' => 'image/png']);
+            // $path = 'face/'.uniqid().'.png';
+            // $storage = Storage::disk('public');
+            // $storage->put($path, base64_decode($result['result']));
 
-            $url = $storage->url($path);
-            return $this->json(['url' => $url]);
+            // $url = $storage->url($path);
+            // return $this->json(['url' => $url]);
+            $data = 'data:image/png;base64,'.base64_decode($result['result']);
+            return $this->json($data);
         }
         return $this->error('合成失败');
     }
@@ -72,14 +74,15 @@ class FaceController extends Controller
                     $template_detect = $template_detect[$key];
                 }
                 $result = Face::init()->mergeface($template, $merge, $template_detect);
-                $url = '';
-                if (isset($result['result']) && $result['result']) {
-                    $path = 'face/'.uniqid().'.jpg';
-                    $storage = Storage::disk('public');
-                    $storage->put($path, base64_decode($result['result']));
+                // if (isset($result['result']) && $result['result']) {
+                //     $path = 'face/'.uniqid().'.jpg';
+                //     $storage = Storage::disk('public');
+                //     $storage->put($path, base64_decode($result['result']));
 
-                    $url = $storage->url($path);
-                }
+                //     $url = $storage->url($path);
+                // }
+                // $url = 'data:image/png;base64,'.base64_decode($result['result']);
+                $url = $result['result'];
                 array_push($data, $url);
             }
         }
