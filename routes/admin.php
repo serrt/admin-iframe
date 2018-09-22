@@ -26,10 +26,8 @@ Route::group(['middleware' => ['auth:admin', 'permission']], function () {
     Route::get('user/{id}/permission', ['uses'=>'UsersController@permission', 'as'=>'admin.user.permission']);
     Route::resource('user', 'UsersController')->names('admin.user');
 
-    Route::get('keywords_type/check', ['uses'=>'KeywordsTypeController@checkType', 'as'=>'admin.keywords_type.check']);
     Route::resource('keywords_type', 'KeywordsTypeController', ['except'=>'show'])->names('admin.keywords_type');
 
-    Route::get('keywords/check', ['uses'=>'KeywordsController@checkType', 'as'=>'admin.keywords.check']);
     Route::resource('keywords', 'KeywordsController', ['except'=>'show'])->names('admin.keywords');
 
 });

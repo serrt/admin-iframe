@@ -19,7 +19,7 @@ class CreateMenusTable extends Migration
             $table->string('name', 100)->nullable()->comment('权限名称');
             $table->integer('pid')->default(0)->comment('上级ID');
             $table->string('key', 100)->nullable()->comment('图标');
-            $table->string('url')->nullable()->comment('链接地址');
+            $table->string('url')->nullable()->comment('链接地址/路由名称');
             $table->integer('sort')->default(0)->comment('排序');
         });
         DB::statement("ALTER TABLE $table_name comment '权限菜单'");

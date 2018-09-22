@@ -46,7 +46,13 @@ class IndexController extends Controller
             }
             $menu['children'] = $children;
         } else {
-            $menu['url'] = $item->url;
+            $url = $item->url;
+            if (str_contains($url, '.')) {
+                $url = route($url);
+            } else {
+                $url = url($url);
+            }
+            $menu['url'] = $url;
             $menu['urlType'] = 'absolute';
             $menu['targetType'] = 'iframe-tab';
         }

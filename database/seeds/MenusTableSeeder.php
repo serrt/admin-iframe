@@ -12,21 +12,21 @@ class MenusTableSeeder extends Seeder
     public function run()
     {
         $menus = [
-            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin/home'],
-            ['name' => '表格', 'key' => 'fa fa-table', 'url' => 'admin/table'],
+            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin.index.home'],
+            ['name' => '表格', 'key' => 'fa fa-table', 'url' => 'admin.index.table'],
             ['name' => '表单', 'key' => 'fa fa-edit', 'url' => null, 'children' => [
-                ['name' => '基本表单', 'key' => 'fa fa-newspaper-o', 'url' => 'admin/form'],
-                ['name' => 'ajax', 'key' => 'fa fa-pencil-square', 'url' => 'admin/ajax']
+                ['name' => '基本表单', 'key' => 'fa fa-newspaper-o', 'url' => 'admin.index.form'],
+                ['name' => 'ajax', 'key' => 'fa fa-pencil-square', 'url' => 'admin.index.ajax']
             ]],
             ['name' => '系统', 'key' => 'fa fa-gear', 'url' => null, 'children' => [
-                ['name' => '菜单', 'key' => 'fa fa-list', 'url' => 'admin/menu'],
-                ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin/role'],
-                ['name' => '权限', 'key' => 'fa fa-battery-full', 'url' => 'admin/permission'],
-                ['name' => '管理员', 'key' => 'fa fa-users', 'url' => 'admin/user']
+                ['name' => '菜单', 'key' => 'fa fa-list', 'url' => 'admin.menu.index'],
+                ['name' => '角色', 'key' => 'fa fa-user-secret', 'url' => 'admin.role.index'],
+                ['name' => '权限', 'key' => 'fa fa-battery-full', 'url' => 'admin.permission.index'],
+                ['name' => '管理员', 'key' => 'fa fa-users', 'url' => 'admin.user.index']
             ]],
             ['name' => '网站', 'pid' => 0, 'key' => 'fa fa-globe', 'url' => null, 'children' => [
-                ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin/keywords_type'],
-                ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin/keywords']
+                ['name' => '字典类型', 'key' => 'fa fa-key', 'url' => 'admin.keywords_type.index'],
+                ['name' => '字典', 'key' => 'fa fa-key', 'url' => 'admin.keywords.index']
             ]],
         ];
         $data = [];

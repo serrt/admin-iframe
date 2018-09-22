@@ -152,14 +152,14 @@ class WebController extends Controller
     public function unique(Request $request)
     {
         $code = Response::HTTP_BAD_REQUEST;
-        $error = '无参数: unique, table';
+        $error = '无参数: unique or table';
         // 验证是否唯一
         if ($request->filled('unique') && $request->filled('table')) {
             $column = $request->input('unique');
             $table = $request->input('table');
             $unique_rule = Rule::unique($table, $column);
             if ($request->filled('ignore')) {
-                $unique_rule->ignore($request->input('ignore'), 'id');
+                $unique_rule->ignore($request->input('ignore'), $column);
             }
             $validate = Validator::make($request->all(), [
                 $column => ['required', $unique_rule]

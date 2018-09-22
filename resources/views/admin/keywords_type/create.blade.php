@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label for="inputKey" class="control-label col-md-2">key*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="key" id="inputKey" data-rule-required="true" data-rule-remote="{{route('admin.keywords_type.check')}}">
+                    <input type="text" class="form-control" name="key" id="inputKey" data-rule-required="true" data-rule-remote="{{route('api.web.unique',['table'=>'keywords_type', 'unique'=>'key'])}}">
                 </div>
             </div>
             <div class="form-group">
