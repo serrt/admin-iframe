@@ -50,8 +50,7 @@ class RolesController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $list = Permission::get();
-        return view('admin.role.edit', compact('role', 'list'));
+        return view('admin.role.edit', compact('role'));
     }
 
     public function update(Request $request, $id)
@@ -66,7 +65,9 @@ class RolesController extends Controller
 
         $role->update($request->all());
 
-        $role->syncPermissions($request->input('permissions'));
+        if ($request->filled('permissions')) {
+            $role->syncPermissions($request->input('permissions'));
+        }
 
         return redirect(route('admin.role.index'))->with('flash_message', '修改成功');
     }
@@ -80,7 +81,14 @@ class RolesController extends Controller
 
         $role->delete();
 
-        return redirect(route('admin.role.index'))->with('flash_message', '删除成功');
+        return back()->with('flash_message', '删除成功');
+    }
+    public function permission($id)
+    {
+        $role = Role::findOrFail($id);
 
+        $permissions = Permission::get();
+
+        return view('admin.role.permission', compact('role', 'permissions'));
     }
 }

@@ -19,9 +19,4 @@ class AdminUser extends Authenticatable
     {
         return $this->belongsToMany(Menu::class, 'user_menus', 'user_id', 'menu_id');
     }
-
-    public function isAdmin()
-    {
-        return $this->attributes['username'] == 'admin';
-    }
 }

@@ -2,62 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Menu;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
     /**
-     * 后台主页
+     * 后台入口
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $user = auth()->user();
-        // 初始化菜单
-        $menus = [];
-        $list = $user->menus;
-
-        foreach ($list->where('pid', 0)->sortBy('sort')->all() as $item) {
-            $menu = $this->getMenu($list, $item);
-            array_push($menus, $menu);
-        }
-        \Debugbar::disable();
-//        return view('admin.spa', compact('menus', 'user'));
-        return view('admin.iframe', compact('menus', 'user'));
-    }
-
-    protected function getMenu($list, Menu $item)
-    {
-        $menu = [
-            'id' => $item->id,
-            'text' => $item->name,
-            'icon' => $item->key?:'fa fa-list',
-        ];
-        if (!$item->url) {
-            $children = [];
-            foreach ($list->where('pid', $item->id)->sortBy('sort')->all() as $item1) {
-                $children_menu = $this->getMenu($list, $item1);
-                array_push($children, $children_menu);
-            }
-            $menu['children'] = $children;
-        } else {
-            $url = $item->url;
-            if (str_contains($url, '.')) {
-                $url = route($url);
-            } else {
-                $url = url($url);
-            }
-            $menu['url'] = $url;
-            $menu['urlType'] = 'absolute';
-            $menu['targetType'] = 'iframe-tab';
-        }
-
-        return $menu;
+//        \Debugbar::disable();
+//        return view('admin.iframe');
+        return redirect(route('admin.index.home'));
     }
 
     public function home()

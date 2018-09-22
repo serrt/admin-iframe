@@ -36,10 +36,11 @@
                         <td>{{$item->display_name}}</td>
                         <td>
                             <a href="{{route('admin.role.edit', $item)}}" class="btn btn-info btn-sm"><i class="fa fa-gear"></i> 修改</a>
-                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-default btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
+                            <button type="submit" form="delForm{{$item->id}}" class="btn btn-danger btn-sm" title="删除" onclick="return confirm('是否确定？')">删除</button>
                             <form class="form-inline hide" id="delForm{{$item->id}}" action="{{ route('admin.role.destroy', $item) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
                             </form>
+                            <a href="{{route('admin.role.permission', $item)}}" class="btn btn-warning btn-sm">修改权限</a>
                         </td>
                     </tr>
                 @endforeach

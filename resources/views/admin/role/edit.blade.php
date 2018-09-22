@@ -26,15 +26,8 @@
             <div class="form-group">
                 <label for="inputName" class="control-label col-md-2">key*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" value="{{$role->name}}" id="inputName" data-rule-required="true" data-rule-remote="{{route('api.web.unique',['table'=>'roles', 'unique'=>'name', 'ignore'=>$role->id])}}">
+                    <input type="text" class="form-control" name="name" value="{{$role->name}}" id="inputName" data-rule-required="true" data-rule-remote="{{route('api.web.unique',['table'=>'roles', 'unique'=>'name', 'ignore'=>$role->name])}}">
                     <p class="help-block">角色的英文名称, 不能重复</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="control-label col-md-2">权限</div>
-                <div class="col-md-8">
-                    @component('admin.role.tree', ['permissions'=>$list, 'pid'=>0, 'checked' => $role->permissions->pluck('id')])
-                    @endcomponent
                 </div>
             </div>
 

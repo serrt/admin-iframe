@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -73,6 +74,10 @@ class AuthController extends Controller
 
     protected function loggedOut(Request $request)
     {
+        // 清空权限缓存
+        Cache::forget('spatie.permission.cache');
+        // 清空菜单缓存
+        Cache::forget('current_user_menus');
         return redirect(route('admin.login'));
     }
 }

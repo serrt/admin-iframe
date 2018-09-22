@@ -44,3 +44,5 @@ DB_PASSWORD=secret
 
 ### [laravel-permission](https://github.com/spatie/laravel-permission)
 
+- 权限缓存问题
+

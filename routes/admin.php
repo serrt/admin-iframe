@@ -8,7 +8,7 @@
 */
 
 Route::group(['middleware' => ['auth:admin', 'permission']], function () {
-    Route::get('/', ['uses'=>'IndexController@index', 'as'=>'admin']);
+    Route::get('/', ['uses'=>'IndexController@index']);
 
     Route::get('home', ['uses'=>'IndexController@home', 'as'=>'admin.index.home']);
     Route::get('table', ['uses'=>'IndexController@table', 'as'=>'admin.index.table']);
@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth:admin', 'permission']], function () {
     Route::resource('menu', 'MenusController', ['except'=>'show'])->names('admin.menu');
     Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
 
+    Route::get('role/{id}/permission', ['uses'=>'UsersController@permission', 'as'=>'admin.role.permission']);
     Route::resource('role', 'RolesController', ['except'=>'show'])->names('admin.role');
 
     Route::get('user/{id}/role', ['uses'=>'UsersController@role', 'as'=>'admin.user.role']);

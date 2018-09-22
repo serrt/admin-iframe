@@ -16,7 +16,7 @@
         <!-- Logo -->
         <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">{{config('app.name')}}</span>
+            <span class="logo-mini">{{substr(config('app.name'), 0, 2)}}</span>
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg">{{config('app.name')}}</span>
         </a>
@@ -39,7 +39,7 @@
                     </li>
                     <li>
                         <!-- 打开右边隐藏的部分 -->
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{$user->name?:$user->username}}</a>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-user"></i> {{auth()->user()->name?:auth()->user()->username}}</a>
                     </li>
                 </ul>
             </div>
@@ -72,10 +72,10 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="" class="control-label">登录名(不可修改)</label>
-                        <span>{{$user->username}}</span>
+                        <span>{{auth()->user()->username}}</span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{$user->name}}">
+                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{auth()->user()->name}}">
                         <span class="fa fa-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -137,9 +137,8 @@
         </div>
     </div>
 
-    <footer class="main-footer">
-        <b>Serrt</b>
-    </footer>
+    @include('admin.layouts.footer')
+
 </div>
 
 @include('admin.layouts.js')
@@ -156,7 +155,7 @@
         App.setbasePath("./");
         App.setGlobalImgPath("images/");
 
-        var menus = JSON.parse('{!! json_encode($menus) !!}');
+        var menus = JSON.parse('{!! json_encode($current_user_menus) !!}');
 
         $('.sidebar-menu').sidebarMenu({data: menus});
 

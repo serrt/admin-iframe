@@ -44,9 +44,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($request->route()->action['prefix'] == 'admin' && $exception instanceof HttpException) {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return response()->view('admin.errors.'.$exception->getStatusCode(), compact('exception'));
         }
+
         return parent::render($request, $exception);
     }
 
