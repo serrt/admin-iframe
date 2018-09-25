@@ -29,6 +29,16 @@ DB_PASSWORD=secret
 6. 数据库迁移后, 默认的后台用户`username: admin, password: 123456`, 也可以自己创建后台用户`php artisan generate:admin username password`
 7. `bootstrap/cache` 和 `storage/` 两个目录需要配置**读写**权限
 8. 本地文件上传 `php artisan storage:link`, 或者手动创建软连`ln -s /path/to/storage/app/public public/storage`
+9. Aliyun Oss: 配置 `.env` 中
+```
+# 固定值
+FILESYSTEM_DRIVER=oss
+
+ALIOSS_KEY=阿里云OSS-key
+ALIOSS_SECRET=阿里云OSS-secret
+ALIOSS_BUCKET=阿里云OSS-bucket
+ALIOSS_ENDPOINT=阿里云OSS-源地址, 例如: oss-cn-hangzhou.aliyuncs.com
+```
 
 ## TODO
 
