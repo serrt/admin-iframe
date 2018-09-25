@@ -153,7 +153,7 @@
                     return '<div><img src="'+repo.logo+'" alt="" width="20" height="20"> '+repo.name+'</div>';
                 },
                 templateSelection: function (repo) {
-                    if (!repo.logo) {
+                    if (!repo.name) {
                         return '';
                     }
                     return '<div><img src="'+repo.logo+'" alt="" width="20" height="20"> '+repo.name+'</div>';
