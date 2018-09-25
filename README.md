@@ -26,7 +26,7 @@ DB_USERNAME=homestead
 DB_PASSWORD=secret
 ```
 5. `php artisan migrate --seed` 数据库迁移和填充
-6. 数据库迁移后, 默认的后台用户`username: admin, password: 123456`, 也可以自己后台用户`php artisan generate:admin username password`
+6. 数据库迁移后, 默认的后台用户`username: admin, password: 123456`, 也可以自己创建后台用户`php artisan generate:admin username password`
 7. `bootstrap/cache` 和 `storage/` 两个目录需要配置**读写**权限
 8. 本地文件上传 `php artisan storage:link`, 或者手动创建软连`ln -s /path/to/storage/app/public public/storage`
 
