@@ -45,7 +45,9 @@ class WechatController extends Controller
         // 微信小程序
         else if ($wechat->type == Wechat::TYPE_MIN){
             $code = $request->input('code');
-            abort_if(!$code, Response::HTTP_BAD_REQUEST, 'code 参数必填');
+            if (!$code) {
+                return $this->error('code 参数必填');
+            }
             try {
                 return $app->auth->session($code);
             } catch (\EasyWeChat\Kernel\Exceptions\InvalidConfigException $e) {
@@ -231,6 +233,21 @@ class WechatController extends Controller
         }
     }
 
+    public function decrypt(Request $request)
+    {
+        $id = $request->input('id');
+        $session = $request->input('session');
+        $iv = $request->input('iv');
+        $data = $request->input('data');
+
+        $wechat = $this->getWechat($id);
+        $app = $this->getApp($wechat);
+
+        $decryptedData = $app->encryptor->decryptData($session, $iv, $data);
+
+        return $this->json($decryptedData);
+    }
+
     protected function getWechat($id)
     {
         $wechat = Wechat::find($id);
@@ -250,7 +267,7 @@ class WechatController extends Controller
 
             'log' => [
                 'level' => 'debug',
-                'file' => __DIR__.'/wechat.log',
+                'file' => storage_path('logs').'/wechat.log',
             ],
         ];
         $app = Factory::officialAccount($config);
