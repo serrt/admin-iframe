@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label for="inputLogo" class="col-md-2 control-label">logo</label>
                     <div class="col-md-8">
-                        <input type="file" id="inputLogo" name="logo" class="file-input" data-initial-preview="{{$info->logo}}">
+                        <input type="file" id="inputLogo" name="logo" class="file-input" data-delete-url="{{route('api.web.file_remove')}}" data-initial-preview="{{$info->logo}}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -85,11 +85,11 @@
                 allowedFileTypes: ['image'],
                 removeFromPreviewOnError: true,
                 maxFileSize: 500,
-                deleteUrl: 'https://www.baidu.com',
             }).on('fileremoved', function (event) {
                 alert('file removed');
             }).on('filedeleted', function (event) {
-                alert('file deleted');
+                var input = event.target;
+                $(input).parent().append('<input type="hidden" name="' + input.name + '" value=""/>');
             }).on('filecleared', function (event) {
                 var input = event.target;
                 $(input).parent().append('<input type="hidden" name="' + input.name + '" value=""/>');

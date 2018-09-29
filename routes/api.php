@@ -20,7 +20,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('role', ['uses'=>'Api\WebController@role', 'as' => 'api.web.role']);
     Route::get('keywords_type', ['uses'=>'Api\WebController@keywordsType', 'as' => 'api.web.keywords_type']);
     Route::get('keywords', ['uses'=>'Api\WebController@keywords', 'as' => 'api.web.keywords']);
-    Route::any('file_remove', ['uses' => 'Api\WebController@fileRemove', 'as' => 'api.web.keywords']);
+    Route::any('file_remove', ['uses' => 'Api\WebController@fileRemove', 'as' => 'api.web.file_remove']);
 });
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
