@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WechatUser extends Model
 {
-    protected $fillable = ['id', 'role_id', 'wechat_id', 'openid', 'nickname', 'sex', 'headimgurl', 'api_token', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'role_id', 'wechat_id', 'openid', 'nickname', 'sex', 'headimgurl', 'province', 'city', 'api_token', 'session_key', 'created_at', 'updated_at'];
 
     protected $hidden = ['api_token'];
 

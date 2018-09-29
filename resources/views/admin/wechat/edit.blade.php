@@ -76,17 +76,23 @@
                 showUpload: false,
                 showCaption: false,
                 fileActionSettings: {
-                    showRemove: false,
+                    // showRemove: false,
                     showDrag: false
                 },
                 browseClass: 'btn bg-purple',
                 initialPreviewDelimiter: ',',
                 initialPreviewAsData: true,
                 showClose: false,
-                showRemove: false,
+                // showRemove: false,
                 allowedFileTypes: ['image'],
                 removeFromPreviewOnError: true,
                 maxFileSize: 500
+            }).on('fileremoved', function (event) {
+                alert('file removed');
+            }).on('filedeleted', function (event) {
+                alert('file deleted');
+            }).on('filecleared', function (event) {
+                alert('file cleared');
             });
             $('#collapseExample').collapse({
                 toggle: true

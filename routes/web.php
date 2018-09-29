@@ -15,8 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('wechat', ['uses' => 'WechatController@index', 'as' => 'wechat.index']);
-Route::post('wechat/decrypt', ['uses' => 'WechatController@decrypt', 'as' => 'wechat.decrypt']);
+Route::match(['get', 'post'], 'wechat', ['uses' => 'WechatController@index', 'as' => 'wechat.index']);
+//Route::post('wechat/decrypt', ['uses' => 'WechatController@decrypt', 'as' => 'wechat.decrypt']);
 Route::get('redirect', ['uses' => 'WechatController@redirect', 'as' => 'wechat.redirect']);
 
 Route::post('js-config', ['uses' => 'WechatController@jsConfig', 'as' => 'wechat.js_config']);

@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'js-config', 'access_token', 'wechat/*'
+        'js-config', 'access_token', 'wechat', 'wechat/*'
     ];
 }

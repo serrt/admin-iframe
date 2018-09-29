@@ -24,10 +24,11 @@ Route::group(['prefix' => 'web'], function () {
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
     Route::apiResource('message', 'WechatUserMsgController')->names('api.wechat_user_msg');
+    Route::post('user', ['uses' => 'WechatUserController@update']);
 });
 
 Route::group(['middleware' => ['auth:wechat']], function () {
-    Route::get('auth', ['uses'=>'WechatController@auth']);
+    Route::any('auth', ['uses'=>'WechatController@auth']);
 
     Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
     Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');

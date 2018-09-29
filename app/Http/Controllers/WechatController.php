@@ -43,13 +43,22 @@ class WechatController extends Controller
             return $response;
         }
         // 微信小程序
-        else if ($wechat->type == Wechat::TYPE_MIN){
+        else if ($wechat->type == Wechat::TYPE_MIN) {
             $code = $request->input('code');
             if (!$code) {
                 return $this->error('code 参数必填');
             }
             try {
-                return $app->auth->session($code);
+                $result = $app->auth->session($code);
+                if (isset($result['errcode']) && $result['errcode']) {
+                    return $this->error($result['errmsg']);
+                }
+                $openid = isset($result['openid'])?$result['openid']:'';
+                if ($openid) {
+                    $user = WechatUser::updateOrCreate(['openid' => $openid, 'role_id' => $wechat->role_id, 'wechat_id' => $wechat->id], ['session_key' => (isset($result['session_key'])?$result['session_key']:'')]);
+                    return $this->json(['token' => $user->api_token, 'token_type' => 'Bearer']);
+                }
+                return $this->error('未获取到openid, 请重新授权');
             } catch (\EasyWeChat\Kernel\Exceptions\InvalidConfigException $e) {
                 return $this->error($e->getMessage());
             }
@@ -98,13 +107,18 @@ class WechatController extends Controller
             'wechat_id' => $wechat->id,
             'openid' => $user->getId(),
         ];
-        WechatUser::query()->updateOrCreate($where, [
+        $attributes = [
             'nickname' => $user->getName(),
             'headimgurl' => $user->getAvatar(),
             'sex' => isset($user_origin['sex'])?$user_origin['sex']:0,
-        ]);
-
-        $wechat_user = WechatUser::where($where)->first();
+        ];
+        if ($user_origin['province']) {
+            $attributes['province'] = $user_origin['province'];
+        }
+        if ($user_origin['city']) {
+            $attributes['city'] = $user_origin['city'];
+        }
+        $wechat_user = WechatUser::query()->updateOrCreate($where, $attributes);
 
         $stub = str_contains($wechat->success_url, '?')?'&':'?';
         $url = $wechat->success_url.$stub.'token='.$wechat_user->api_token.'&token_type=Bearer';
@@ -255,25 +269,5 @@ class WechatController extends Controller
         abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $id.' 公众号尚未在后台添加');
 
         return $wechat;
-    }
-
-    protected function getApp(Wechat $wechat)
-    {
-        $config = [
-            'app_id' => $wechat->app_id,
-            'secret' => $wechat->app_secret,
-
-            'response_type' => 'array',
-
-            'log' => [
-                'level' => 'debug',
-                'file' => storage_path('logs').'/wechat.log',
-            ],
-        ];
-        $app = Factory::officialAccount($config);
-        if ($wechat->type == Wechat::TYPE_MIN){
-            $app = Factory::miniProgram($config);
-        }
-        return $app;
     }
 }

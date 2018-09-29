@@ -36,8 +36,11 @@ class CreateWechatTable extends Migration
             $table->string('openid')->nullable();
             $table->string('nickname', 100)->nullable();
             $table->integer('sex')->default(0)->nullable()->comment('用户的性别，值为1时是男性，值为2时是女性，值为0时是未知');
-            $table->string('headimgurl')->nullable();
+            $table->string('headimgurl', 255)->nullable();
+            $table->string('province', 50)->nullable()->comment('省份');
+            $table->string('city', 50)->nullable()->comment('城市');
             $table->string('api_token', 100)->nullable()->comment('auth-token');
+            $table->string('session_key', 200)->nullable()->comment('小程序session_key');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE `wechat_users` comment '微信用户'");

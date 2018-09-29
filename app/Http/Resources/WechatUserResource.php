@@ -21,6 +21,8 @@ class WechatUserResource extends JsonResource
             'nickname' => $this->nickname,
             'sex' => $this->sex,
             'headimgurl' => $this->headimgurl,
+            'province' => $this->province,
+            'city' => $this->city,
         ];
     }
 
