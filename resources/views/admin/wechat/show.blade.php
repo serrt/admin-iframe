@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">授权地址</div>
                                 <div class="col-md-10">
-                                    <div class="form-control-static">{{preg_replace('/(http:\/\/)|(https:\/\/)/i', '', config('app.url'))}}</div>
+                                    <div class="form-control-static">{{$info->redirect_url}}</div>
                                     <p class="text-danger">请在公众号中 <code>网页授权获取用户基本信息</code> 配置此地址</p>
                                 </div>
                             </div>

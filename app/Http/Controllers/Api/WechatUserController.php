@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class WechatUserController extends Controller
 {
+    public function info()
+    {
+        $wechat_user = auth('wechat')->user();
+
+        return WechatUserResource::make($wechat_user);
+    }
     public function update(Request $request)
     {
         $user = auth('wechat')->user();

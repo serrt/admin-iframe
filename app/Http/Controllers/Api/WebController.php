@@ -69,4 +69,9 @@ class WebController extends Controller
 
         return RoleResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
     }
+
+    public function fileRemove(Request $request)
+    {
+        return $this->json($request->all());
+    }
 }

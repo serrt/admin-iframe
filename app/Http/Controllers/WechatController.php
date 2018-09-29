@@ -125,13 +125,6 @@ class WechatController extends Controller
         return redirect($url);
     }
 
-    public function auth()
-    {
-        $wechat_user = auth('wechat')->user();
-
-        return WechatUserResource::make($wechat_user);
-    }
-
     public function jsConfig(Request $request)
     {
         if ($request->has('id')) {
@@ -245,21 +238,6 @@ class WechatController extends Controller
             echo "用户未授权";
             exit;
         }
-    }
-
-    public function decrypt(Request $request)
-    {
-        $id = $request->input('id');
-        $session = $request->input('session');
-        $iv = $request->input('iv');
-        $data = $request->input('data');
-
-        $wechat = $this->getWechat($id);
-        $app = $this->getApp($wechat);
-
-        $decryptedData = $app->encryptor->decryptData($session, $iv, $data);
-
-        return $this->json($decryptedData);
     }
 
     protected function getWechat($id)

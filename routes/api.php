@@ -20,15 +20,21 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('role', ['uses'=>'Api\WebController@role', 'as' => 'api.web.role']);
     Route::get('keywords_type', ['uses'=>'Api\WebController@keywordsType', 'as' => 'api.web.keywords_type']);
     Route::get('keywords', ['uses'=>'Api\WebController@keywords', 'as' => 'api.web.keywords']);
+    Route::any('file_remove', ['uses' => 'Api\WebController@fileRemove', 'as' => 'api.web.keywords']);
 });
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
     Route::apiResource('message', 'WechatUserMsgController')->names('api.wechat_user_msg');
-    Route::post('user', ['uses' => 'WechatUserController@update']);
 });
 
+// 微信小程序code
+Route::post('code', ['uses' => 'WechatController@index']);
+
 Route::group(['middleware' => ['auth:wechat']], function () {
-    Route::any('auth', ['uses'=>'WechatController@auth']);
+    // 获取当前用户信息
+    Route::get('user', ['uses'=>'Api\WechatUserController@info']);
+    // 更新用户信息
+    Route::post('user', ['uses' => 'Api\WechatUserController@update']);
 
     Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
     Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');
