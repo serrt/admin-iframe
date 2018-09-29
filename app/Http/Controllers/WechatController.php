@@ -112,10 +112,10 @@ class WechatController extends Controller
             'headimgurl' => $user->getAvatar(),
             'sex' => isset($user_origin['sex'])?$user_origin['sex']:0,
         ];
-        if ($user_origin['province']) {
+        if (isset($user_origin['province']) && $user_origin['province']) {
             $attributes['province'] = $user_origin['province'];
         }
-        if ($user_origin['city']) {
+        if (isset($user_origin['city']) && $user_origin['city']) {
             $attributes['city'] = $user_origin['city'];
         }
         $wechat_user = WechatUser::query()->updateOrCreate($where, $attributes);
