@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth:wechat']], function () {
     Route::get('user', ['uses'=>'Api\WechatUserController@info']);
     // 更新用户信息
     Route::post('user', ['uses' => 'Api\WechatUserController@update']);
+    // 解密
+    Route::post('user/decrypt', ['uses' => 'Api\WechatUserController@decrypt']);
 
     Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
     Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');

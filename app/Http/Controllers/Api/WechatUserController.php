@@ -47,4 +47,23 @@ class WechatUserController extends Controller
         }
         return $this->json(WechatUserResource::make($user));
     }
+
+    public function decrypt(Request $request)
+    {
+        $user = auth('wechat')->user();
+
+        // 解密
+        if ($request->has('data')) {
+            $session = $user->session_key;
+            $iv = $request->input('iv');
+            $app = $this->getApp($user->wechat);
+            try {
+                $decryptedData = $app->encryptor->decryptData($session, $iv, $request->input('data'));
+                return $this->json($decryptedData);
+            } catch (\EasyWeChat\Kernel\Exceptions\DecryptException $e) {
+                return $this->error('解析失败, '.$e->getMessage());
+            }
+        }
+        return $this->error('data 参数必须');
+    }
 }
