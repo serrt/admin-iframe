@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\WechatUserResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class WechatUserController extends Controller
 {
@@ -52,18 +53,23 @@ class WechatUserController extends Controller
     {
         $user = auth('wechat')->user();
 
-        // 解密
-        if ($request->has('data')) {
-            $session = $user->session_key;
-            $iv = $request->input('iv');
-            $app = $this->getApp($user->wechat);
-            try {
-                $decryptedData = $app->encryptor->decryptData($session, $iv, $request->input('data'));
-                return $this->json($decryptedData);
-            } catch (\EasyWeChat\Kernel\Exceptions\DecryptException $e) {
-                return $this->error('解析失败, '.$e->getMessage());
-            }
+        $validator = Validator::make($request->all(), [
+            'data' => 'required',
+            'iv' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first());
         }
-        return $this->error('data 参数必须');
+
+        // 解密
+        $session = $user->session_key;
+        $iv = $request->input('iv');
+        $app = $this->getApp($user->wechat);
+        try {
+            $decryptedData = $app->encryptor->decryptData($session, $iv, $request->input('data'));
+            return $this->json($decryptedData);
+        } catch (\EasyWeChat\Kernel\Exceptions\DecryptException $e) {
+            return $this->error('解析失败, '.$e->getMessage());
+        }
     }
 }
