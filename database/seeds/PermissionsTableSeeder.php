@@ -72,7 +72,7 @@ class PermissionsTableSeeder extends Seeder
                 $permissions->push($sub_permission);
             }
         }
-        $role = Role::create(['name'=>'administer', 'guard_name' => $guard, 'display_name' => '超级管理员']);
+        $role = Role::query()->updateOrCreate(['name'=>'administer'], ['guard_name' => $guard, 'display_name' => '超级管理员']);
         $role->givePermissionTo($permissions);
 
         $user = AdminUser::first();

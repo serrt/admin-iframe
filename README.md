@@ -28,6 +28,15 @@ DB_PASSWORD=secret
 7. `bootstrap/cache` 和 `storage/` 两个目录需要配置**读写**权限
 8. 本地文件上传, `php artisan storage:link` 或者手动创建软连 `ln -s public/storage storage/app/public`
 
+
+## Feature
+
+### 后台权限
+
+- 加入权限 [laravel-permission](https://github.com/spatie/laravel-permission)
+- 添加管理员菜单, `php artisan db:seed --class=MenusTableSeeder`, 并将全部菜单赋予**第一个**管理员
+- 根据后台路由(`admin.php`) 添加权限, `php artisan db:seed --class=PermissionsTableSeeder`, 并将全部权限赋予`administer`
+
 ## TODO
 
 ### [拖动排序](https://github.com/RubaXa/Sortable)
@@ -39,8 +48,6 @@ DB_PASSWORD=secret
 ### [bootstrap-fileinput](http://plugins.krajee.com/file-input)
 
 - file remove
-
-### 单页应用
 
 ### [laravel-permission](https://github.com/spatie/laravel-permission)
 
