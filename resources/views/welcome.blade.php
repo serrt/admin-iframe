@@ -73,7 +73,7 @@
         </div>
 
         <div class="links">
-            <a href="{{route('admin')}}" target="_blank">Admin</a>
+            <a href="/admin" target="_blank">Admin</a>
             <a href="https://laravel-china.org" target="_blank">News</a>
             <a href="https://laravel-china.org/docs/laravel/5.6" target="_blank">Document</a>
             <a href="https://github.com/serrt" target="_blank">GitHub</a>
