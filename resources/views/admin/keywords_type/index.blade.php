@@ -31,8 +31,7 @@
                 @foreach($list as $item)
                     <tr>
                         <td>
-                            {{--<a href="{{route('admin.keywords.index', ['type'=>$item->id])}}" class="btn-link" title="查看字典">{{$item->key}}</a>--}}
-                            {{$item->key}}
+                            <a href="{{route('admin.keywords.index', ['type'=>$item->id])}}" class="btn-link" title="查看字典">{{$item->key}}</a>
                         </td>
                         <td>
                             <a href="{{route('admin.keywords_type.edit', $item)}}" title="修改" class="btn-link">{{$item->name}}</a>

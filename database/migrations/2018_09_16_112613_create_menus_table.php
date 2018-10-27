@@ -21,15 +21,16 @@ class CreateMenusTable extends Migration
             $table->string('key', 100)->nullable()->comment('图标');
             $table->string('url')->nullable()->comment('链接地址/路由名称');
             $table->integer('sort')->default(0)->comment('排序');
+            $table->string('description', 50)->nullable()->comment('描述');
         });
-        DB::statement("ALTER TABLE $table_name comment '权限菜单'");
+        DB::statement("ALTER TABLE $table_name comment '菜单'");
 
         $table_name1 = 'user_menus';
         Schema::create('user_menus', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('menu_id');
         });
-        DB::statement("ALTER TABLE $table_name1 comment '权限菜单'");
+        DB::statement("ALTER TABLE $table_name1 comment '用户拥有的菜单'");
     }
 
     /**

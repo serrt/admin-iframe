@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\KeywordsTypeResource;
 use App\Models\Keywords;
 use App\Models\KeywordsType;
 use Illuminate\Http\Request;
@@ -27,8 +28,8 @@ class KeywordsController extends Controller
         $type = null;
         if ($request->filled('type')) {
             $query_type = $request->input('type');
-            $type = KeywordsType::find($query_type);
             $query->where('type', $query_type);
+            $type = KeywordsTypeResource::make(KeywordsType::find($query_type));
         }
 
         $list = $query->paginate();

@@ -41,15 +41,10 @@ DB_PASSWORD=secret
 
 ### [拖动排序](https://github.com/RubaXa/Sortable)
 
-### [select2](https://select2.org)
-
-- select2默认值
-
-### [bootstrap-fileinput](http://plugins.krajee.com/file-input)
-
-- file remove
+- 菜单的拖动排序
 
 ### [laravel-permission](https://github.com/spatie/laravel-permission)
 
 - 权限缓存问题
+
 
