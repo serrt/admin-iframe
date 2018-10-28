@@ -1,5 +1,11 @@
 @extends('admin.layouts.iframe')
 @section('content')
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <ul>
+            <li>修改菜单后, 需要 <a href="{{route('admin.logout')}}" class="alert-link">重新登陆</a> 才能生效</li>
+        </ul>
+    </div>
     <div class="box box-info">
         <div class="box-header with-border">
             @can('admin.menu.create')

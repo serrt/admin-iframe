@@ -19,7 +19,6 @@
                 <label for="selectPid" class="control-label col-md-2">上级</label>
                 <div class="col-md-8">
                     <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.menu')}}">
-                        <option value=""></option>
                     </select>
                 </div>
             </div>
@@ -34,6 +33,12 @@
                 <div class="col-md-8">
                     <input type="text" class="form-control" name="key" id="inputKey" value="{{$permission->key}}">
                     <span class="help-block">编辑图标, 例如: fa fa-edge, <a href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html" target="_blank">查看全部图标</a></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputSort" class="control-label col-md-2">排序</label>
+                <div class="col-md-8">
+                    <input type="number" class="form-control" name="sort" value="{{$permission->sort}}" id="inputSort" data-rule-digits="true" data-rule-min="0">
                 </div>
             </div>
 
@@ -51,8 +56,8 @@
 <script>
     $(function () {
         var item = JSON.parse('{!! json_encode($permission->parent) !!}');
-        if (item) {
-            item.text = item.name
+        if (!item) {
+            item = {id: 0, name: '无上级', key: 'fa fa-question'};
         }
         $('#selectPid').select2({
             placeholder: '请选择',

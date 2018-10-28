@@ -18,7 +18,7 @@
                 <label for="selectPid" class="control-label col-md-2">上级</label>
                 <div class="col-md-8">
                     <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.menu')}}">
-                        <option value=""></option>
+                        <option value="0"></option>
                     </select>
                 </div>
             </div>
@@ -35,7 +35,12 @@
                     <span class="help-block">编辑图标, 例如: fa fa-edge, <a href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html" target="_blank">查看全部图标</a></span>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label for="inputSort" class="control-label col-md-2">排序</label>
+                <div class="col-md-8">
+                    <input type="number" class="form-control" name="sort" id="inputSort" data-rule-digits="true" data-rule-min="0">
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-2">
                     <button type="submit" class="btn btn-primary">提交</button>
@@ -49,9 +54,11 @@
 @section('script')
 <script>
     $(function () {
+        var item = {id: 0, name: '无上级', key: 'fa fa-question'};
         $('#selectPid').select2({
             placeholder: '请选择',
             allowClear: true,
+            data: [item],
             dataType: 'json',
             ajax: {
                 delay: 500,
@@ -78,6 +85,9 @@
                 return repo.id?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
             }
         });
+        if (item) {
+            $('#selectPid').val([item.id]).trigger('change');
+        }
     })
 </script>
 @endsection

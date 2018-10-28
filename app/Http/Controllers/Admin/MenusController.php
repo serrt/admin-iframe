@@ -42,7 +42,9 @@ class MenusController extends Controller
     {
         $permission = Menu::findOrFail($id);
 
-        $permission->update($request->all());
+        $data = $request->all();
+        $data['pid'] = $request->input('pid', 0);
+        $permission->update($data);
 
         return redirect(route('admin.menu.index'))->with('flash_message', '修改成功');
     }
