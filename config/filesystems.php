@@ -73,6 +73,8 @@ return [
             // 如果上面使用了节点名称，这里设置为false，如果使用了自定义域名，为true
             'isCName' => env('ALIOSS_ISCNAME', false),
             'debug' => env('ALIOSS_DEBUG', false),
+            // 回源域名
+            'back_url' => env('ALIOSS_BACK_URL', '')
         ],
     ],
 

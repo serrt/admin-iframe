@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\WechatUserResource;
+use App\Services\AliyunOss;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class WechatUserController extends Controller
 {
-    public function info()
+    public function info(Request $request)
     {
         $wechat_user = auth('wechat')->user();
+
+        if ($request->input('upload_avatar_oss')) {
+            if (!$wechat_user->avatar_oss || $request->input('update_avatar_oss')) {
+                $wechat_user->avatar_oss = AliyunOss::init()->uploadUrl($wechat_user->headimgurl, uniqid().'.jpg', 'avatar');
+                $wechat_user->save();
+            }
+        }
 
         return WechatUserResource::make($wechat_user);
     }

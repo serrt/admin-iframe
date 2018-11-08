@@ -37,6 +37,7 @@ class CreateWechatTable extends Migration
             $table->string('nickname', 100)->nullable();
             $table->integer('sex')->default(0)->nullable()->comment('用户的性别，值为1时是男性，值为2时是女性，值为0时是未知');
             $table->string('headimgurl', 255)->nullable();
+            $table->string('avatar_oss', 255)->nullable()->comment('头像 云oss 地址');
             $table->string('province', 50)->nullable()->comment('省份');
             $table->string('city', 50)->nullable()->comment('城市');
             $table->string('api_token', 100)->nullable()->comment('auth-token');
