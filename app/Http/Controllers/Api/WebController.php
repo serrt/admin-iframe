@@ -10,13 +10,13 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Storage;
 
 class WebController extends Controller
 {
     public function upload(Request $request)
     {
-        logger($request->all());
         $files = $request->file();
         $path = $request->input('path', 'uploads/'.date('Y-m-d'));
         $result = [];
@@ -24,6 +24,7 @@ class WebController extends Controller
             $item = null;
             if (is_array($fileData)) {
                 foreach ($fileData as $file) {
+                    logger($file->getSize());
                     $savePath = $file->store($path);
                     $item[] = Storage::url($savePath);
                 }
