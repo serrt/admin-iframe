@@ -34,6 +34,33 @@ class WebController extends Controller
             }
             $result[$key] = $item;
         }
+
+        // base64 图片
+        foreach ($request->post() as $key => $files) {
+            $item = null;
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $file, $matches)) {
+                        $type = $matches[2];
+                        if(in_array($type,array('jpeg','jpg','gif','bmp','png'))) {
+                            $savePath = $path . '/' . uniqid() . '.' . $type;
+                            Storage::put($savePath, base64_decode(str_replace($matches[1], '', $file)));
+                            $item[] = Storage::url($savePath);
+                        }
+                    }
+                }
+            } else {
+                if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $files, $matches)) {
+                    $type = $matches[2];
+                    if(in_array($type,array('jpeg','jpg','gif','bmp','png'))) {
+                        $savePath = $path . '/' . uniqid() . '.' . $type;
+                        Storage::put($savePath, base64_decode(str_replace($matches[1], '', $files)));
+                        $item = Storage::url($savePath);
+                    }
+                }
+            }
+            $result[$key] = $item;
+        }
         return $this->json($result);
     }
 
