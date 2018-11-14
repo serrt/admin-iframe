@@ -53,6 +53,7 @@ class WebController extends Controller
     protected function saveFile($path, $file = null)
     {
         if (gettype($file) == 'object') {
+            logger($file->getSize());
             $file = Storage::putFile($path, $file);
         } else if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $file, $result)) {
             $type = $result[2];
