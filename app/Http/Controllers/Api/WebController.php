@@ -16,6 +16,7 @@ class WebController extends Controller
 {
     public function upload(Request $request)
     {
+        logger($request->all());
         $files = $request->file();
         $path = $request->input('path', 'uploads/'.date('Y-m-d'));
         $result = [];
