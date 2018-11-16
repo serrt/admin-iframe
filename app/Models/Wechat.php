@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\AliyunOss;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 

@@ -22,7 +22,7 @@ class CreateWechatOssTable extends Migration
             $table->string('endpoint')->nullable();
             $table->integer('ssl')->default(0)->comment('是否使用 https');
             $table->integer('isCName')->default(0)->comment('是否使用 自定义域名');
-            $table->string('cdnDomain')->comment('自定义域名');
+            $table->string('cdnDomain')->nullable()->comment('自定义域名');
             $table->timestamps();
         });
     }

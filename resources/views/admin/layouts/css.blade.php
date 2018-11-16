@@ -16,4 +16,7 @@
 <!-- Bootstrap-fileinput -->
 <link rel="stylesheet" href="{{asset('bootstrap-fileinput/fileinput.min.css')}}">
 
+<!-- Bootstrap-switch -->
+<link rel="stylesheet" href="{{asset('bootstrap/bootstrap-switch.min.css')}}">
+
 <link rel="stylesheet" href="{{asset('css/app.css')}}">

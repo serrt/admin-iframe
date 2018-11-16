@@ -134,7 +134,10 @@ class WechatController extends Controller
 
     public function oss(Wechat $wechat, Request $request)
     {
-        $wechat->oss()->updateOrCreate([], $request->only(['access_key', 'access_secret', 'bucket', 'endpoint']));
+        $data = $request->only(['access_key', 'access_secret', 'bucket', 'endpoint', 'cdnDomain']);
+        $data['ssl'] = $request->input('ssl', 0);
+        $data['isCName'] = $request->input('cdnDomain', '')?1:0;
+        $wechat->oss()->updateOrCreate([], $data);
         return back()->with('flash_message', '修改成功');
     }
 }

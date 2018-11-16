@@ -107,6 +107,19 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="control-label col-md-2">启用 https</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox" class="switch" name="ssl" value="1" data-size="small" {{data_get($info, 'oss.ssl')?'checked':''}}>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">自定义域名</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="cdnDomain" value="{{data_get($info, 'oss.cdnDomain')}}">
+                                    <p class="help-block">不含 http://</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-md-6 col-md-offset-2">
                                     <button type="submit" class="btn btn-primary">保存</button>
                                 </div>
@@ -117,4 +130,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(function () {
+            $.fn.bootstrapSwitch.defaults.onColor = 'success';
+            $.fn.bootstrapSwitch.defaults.offColor = 'danger';
+            $('input[type="checkbox"].switch').bootstrapSwitch();
+        })
+    </script>
 @endsection

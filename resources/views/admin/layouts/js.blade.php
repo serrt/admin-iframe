@@ -23,4 +23,7 @@
 <!-- Jquery Validate -->
 <script src="{{asset('js/jquery.validate.min.js')}}"></script>
 
+<!-- Bootstrap-switch -->
+<script src="{{asset('bootstrap/bootstrap-switch.min.js')}}"></script>
+
 <script src="{{asset('js/app.js')}}"></script>
