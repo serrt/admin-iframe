@@ -50,6 +50,15 @@ class WechatUserMsgController extends Controller
     {
         $user = auth('wechat')->user();
         $data = $request->all();
+        $empty = true;
+        foreach ($data as $key => $value) {
+            if ($value) {
+                $empty = false;
+            }
+        }
+        if ($empty) {
+            return $this->error('未上传任何数据');
+        }
         $message = WechatUserMsg::create(array_merge([
             'role_id' => $user->role_id,
             'wechat_id' => $user->wechat_id,
