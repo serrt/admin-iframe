@@ -41,6 +41,9 @@ class WechatUserMsg extends Model
     public function getFileAttribute($value)
     {
         $storage = $this->wechat->getStorage();
-        return ($value && preg_match('/^https?:\/\//i', $value) === 0)?$storage->url($value):$value;
+        if ($value && preg_match('/^https?:\/\//i', $value) === 0){
+            return $storage->url($value);
+        }
+        return $value;
     }
 }
