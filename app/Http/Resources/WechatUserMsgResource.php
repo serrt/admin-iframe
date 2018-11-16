@@ -27,6 +27,7 @@ class WechatUserMsgResource extends JsonResource
             'remarks' => $this->remarks,
             'wx_id' => $this->wx_id,
             'info' => json_decode($this->data)?:'',
+            'file' => $this->file
         ];
     }
 

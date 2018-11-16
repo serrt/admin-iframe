@@ -24,7 +24,9 @@ Route::group(['prefix' => 'web'], function () {
 });
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
-    Route::apiResource('message', 'WechatUserMsgController')->names('api.wechat_user_msg');
+    Route::post('multiple_message', ['uses' => 'WechatUserMsgController@storeMultiple', 'as' => 'api.wechat_user_msg.store_multiple']);
+
+    Route::apiResource('message', 'WechatUserMsgController', ['only' => ['index', 'store']])->names('api.wechat_user_msg');
 });
 
 // 微信小程序code

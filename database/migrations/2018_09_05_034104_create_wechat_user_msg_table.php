@@ -26,6 +26,7 @@ class CreateWechatUserMsgTable extends Migration
             $table->string('city', 50)->nullable()->comment('市级');
             $table->string('area', 50)->nullable()->comment('区级');
             $table->string('remarks')->nullable()->comment('备注');
+            $table->string('file')->nullable()->comment('附件');
             $table->text('data')->nullable()->comment('备用键值对');
             $table->timestamps();
         });

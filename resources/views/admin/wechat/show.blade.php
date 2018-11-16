@@ -30,6 +30,9 @@
                     <li class="active">
                         <a href="#info" data-toggle="tab">基本信息</a>
                     </li>
+                    <li>
+                        <a href="#oss" data-toggle="tab">阿里云-OSS</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="info">
@@ -75,6 +78,40 @@
                             </div>
                             @endif
                         </div>
+                    </div>
+                    <div class="tab-pane" id="oss">
+                        <form action="{{route('admin.wechat.oss', $info)}}" class="form-horizontal" method="post" autocomplete="off">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">access_key</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="access_key" value="{{data_get($info, 'oss.access_key')}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">access_secret</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="access_secret" value="{{data_get($info, 'oss.access_secret')}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">bucket</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="bucket" value="{{data_get($info, 'oss.bucket')}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">endpoint</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="endpoint" value="{{data_get($info, 'oss.endpoint')}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-2">
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

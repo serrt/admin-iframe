@@ -81,7 +81,7 @@ class WechatController extends Controller
     {
         $wechat = Wechat::findOrFail($id);
         $request->validate([
-            'app_id' => ['required'],
+            'app_id' => 'required',
             'app_secret' => 'required'
         ]);
 
@@ -130,5 +130,11 @@ class WechatController extends Controller
         $list = $query->paginate();
 
         return WechatResource::collection($list)->additional(['code' => Response::HTTP_OK, 'message' => '']);
+    }
+
+    public function oss(Wechat $wechat, Request $request)
+    {
+        $wechat->oss()->updateOrCreate([], $request->only(['access_key', 'access_secret', 'bucket', 'endpoint']));
+        return back()->with('flash_message', '修改成功');
     }
 }

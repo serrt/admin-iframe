@@ -3,26 +3,48 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\WechatUserResource;
-use App\Services\AliyunOss;
+use GuzzleHttp\Client;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use OSS\Core\OssException;
 
 class WechatUserController extends Controller
 {
+    public function __construct()
+    {
+        \Debugbar::disable();
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @param Request $request ['upload_avatar_oss' => '头像上传oss', 'update_avatar_oss' => '头像重新上传oss']
+     * @return WechatUserResource|\Illuminate\Http\JsonResponse
+     */
     public function info(Request $request)
     {
         $wechat_user = auth('wechat')->user();
-
         if ($request->input('upload_avatar_oss')) {
             if (!$wechat_user->avatar_oss || $request->input('update_avatar_oss')) {
-                $wechat_user->avatar_oss = AliyunOss::init()->uploadUrl($wechat_user->headimgurl, uniqid().'.jpg', 'avatar');
+
+                $storage = $wechat_user->wechat->getStorage();
+
+                // 先获取文件, 保存到本地, 再上传到 文件驱动
+                $client = new Client(['verify' => false]);
+                $save_path = storage_path('app/public/dump');
+                $client->get($wechat_user->headimgurl, ['save_to' => $save_path]);
+
+                $wechat_user->avatar_oss = $storage->url($storage->putFile('avatar', new File($save_path)));
                 $wechat_user->save();
             }
         }
 
         return WechatUserResource::make($wechat_user);
     }
+
     public function update(Request $request)
     {
         $user = auth('wechat')->user();

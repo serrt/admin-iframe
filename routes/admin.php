@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('user', 'UsersController', ['except'=>'show'])->names('admin.user');
 
     Route::get('wechat/search', ['uses'=>'WechatController@search', 'as'=>'admin.wechat.search']);
+    Route::post('wechat/{wechat}/oss', ['uses' => 'WechatController@oss', 'as' => 'admin.wechat.oss']);
     Route::resource('wechat', 'WechatController')->names('admin.wechat');
 
     Route::get('wechat_users/search', ['uses'=>'WechatUsersController@search', 'as'=>'admin.wechat_users.search']);

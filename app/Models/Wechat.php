@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\AliyunOss;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,6 +24,11 @@ class Wechat extends Model
     public function role()
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    public function oss()
+    {
+        return $this->hasOne(WechatOss::class, 'wechat_id', 'id');
     }
 
     public function users()
@@ -54,5 +60,18 @@ class Wechat extends Model
     public function getAuthUrlAttribute()
     {
         return route('wechat.index', ['app_id'=>$this->attributes['app_id']]);
+    }
+
+    public function getStorage()
+    {
+        $oss = $this->oss;
+        $disk = '';
+        if ($oss && $oss->access_key && $oss->access_secret) {
+            $disk = 'oss';
+            $config = $oss->getConfig();
+            config($config);
+        }
+        $storage = Storage::disk($disk);
+        return $storage;
     }
 }

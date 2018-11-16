@@ -45,4 +45,17 @@ class WechatUserMsgController extends Controller
 
         return WechatUserMsgResource::make($message);
     }
+
+    public function storeMultiple(Request $request)
+    {
+        $user = auth('wechat')->user();
+        $data = $request->all();
+        $message = WechatUserMsg::create(array_merge([
+            'role_id' => $user->role_id,
+            'wechat_id' => $user->wechat_id,
+            'user_id' => $user->id
+        ], $data));
+
+        return WechatUserMsgResource::make($message);
+    }
 }

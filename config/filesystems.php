@@ -70,11 +70,14 @@ return [
             'access_key' => env('ALIOSS_SECRET', 'ylEzsadVZ3kjLFyMvdFwToJj4fiN3g'),
             'bucket' => env('ALIOSS_BUCKET', 'sw4w23sr4f5'),
             'endpoint' => env('ALIOSS_ENDPOINT', 'oss-cn-hangzhou.aliyuncs.com'),
-            // 如果上面使用了节点名称，这里设置为false，如果使用了自定义域名，为true
+            // 链接是否使用 ssl
+            'ssl' => env('ALIOSS_SSL', true),
+
+            // 如果上面使用了节点名称，这里设置为false，如果使用了自定义域名，为true, 同时配置 cdnDomain, ex: example.com
             'isCName' => env('ALIOSS_ISCNAME', false),
+            'cdnDomain' => env('ALIOSS_DOMAIN', ''),
+
             'debug' => env('ALIOSS_DEBUG', false),
-            // 回源域名
-            'back_url' => env('ALIOSS_BACK_URL', '')
         ],
     ],
 
