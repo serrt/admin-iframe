@@ -6,8 +6,8 @@
                 <div class="box-body box-profile">
                     <img class="profile-user-img img-responsive img-circle" src="{{$info->user->headimgurl}}" alt="logo">
 
-                    <h3 class="profile-username text-center">{{$info->user->nickname}}</h3>
-                    <p class="text-center">
+                    <h3 class="profile-username text-center">
+                        {{$info->user->nickname}}
                         <!-- 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知 -->
                         @if ($info->user->sex == 0)
                             <i class="fa fa-question text-primary"></i>
@@ -16,12 +16,12 @@
                         @elseif ($info->user->sex == 2)
                             <i class="fa fa-female text-danger"></i>
                         @endif
-                    </p>
+                    </h3>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
                             <b>APP</b>
                             <a href="{{route('admin.wechat.show', $info->wechat)}}" class="pull-right">
-                                <img src="{{$info->wechat->logo}}" alt="" class="img-thumbnail" width="40">
+                                <img src="{{$info->wechat->logo}}" alt="" width="40">
                                 {{$info->wechat->name}}
                             </a>
                         </li>
@@ -99,6 +99,14 @@
                                 </div>
                             </div>
                             @endforeach
+                            @endif
+                            @if($info->file)
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label">附件</div>
+                                    <div class="col-md-10">
+                                        <div class="form-control-static">{{$info->file}}</div>
+                                    </div>
+                                </div>
                             @endif
                             @if($info->remarks)
                             <div class="form-group">

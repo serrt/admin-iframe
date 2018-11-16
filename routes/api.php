@@ -24,7 +24,6 @@ Route::group(['prefix' => 'web'], function () {
 });
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
-    Route::post('multiple_message', ['uses' => 'WechatUserMsgController@storeMultiple', 'as' => 'api.wechat_user_msg.store_multiple']);
 
     Route::apiResource('message', 'WechatUserMsgController', ['only' => ['index', 'store']])->names('api.wechat_user_msg');
 });
@@ -40,8 +39,11 @@ Route::group(['middleware' => ['auth:wechat']], function () {
     // 解密
     Route::post('user/decrypt', ['uses' => 'Api\WechatUserController@decrypt']);
 
+
+    // 留资
     Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
     Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');
+    Route::post('multiple_message', ['uses' => 'Api\WechatUserMsgController@storeMultiple', 'as' => 'api.message.store_multiple']);
 });
 
 Route::group(['prefix' => 'face', 'namespace' => 'Api'], function () {
