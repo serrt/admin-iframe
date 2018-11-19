@@ -20,6 +20,9 @@ class WechatController extends Controller
     }
     public function index(Request $request)
     {
+        if (config('app.url') == $request->url()) {
+            return view('welcome');
+        }
         if ($request->has('token') && $request->has('token_type')) {
             $host = $request->getHost();
 

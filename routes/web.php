@@ -11,11 +11,9 @@
 |
 */
 
-Route::domain('minmon.abcdefg.fun')->group(function () {
-    Route::get('/', ['uses' => 'WechatController@index']);
-});
+Route::get('/', ['uses' => 'WechatController@index']);
 
-Route::get('/', function () {
+Route::get('home', function () {
     return view('welcome');
 });
 
