@@ -18,33 +18,14 @@ class WechatController extends Controller
     {
         \Debugbar::disable();
     }
+
     public function index(Request $request)
     {
-        if (config('app.url') == $request->url()) {
-            return view('welcome');
-        }
-        if ($request->has('token') && $request->has('token_type')) {
-            $host = $request->getHost();
-
-            $wechat_domain = WechatDomain::query()->where('domain', $host)->first();
-            abort_if(!$wechat_domain, Response::HTTP_BAD_REQUEST, $host.' 域名尚未在后台添加');
-
-            $path = $wechat_domain->path;
-            return view()->file(public_path($path));
-        }
         if ($request->has('id')) {
             $id = $request->input('id');
             abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
-            $wechat = $this->getWechat($id);
-        } else {
-            $host = $request->getHost();
-
-            $wechat_domain = WechatDomain::query()->where('domain', $host)->first();
-            abort_if(!$wechat_domain, Response::HTTP_BAD_REQUEST, $host.' 域名尚未在后台添加');
-
-            $wechat = $wechat_domain->wechat;
-            abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $wechat->id.' 公众号尚未在后台添加');
         }
+        $wechat = $this->getWechat($id);
 
         $app = $this->getApp($wechat);
         // 微信公众号
@@ -264,11 +245,6 @@ class WechatController extends Controller
             echo "用户未授权";
             exit;
         }
-    }
-
-    public function domain(Request $request)
-    {
-
     }
 
     protected function getWechat($id)
