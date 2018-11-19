@@ -25,6 +25,7 @@ class CreateWechatOssTable extends Migration
             $table->string('cdnDomain')->nullable()->comment('自定义域名');
             $table->timestamps();
         });
+        DB::statement("ALTER TABLE `wechat_oss` comment '保存OSS信息'");
     }
 
     /**

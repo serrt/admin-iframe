@@ -12,7 +12,7 @@ class WechatOss extends Model
 
     public function wechat()
     {
-        return $this->belongsTo(Wechat::class, 'id', 'wechat_id');
+        return $this->belongsTo(Wechat::class, 'wechat_id', 'id');
     }
 
     public function getConfig()

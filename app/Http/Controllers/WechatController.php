@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\WechatUserResource;
 use App\Models\Wechat;
+use App\Models\WechatDomain;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,13 +14,25 @@ use Overtrue\LaravelWeChat\Facade as EasyWechat;
 
 class WechatController extends Controller
 {
+    public function __construct()
+    {
+        \Debugbar::disable();
+    }
     public function index(Request $request)
     {
-        $id = $request->input('id');
+        if ($request->has('id')) {
+            $id = $request->input('id');
+            abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
+            $wechat = $this->getWechat($id);
+        } else {
+            $host = $request->getHost();
 
-        abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
+            $wechat_domain = WechatDomain::query()->where('domain', $host)->first();
+            abort_if(!$wechat_domain, Response::HTTP_BAD_REQUEST, $host.' 域名尚未在后台添加');
 
-        $wechat = $this->getWechat($id);
+            $wechat = $wechat_domain->wechat;
+            abort_if(!$wechat, Response::HTTP_BAD_REQUEST, $wechat->id.' 公众号尚未在后台添加');
+        }
 
         $app = $this->getApp($wechat);
         // 微信公众号
@@ -121,6 +134,11 @@ class WechatController extends Controller
         $wechat_user = WechatUser::query()->updateOrCreate($where, $attributes);
 
         $stub = str_contains($wechat->success_url, '?')?'&':'?';
+        if ($wechat->domain) {
+            $wechat_domain = $wechat->domain;
+            $path = $wechat_domain->path;
+            return view()->file(public_path($path));
+        }
         $url = $wechat->success_url.$stub.'token='.$wechat_user->api_token.'&token_type=Bearer';
         return redirect($url);
     }
@@ -238,6 +256,11 @@ class WechatController extends Controller
             echo "用户未授权";
             exit;
         }
+    }
+
+    public function domain(Request $request)
+    {
+
     }
 
     protected function getWechat($id)

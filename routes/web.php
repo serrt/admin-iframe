@@ -11,6 +11,10 @@
 |
 */
 
+Route::domain('wechat.admin-iframe.com')->group(function () {
+    Route::get('/', ['uses' => 'WechatController@index']);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

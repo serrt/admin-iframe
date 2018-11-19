@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        \View::addExtension('html', 'php');
         \Illuminate\Pagination\LengthAwarePaginator::defaultView('vendor.pagination.default');
     }
 

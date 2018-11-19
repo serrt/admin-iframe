@@ -30,6 +30,11 @@ class Wechat extends Model
         return $this->hasOne(WechatOss::class, 'wechat_id', 'id');
     }
 
+    public function domain()
+    {
+        return $this->hasOne(WechatDomain::class, 'wechat_id', 'id');
+    }
+
     public function users()
     {
         return $this->hasMany(WechatUser::class, 'wechat_id', 'id');
