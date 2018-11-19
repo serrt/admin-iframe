@@ -11,7 +11,7 @@
 |
 */
 
-Route::domain('wechat.admin-iframe.com')->group(function () {
+Route::domain('minmon.abcdefg.fun')->group(function () {
     Route::get('/', ['uses' => 'WechatController@index']);
 });
 
