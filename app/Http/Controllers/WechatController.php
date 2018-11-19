@@ -20,6 +20,15 @@ class WechatController extends Controller
     }
     public function index(Request $request)
     {
+        if ($request->has('token') && $request->has('token_type')) {
+            $host = $request->getHost();
+
+            $wechat_domain = WechatDomain::query()->where('domain', $host)->first();
+            abort_if(!$wechat_domain, Response::HTTP_BAD_REQUEST, $host.' 域名尚未在后台添加');
+
+            $path = $wechat_domain->path;
+            return view()->file(public_path($path));
+        }
         if ($request->has('id')) {
             $id = $request->input('id');
             abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
@@ -134,11 +143,7 @@ class WechatController extends Controller
         $wechat_user = WechatUser::query()->updateOrCreate($where, $attributes);
 
         $stub = str_contains($wechat->success_url, '?')?'&':'?';
-        if ($wechat->domain) {
-            $wechat_domain = $wechat->domain;
-            $path = $wechat_domain->path;
-            return view()->file(public_path($path));
-        }
+
         $url = $wechat->success_url.$stub.'token='.$wechat_user->api_token.'&token_type=Bearer';
         return redirect($url);
     }
