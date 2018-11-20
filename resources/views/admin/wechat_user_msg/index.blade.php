@@ -107,13 +107,23 @@
                     if (repo.loading) {
                         return repo.text;
                     }
-                    return '<div><img src="'+repo.logo+'" alt="" width="20" height="20"> '+repo.name+'</div>';
+                    var html = '<div>';
+                    if (repo.logo) {
+                        html += '<img src="'+repo.logo+'" alt="" width="20" height="20">';
+                    }
+                    html += repo.name+'</div>';
+                    return html;
                 },
                 templateSelection: function (repo) {
-                    if (!repo.logo) {
+                    if (!repo.name) {
                         return '';
                     }
-                    return '<div><img src="'+repo.logo+'" alt="" width="20" height="20"> '+repo.name+'</div>';
+                    var html = '<div>';
+                    if (repo.logo) {
+                        html += '<img src="'+repo.logo+'" alt="" width="20" height="20">';
+                    }
+                    html += repo.name+'</div>';
+                    return html;
                 }
             });
             // 初始化 select2
