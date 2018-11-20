@@ -1982,6 +1982,11 @@ var addTabs = function (options) {
         /*$tab.find("iframe").load(function () {
          App.fixIframeCotent();
          });*/
+    } else {
+        // var self_location = findIframeById(pageId)[0].contentWindow.location;
+        // if (self_location.href !== self_location.origin+'/'+options.url) {
+        //     refreshTabById(pageId);
+        // }
     }
 
     activeTabByPageId(pageId);
@@ -2065,7 +2070,15 @@ function refreshTabById(pageId) {
 var refreshTab = function () {
     //刷新当前tab
     var pageId = getActivePageId();
-    refreshTabById(pageId);
+    var iframe = findIframeById(pageId);
+    iframe[0].contentWindow.location.reload();
+    App.blockUI({
+        target: '#tab-content',
+        boxed: true,
+        message: '加载中......'
+        // animate: true
+    });
+    // refreshTabById(pageId);
 };
 
 function getTabUrlById(pageId) {
@@ -2358,13 +2371,8 @@ $(function () {
                 //如果不是header
                 var li = $('<li class="treeview " data-id=' + item.id + ' data-level="' + level + '"></li>');
 
-                //a标签
-                var $a;
-                if (level > 0) {
-                    $a = $('<a style="padding-left:' + (level * 20) + 'px"></a>');
-                } else {
-                    $a = $('<a></a>');
-                }
+                //a标签 level: 菜单层级
+                var $a = $('<a></a>');
 
                 //图标
                 var $icon = $('<i></i>');
