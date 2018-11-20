@@ -55,13 +55,33 @@ $(function () {
         clearBtn: true,
         format: 'yyyy-mm-dd',
         language: 'zh-CN',
+        minViewMode: 'days',
+        enableOnReadonly: false,
+    });
+
+    // 时间控件
+    $('.year').datepicker({
+        autoclose: true,
+        clearBtn: true,
+        format: 'yyyy',
+        language: 'zh-CN',
+        minViewMode: 'decade',
+        enableOnReadonly: false,
+    });
+    // 时间控件
+    $('.month').datepicker({
+        autoclose: true,
+        clearBtn: true,
+        format: 'yyyy-mm',
+        language: 'zh-CN',
+        minViewMode: 'year',
         enableOnReadonly: false,
     });
 
     $('.datetime').datetimepicker({
         autoclose: true,
         clearBtn: true,
-        format: 'yyyy-mm-dd hh:ii:ss',
+        format: 'yyyy-mm-dd hh:ii',
         language: 'zh-CN'
     });
 
