@@ -2371,13 +2371,8 @@ $(function () {
                 //如果不是header
                 var li = $('<li class="treeview " data-id=' + item.id + ' data-level="' + level + '"></li>');
 
-                //a标签
-                var $a;
-                if (level > 0) {
-                    $a = $('<a style="padding-left:' + (level * 20) + 'px"></a>');
-                } else {
-                    $a = $('<a></a>');
-                }
+                //a标签 level: 菜单层级
+                var $a = $('<a></a>');
 
                 //图标
                 var $icon = $('<i></i>');
