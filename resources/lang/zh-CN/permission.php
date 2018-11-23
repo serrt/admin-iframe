@@ -37,4 +37,5 @@ return [
 
     'admin.user.role' => '修改用户角色',
     'admin.user.permission' => '修改用户权限',
+    'admin.role.permission' => '修改角色权限',
 ];

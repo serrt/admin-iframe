@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\RegionResource;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +38,7 @@ class IndexController extends Controller
         $region = null;
         if ($request->filled('pid')) {
             $pid = $request->input('pid');
-            $region = Region::find($pid);
+            $region = RegionResource::make(Region::query()->findOrFail($pid));
             $query->where('pid', $pid);
         }
 
@@ -47,14 +48,14 @@ class IndexController extends Controller
 
     public function form()
     {
-        $img_url = 'http://oobpqw2m0.bkt.clouddn.com/xhg-download.png';
-        $imgs_url = 'http://oobpqw2m0.bkt.clouddn.com/webwxgetmsgimg.jpg, http://oobpqw2m0.bkt.clouddn.com/xhg-download.png';
+        $img_url = 'http://qiniu.abcdefg.fun/act-pic3.png';
+        $imgs_url = 'http://qiniu.abcdefg.fun/act-pic3.png,http://qiniu.abcdefg.fun/act-pic4.png';
         return view('admin.index.form', compact('img_url', 'imgs_url'));
     }
 
     public function ajax()
     {
-        $imgs_url = 'http://oobpqw2m0.bkt.clouddn.com/webwxgetmsgimg.jpg, http://oobpqw2m0.bkt.clouddn.com/xhg-download.png';
+        $imgs_url = 'http://qiniu.abcdefg.fun/act-pic3.png,http://qiniu.abcdefg.fun/act-pic4.png';
         return view('admin.index.ajax', compact('imgs_url'));
     }
 

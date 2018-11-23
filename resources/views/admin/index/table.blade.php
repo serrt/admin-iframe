@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="" class="col-md-2 control-label">上级</label>
                 <div class="col-md-2">
-                    <select name="pid" title="上级" class="form-control" id="select2" data-ajax-url="{{route('api.web.city')}}">
+                    <select name="pid" title="上级" class="form-control select2" data-json="{{json_encode($region)}}" data-ajax-url="{{route('api.web.city')}}">
                         <option value=""></option>
                     </select>
                 </div>
@@ -48,54 +48,4 @@
         {{$list->appends(request()->all())->links()}}
     </div>
 </div>
-@endsection
-
-@section('script')
-<script>
-    $(function () {
-        $('#select2').on('select2:select', function (e) {
-            $('#searchForm').submit();
-        });
-        var item = {!! json_encode($region) !!}
-        $('#select2').select2({
-            language: "zh-CN",
-            data: [item],
-            allowClear: true,
-            placeholder: '请选择',
-            dataType: 'json',
-            width: '100%',
-            ajax: {
-                delay: 250,
-                data: function (params) {
-                    return {
-                        name: params.term,
-                        page: params.page || 1
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: data.meta?data.meta.current_page < data.meta.last_page:false
-                        }
-                    };
-                },
-            },
-            minimumInputLength: 1,
-            escapeMarkup: function (markup) { return markup; },
-            templateResult: function (repo) {
-                var unit = {1: '省级', 2: '市级', 3: '区级'};
-                return repo.name?repo.name+'--'+unit[repo.level]:'搜索中...'
-            },
-            templateSelection: function (repo) {
-                var unit = {1: '省级', 2: '市级', 3: '区级'};
-                return repo.name?repo.name+'--'+unit[repo.level]:''
-            }
-        });
-        // 初始化 select2
-        if (item) {
-            $('#select2').val([item.id]).trigger('change');
-        }
-    })
-</script>
 @endsection

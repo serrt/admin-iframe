@@ -7,7 +7,7 @@
                     <h3>基本表单</h3>
                 </div>
                 <div class="box-body">
-                    <form action="" class="form-horizontal" role="form">
+                    <form action="" class="form-horizontal" role="form" autocomplete="off">
                         <div class="form-group">
                             <label for="" class="col-md-2 control-label">Input</label>
                             <div class="col-md-8">
@@ -28,39 +28,52 @@
                         <div class="form-group">
                             <label for="" class="col-md-2 control-label">Select2</label>
                             <div class="col-md-8">
-                                <select name="" class="form-control select2" data-ajax-url="{{route('api.web.keywords_type')}}">
+                                <select name="" class="form-control select2" data-ajax-url="{{route('api.web.city')}}">
                                     <option value=""></option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-md-2 control-label">Date</label>
+                            <label for="year" class="col-md-2 control-label">Year</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control date">
+                                <input type="text" class="form-control year" id="year">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-md-2 control-label">Date Time</label>
+                            <label for="month" class="col-md-2 control-label">Month</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control datetime">
+                                <input type="text" class="form-control month" id="month">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date" class="col-md-2 control-label">Date</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control date" id="date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="datetime" class="col-md-2 control-label">Date Time</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control datetime" id="datetime">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-md-2 control-label">File</label>
                             <div class="col-md-8">
-                                <input type="file" class="form-control file-input">
+                                <input type="file" class="form-control file-input" data-initial-preview="{{$img_url}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-md-2 control-label">File preview</label>
                             <div class="col-md-8">
-                                <input type="file" class="form-control file-input" data-initial-preview="https://colorhub.me/imgsrv/HV9LmR4DgWV2f8G7AqWapN,https://colorhub.me/imgsrv/a89cyUzdPhNnzAM6vRPTaB">
+                                <input type="file" class="form-control file-input" data-initial-preview="{{$imgs_url}}">
                                 <p class="help-block">添加属性 <b>data-initial-preview="图片地址,图片地址"</b></p>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-8 col-lg-offset-2">
                                 <button type="submit" class="btn btn-primary">Submit</button>
+                                <a href="javascript:history.back();" class="btn btn-default">返回</a>
                             </div>
                         </div>
                     </form>
@@ -68,41 +81,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <script>
-        $(function () {
-            $('.file-input').fileinput({
-                // 语言
-                language: 'zh',
-                // 是否允许拖动文件
-                dropZoneEnabled: false,
-                // 是否异步上传
-                uploadAsync: false,
-                // 上传按钮
-                showUpload: false,
-                // 预览文件的操作
-                fileActionSettings: {
-                    // 删除按钮
-                    showRemove: false,
-                    // 拖动按钮
-                    showDrag: false
-                },
-                // 浏览文件的按钮样式
-                browseClass: 'btn bg-purple',
-                // 初始化文件预览的分隔符
-                initialPreviewDelimiter: ',',
-                // 初始化文件预览的数据格式
-                initialPreviewAsData: true,
-                // 关闭预览区域按钮
-                showClose: false,
-                // 全部删除按钮
-                showRemove: false,
-                // 允许上传的文件类型 ['image', 'html', 'text', 'video', 'audio', 'flash', 'object']
-                allowedFileTypes: ['image'],
-                // 当选择的不符合规则时, 删除该文件的预览
-                removeFromPreviewOnError: true
-            });
-        })
-    </script>
 @endsection
