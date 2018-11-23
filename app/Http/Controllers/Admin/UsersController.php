@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\RoleResource;
 use App\Models\AdminUser;
+use App\Models\Menu;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;

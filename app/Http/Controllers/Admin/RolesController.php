@@ -83,6 +83,7 @@ class RolesController extends Controller
 
         return back()->with('flash_message', '删除成功');
     }
+
     public function permission($id)
     {
         $role = Role::findOrFail($id);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Middleware\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -77,7 +78,7 @@ class AuthController extends Controller
         // 清空权限缓存
         Cache::forget('spatie.permission.cache');
         // 清空菜单缓存
-        Cache::forget('current_user_menus');
+        Cache::forget(Permission::MENU_CACHE_KEY);
         return redirect(route('admin.login'));
     }
 }

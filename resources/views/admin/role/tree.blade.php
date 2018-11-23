@@ -10,8 +10,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.role.tree', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
-                @endcomponent
+                @include('admin.role.tree', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
             @endif
         @endforeach
     </ul>

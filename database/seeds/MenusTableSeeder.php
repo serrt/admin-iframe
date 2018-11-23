@@ -59,5 +59,7 @@ class MenusTableSeeder extends Seeder
         DB::table('user_menus')->delete();
         DB::table('menus')->insert($data);
         DB::table('user_menus')->insert($user_menu);
+        // 清空菜单缓存
+        Cache::forget(\App\Http\Middleware\Permission::MENU_CACHE_KEY);
     }
 }

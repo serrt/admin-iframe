@@ -18,8 +18,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2">权限</label>
                 <div class="col-md-8">
-                    @component('admin.role.tree', ['permissions'=>$permissions, 'pid'=>0, 'checked' => $user_permissions])
-                    @endcomponent
+                    @include('admin.role.tree', ['permissions'=>$permissions, 'pid'=>0, 'checked' => $user_permissions])
                 </div>
             </div>
 
