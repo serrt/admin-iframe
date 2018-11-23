@@ -48,8 +48,8 @@ class WebController extends Controller
     {
         $query = Region::with('parent');
 
-        if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        if ($request->filled('name') || $request->filled('key')) {
+            $query->where('name', 'like', '%' . $request->input('name', $request->input('key')) . '%');
         }
 
         $list = $query->paginate();
