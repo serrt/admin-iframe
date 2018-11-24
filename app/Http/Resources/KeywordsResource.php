@@ -21,4 +21,9 @@ class KeywordsResource extends JsonResource
             'type' => $this->type
         ];
     }
+
+    public function with($request)
+    {
+        return ['code' => Response::HTTP_OK, 'message' => ''];
+    }
 }

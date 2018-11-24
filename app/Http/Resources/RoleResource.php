@@ -20,4 +20,8 @@ class RoleResource extends JsonResource
             'key' => $this->key
         ];
     }
+    public function with($request)
+    {
+        return ['code' => Response::HTTP_OK, 'message' => ''];
+    }
 }

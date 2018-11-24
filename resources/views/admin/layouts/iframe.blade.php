@@ -128,10 +128,9 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+        @if(isset($current_permission) && isset($current_menu))
         <section class="content-header">
-            <h1>
-                {{isset($current_permission)?$current_permission->display_name:'无权限'}}
-            </h1>
+            <h1>{{$current_permission->display_name}}</h1>
             <ol class="breadcrumb">
                 <li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> {{$current_menu['text']}}</a></li>
                 @if(isset($current_menu['children']))
@@ -143,6 +142,7 @@
                 @endif
             </ol>
         </section>
+        @endif
 
         <!-- Main content -->
         <section class="content">

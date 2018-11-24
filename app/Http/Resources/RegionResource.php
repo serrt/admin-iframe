@@ -22,4 +22,9 @@ class RegionResource extends JsonResource
             'level' => $this->level,
         ];
     }
+
+    public function with($request)
+    {
+        return ['code' => Response::HTTP_OK, 'message' => ''];
+    }
 }

@@ -17,14 +17,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-//        \Debugbar::disable();
-//        return view('admin.iframe');
-        return redirect(route('admin.index.home'));
-    }
-
-    public function home()
-    {
-        return view('admin.index.home');
+        return view('admin.index.home');;
     }
 
     public function table(Request $request)

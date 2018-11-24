@@ -7,15 +7,18 @@
 |
 */
 
-Route::group(['middleware' => ['auth:admin', 'permission']], function () {
-    Route::get('/', ['uses'=>'IndexController@index']);
+// Route::get('/', ['uses' => 'IndexController@index', 'middleware' => 'auth:admin']);
 
-    Route::get('home', ['uses'=>'IndexController@home', 'as'=>'admin.index.home']);
+Route::group(['middleware' => ['auth:admin', 'permission']], function () {
+    
+    Route::redirect('', '/admin/index');
+
+    Route::get('index', ['uses'=>'IndexController@index', 'as'=>'admin.index.index']);
     Route::get('table', ['uses'=>'IndexController@table', 'as'=>'admin.index.table']);
     Route::get('form', ['uses'=>'IndexController@form', 'as'=>'admin.index.form']);
     Route::get('ajax', ['uses'=>'IndexController@ajax', 'as'=>'admin.index.ajax']);
 
-    Route::post('formUpload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
+    Route::post('form_upload', ['uses'=>'IndexController@formUpload', 'as'=>'admin.index.form_upload']);
 
     Route::resource('menu', 'MenusController', ['except'=>'show'])->names('admin.menu');
     Route::resource('permission', 'PermissionsController', ['except'=>'show'])->names('admin.permission');
@@ -31,8 +34,8 @@ Route::group(['middleware' => ['auth:admin', 'permission']], function () {
     Route::resource('keywords_type', 'KeywordsTypeController', ['except'=>'show'])->names('admin.keywords_type');
 
     Route::resource('keywords', 'KeywordsController', ['except'=>'show'])->names('admin.keywords');
-
 });
+
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);
 

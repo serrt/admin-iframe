@@ -25,12 +25,15 @@ class Permission
         $user = auth('admin')->user();
         $menus = $this->cacheMenus();
         view()->share(self::MENU_CACHE_KEY, $menus);
-        if (!isset($action['as']) || $user->can($action['as'])) {
-            $current_permission = \App\Models\Permission::query()->where('name', $action['as'])->first();
-            view()->share('current_permission', $current_permission);
-            return $next($request);
+        if (isset($action['as'])) {
+            if ($user->can($action['as'])) {
+                $current_permission = \App\Models\Permission::query()->where('name', $action['as'])->first();
+                view()->share('current_permission', $current_permission);
+                return $next($request);
+            }
+            throw UnauthorizedException::forPermissions([$action['as']]);
         }
-        throw UnauthorizedException::forPermissions([$action['as']]);
+        return $next($request);
     }
 
     protected function cacheMenus()

@@ -12,7 +12,7 @@ class MenusTableSeeder extends Seeder
     public function run()
     {
         $menus = [
-            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin.index.home'],
+            ['name' => '首页', 'key' => 'fa fa-home', 'url' => 'admin.index.index'],
             ['name' => '表格', 'key' => 'fa fa-table', 'url' => 'admin.index.table'],
             ['name' => '表单', 'key' => 'fa fa-edit', 'url' => null, 'children' => [
                 ['name' => '基本表单', 'key' => 'fa fa-newspaper-o', 'url' => 'admin.index.form'],
