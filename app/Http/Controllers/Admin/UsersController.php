@@ -10,7 +10,9 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
+use App\Http\Middleware\Permission as PermissionMiddleware;
 
 class UsersController extends Controller
 {
@@ -95,12 +97,31 @@ class UsersController extends Controller
             $user->save();
         }
 
+        // 更新角色
         if ($request->filled('roles')) {
             $user->syncRoles($request->input('roles'));
+            // if (auth('admin')->id() == $user->id) {
+            //     // 清空权限缓存
+            //     Cache::forget('spatie.permission.cache');
+            // }
         }
 
+        // 更新权限
         if ($request->filled('permissions')) {
             $user->syncPermissions($request->input('permissions'));
+            if (auth('admin')->id() == $user->id) {
+                // 清空权限缓存
+                Cache::forget('spatie.permission.cache');
+            }
+        }
+
+        // 更新菜单
+        if ($request->filled('menus')) {
+            $user->menus()->sync($request->input('menus'));
+            if (auth('admin')->id() == $user->id) {
+                // 清空菜单缓存
+                Cache::forget(PermissionMiddleware::MENU_CACHE_KEY);
+            }
         }
 
         return redirect(route('admin.user.index'))->with('flash_message', '修改成功');
@@ -142,5 +163,14 @@ class UsersController extends Controller
         $user_permissions = $user->permissions;
 
         return view('admin.user.permission', compact('user', 'user_permissions', 'permissions'));
+    }
+
+    public function menu($id)
+    {
+        $list = Menu::orderBy('sort')->orderBy('id')->get();
+
+        $user = AdminUser::findOrFail($id);
+
+        return view('admin.user.menu', compact('list', 'user'));
     }
 }

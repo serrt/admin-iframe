@@ -57,12 +57,6 @@ class RolesController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $unique_rule = Rule::unique('roles', 'name')->ignore($role->id, 'id');
-        $request->validate([
-            'name' => ['required', $unique_rule],
-            'display_name' => 'required'
-        ]);
-
         $role->update($request->all());
 
         if ($request->filled('permissions')) {

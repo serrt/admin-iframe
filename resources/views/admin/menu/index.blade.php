@@ -14,7 +14,7 @@
         </div>
         <div class="box-body row">
             <div class="col-md-6" onselectstart="return false;">
-                @include('admin.menu.tree', ['permissions'=>$list, 'pid'=>0])
+                @include('admin.menu.tree', ['permissions'=>$list, 'pid'=>0, 'checked' => false])
             </div>
         </div>
     </div>

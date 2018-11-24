@@ -13,8 +13,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.permission.tree', ['permissions'=>$permissions, 'pid'=>$permission->id])
-                @endcomponent
+                @include('admin.permission.tree', ['permissions'=>$permissions, 'pid'=>$permission->id])
             @endif
         @endforeach
     </ul>

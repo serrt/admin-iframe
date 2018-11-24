@@ -3,18 +3,17 @@
         @foreach($permissions as $permission)
             @if($permission->pid == $pid)
                 <li class="list-group-item" data-toggle="collapse" data-target="#collapseExample{{$permission->id}}" aria-controls="collapseExample{{$permission->id}}">
+                    @if($checked)
+                    <input type="checkbox" name="menus[]" class="permission-checkbox" onclick="permissionCheckbox(this, true)" data-pid="{{$pid}}" {{$checked->contains($permission->id)?'checked':''}} value="{{$permission->id}}">
+                    @endif
                     <i class="{{$permission->key}}"></i>
-                    <a class="margin-r-5" href="{{route('admin.menu.edit', $permission)}}" title="修改">{{$permission->name}}</a>
-                    <button type="submit" form="delForm{{$permission->id}}" class="btn btn-default btn-xs" title="删除" onclick="return confirm('是否确定？')"><i class="fa fa-trash-o"></i></button>
-                    <form class="form-inline hide" id="delForm{{$permission->id}}" action="{{ route('admin.menu.destroy', $permission) }}" method="post">
-                        {{ csrf_field() }} {{ method_field('DELETE') }}
-                    </form>
+                    {{$permission->name}}
+                    
                     @if(!$permission->url)
                     <i class="fa fa-angle-left pull-right"></i>
                     @endif
                 </li>
-                @component('admin.menu.tree', ['permissions'=>$permissions, 'pid'=>$permission->id])
-                @endcomponent
+                @include('admin.menu.tree', ['permissions'=>$permissions, 'pid'=>$permission->id, 'checked' => $checked])
             @endif
         @endforeach
     </ul>

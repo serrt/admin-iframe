@@ -63,8 +63,7 @@
         <div class="tab-content">
             <div class="tab-pane" id="control-sidebar-skin">
                 <h3 class="control-sidebar-heading">Skins</h3>
-                @component('component.skins')
-                @endcomponent
+                @include('component.skins')
             </div>
             <div class="tab-pane active" id="control-sidebar-password">
                 <h3 class="control-sidebar-heading">个人信息</h3>
@@ -131,7 +130,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{$current_permission->display_name}}
+                {{isset($current_permission)?$current_permission->display_name:'无权限'}}
             </h1>
             <ol class="breadcrumb">
                 <li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> {{$current_menu['text']}}</a></li>
@@ -147,6 +146,18 @@
 
         <!-- Main content -->
         <section class="content">
+            @if($errors->any())
+            <div class="callout callout-danger">
+                @foreach($errors->all() as $value)
+                <p>{{$value}}</p>
+                @endforeach
+            </div>
+            @endif
+            @if(Session::has('flash_message'))
+            <div class="callout callout-success">
+                <p>{{Session::get('flash_message')}}</p>
+            </div>
+            @endif
             @yield('content')
         </section>
         <!-- /.content -->

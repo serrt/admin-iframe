@@ -1,16 +1,6 @@
 @extends('admin.layouts.iframe')
 @section('content')
-<div class="alert alert-warning alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <ul>
-        <li>这里是用户 <b>独立</b> 享有的权限, 如果想修改 <b>角色权限</b> <a href="{{route('admin.role.index')}}" class="alert-link">点击这里</a></li>
-    </ul>
-</div>
 <div class="box box-info">
-    <div class="box-header with-border">
-        <a href="javascript:history.back()" class="btn btn-default"> 返回</a>
-    </div>
-
     <div class="box-body">
         <form action="{{route('admin.role.update',$role)}}" class="form-horizontal validate" method="post">
             {{csrf_field()}}
