@@ -91,6 +91,7 @@
                             </div>
                             @endif
                             @if($info->data)
+                            @if(is_array(json_decode($info->data)))
                             @foreach(json_decode($info->data) as $key => $value)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">{{$key}}</div>
@@ -99,6 +100,14 @@
                                 </div>
                             </div>
                             @endforeach
+                            @else
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">data</div>
+                                <div class="col-md-10">
+                                    <div class="form-control-static">{{$info->data}}</div>
+                                </div>
+                            </div>
+                            @endif
                             @endif
                             @if($info->file)
                                 <div class="form-group">
