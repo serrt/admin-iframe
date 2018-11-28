@@ -35,7 +35,7 @@ class WechatUser extends Model
 
     public static function getToken($slat = '')
     {
-        if ($slat) {
+        if (!$slat) {
             $slat = str_random(32);
         }
         $token = md5($slat);
