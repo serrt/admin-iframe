@@ -4,10 +4,12 @@
             @if($permission->pid == $pid)
                 <li class="list-group-item" data-toggle="collapse" data-target="#collapseExample{{$permission->id}}" aria-controls="collapseExample{{$permission->id}}">
                     @if($checked)
-                    <input type="checkbox" name="menus[]" class="permission-checkbox" onclick="permissionCheckbox(this, true)" data-pid="{{$pid}}" {{$checked->contains($permission->id)?'checked':''}} value="{{$permission->id}}">
+                        <input type="checkbox" name="menus[]" class="permission-checkbox" onclick="permissionCheckbox(this, true)" data-pid="{{$pid}}" {{$checked->contains($permission->id)?'checked':''}} value="{{$permission->id}}">
                     @endif
-                    <i class="{{$permission->key}}"></i>
-                    {{$permission->name}}
+                        <i class="{{$permission->key}}"></i>
+                        <a href="{{route('admin.menu.edit', $permission)}}" class="list-link">
+                            {{$permission->name}}
+                        </a>
                     
                     @if(!$permission->url)
                     <i class="fa fa-angle-left pull-right"></i>

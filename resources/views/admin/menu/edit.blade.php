@@ -6,13 +6,13 @@
     </div>
 
     <div class="box-body">
-        <form action="{{route('admin.menu.update', $permission)}}" class="form-horizontal validate" method="post">
+        <form action="{{route('admin.menu.update', $menu)}}" class="form-horizontal validate" method="post">
             {{csrf_field()}}
             {{method_field('put')}}
             <div class="form-group">
                 <label for="inputName" class="control-label col-md-2">名称*</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" id="inputName" value="{{$permission->name}}" data-rule-required="true">
+                    <input type="text" class="form-control" name="name" id="inputName" value="{{$menu->name}}" data-rule-required="true">
                 </div>
             </div>
             <div class="form-group">
@@ -25,20 +25,20 @@
             <div class="form-group">
                 <label for="inputUrl" class="control-label col-md-2">链接</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="url" id="inputUrl" value="{{$permission->url}}">
+                    <input type="text" class="form-control" name="url" id="inputUrl" value="{{$menu->url}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputKey" class="control-label col-md-2">key</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="key" id="inputKey" value="{{$permission->key}}">
+                    <input type="text" class="form-control" name="key" id="inputKey" value="{{$menu->key}}">
                     <span class="help-block">编辑图标, 例如: fa fa-edge, <a href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html" target="_blank">查看全部图标</a></span>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputSort" class="control-label col-md-2">排序</label>
                 <div class="col-md-8">
-                    <input type="number" class="form-control" name="sort" value="{{$permission->sort}}" id="inputSort" data-rule-digits="true" data-rule-min="0">
+                    <input type="number" class="form-control" name="sort" value="{{$menu->sort}}" id="inputSort" data-rule-digits="true" data-rule-min="0">
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
 @section('script')
 <script>
     $(function () {
-        var item = JSON.parse('{!! json_encode($permission->parent) !!}');
+        var item = JSON.parse('{!! json_encode($menu->parent) !!}');
         if (!item) {
             item = {id: 0, name: '无上级', key: 'fa fa-question'};
         }

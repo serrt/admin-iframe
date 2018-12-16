@@ -33,7 +33,16 @@
                 <div class="form-group">
                     <label for="selectPid" class="control-label col-md-2">上级</label>
                     <div class="col-md-8">
-                        <select name="pid" class="form-control" id="selectPid" data-ajax-url="{{route('api.web.permission', ['pid' => 0])}}">
+                        <select name="pid" class="form-control select2" id="selectPid" data-json="{{json_encode($parent)}}" data-ajax-url="{{route('api.web.permission', ['pid' => 0])}}">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="selectMenu" class="control-label col-md-2">菜单</label>
+                    <div class="col-md-8">
+                        <select name="menu_id" class="form-control" id="selectMenu" data-json="{{json_encode($menu)}}" data-ajax-url="{{route('api.web.menu')}}">
                             <option value=""></option>
                         </select>
                     </div>
@@ -52,40 +61,16 @@
 @section('script')
     <script>
         $(function () {
-            var item = JSON.parse('{!! json_encode($permission->parent) !!}');
-            $('#selectPid').select2({
-                placeholder: '请选择',
-                allowClear: true,
-                data: [item],
-                dataType: 'json',
-                ajax: {
-                    delay: 500,
-                    data: function (params) {
-                        return {
-                            name: params.term,
-                            page: params.page || 1
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data.data,
-                            pagination: {
-                                more: data.meta?data.meta.current_page < data.meta.last_page:false
-                            }
-                        };
-                    },
-                },
-                escapeMarkup: function (markup) { return markup; },
-                templateResult: function (repo) {
-                    return repo.display_name?repo.display_name:''
-                },
-                templateSelection: function (repo) {
-                    return repo.display_name?repo.display_name:''
-                }
-            });
-            if (item) {
-                $('#selectPid').val([item.id]).trigger('change');
-            }
+            var data = $('#selectMenu').data('json');
+            var config = selectConfig(data);
+            config.templateResult =function (repo) {
+                return repo.name?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
+            };
+            config.templateSelection = function (repo) {
+                return repo.name?'<i class="'+repo.key+'"></i>'+'--'+repo.name:''
+            };
+            $('#selectMenu').select2(config);
+            $('#selectMenu').val([data.id]).trigger('change');
         })
     </script>
 @endsection

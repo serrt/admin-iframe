@@ -16,11 +16,14 @@ class PermissionsTableSeeder extends Seeder
     {
         // 清空权限缓存
         app()['cache']->forget('spatie.permission.cache');
+
         // 清空已有的权限
         $tableNames = config('permission.table_names');
         foreach ($tableNames as $key=>$value) {
             DB::table($value)->truncate();
         }
+
+        // 获取路由上的所有路由
         $route_list = app('router')->getRoutes()->getRoutes();
         $data = [];
         foreach ($route_list as $item) {
@@ -41,6 +44,10 @@ class PermissionsTableSeeder extends Seeder
                 }
             }
         }
+
+        // 所有的菜单
+        $menus = \App\Models\Menu::query()->pluck('id', 'url')->toArray();
+
         $index1 = 1;
         $guard = 'admin';
         $permissions = collect();
@@ -50,6 +57,7 @@ class PermissionsTableSeeder extends Seeder
                 'name' => $key1,
                 'display_name' => __('permission.'.$key1),
                 'pid' => 0,
+                'menu_id' => isset($menus[$key1])?$menus[$key1]:null,
             ]);
             $index1++;
             $index2=1;
@@ -61,12 +69,13 @@ class PermissionsTableSeeder extends Seeder
                 if ($trans == $need_trans) {
                     $trans = __('permission.'.$value);
                 }
-                $tran = $permission->display_name.'-'.$trans;
+                $tran = $trans.'-'.$permission->display_name;
                 $sub_permission = Permission::create([
                     'guard_name' => $guard,
                     'name' => $value,
                     'display_name' => $tran,
                     'pid' => $permission->id,
+                    'menu_id' => isset($menus[$value])?$menus[$value]:null,
                 ]);
                 $index2++;
                 $permissions->push($sub_permission);

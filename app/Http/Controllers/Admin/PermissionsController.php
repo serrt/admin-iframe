@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\MenuResource;
+use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,7 +42,11 @@ class PermissionsController extends Controller
     {
         $permission = Permission::findOrFail($id);
 
-        return view('admin.permission.edit', compact('permission'));
+        $parent = PermissionResource::make($permission->parent);
+
+        $menu = MenuResource::make($permission->menu);
+
+        return view('admin.permission.edit', compact('permission', 'parent', 'menu'));
     }
 
     public function update(Request $request, $id)

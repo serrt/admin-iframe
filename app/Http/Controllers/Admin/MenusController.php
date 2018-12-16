@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\PermissionResource;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,9 +34,9 @@ class MenusController extends Controller
 
     public function edit($id)
     {
-        $permission = Menu::findOrFail($id);
+        $menu = Menu::findOrFail($id);
 
-        return view('admin.menu.edit', compact('permission'));
+        return view('admin.menu.edit', compact('menu'));
     }
 
     public function update(Request $request, $id)
