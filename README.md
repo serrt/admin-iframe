@@ -1,3 +1,6 @@
+# 本项目已经移植到
+(https://github.com/serrt/laravel-admin)[https://github.com/serrt/laravel-admin]
+
 # admin-iframe
 Laravel + AdminlLte + Iframe
 
