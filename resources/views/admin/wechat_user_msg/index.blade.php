@@ -4,7 +4,7 @@
         <div class="box-header with-border">
             <form action="" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
-                    <label class="col-md-2 control-label">用户</div>
+                    <label class="col-md-2 control-label">用户</label>
                     <div class="col-md-2">
                         <select name="user" class="form-control" id="user" data-ajax-url="{{route('admin.wechat_users.search')}}">
                             <option value=""></option>
