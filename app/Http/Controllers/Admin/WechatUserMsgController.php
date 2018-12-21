@@ -38,6 +38,14 @@ class WechatUserMsgController extends Controller
             $query->where('user_id', $user_id);
         }
 
+        if ($request->filled('start_time')) {
+            $request->where('created_at', '>=', $request->input('start_time'));
+        }
+
+        if ($request->filled('end_time')) {
+            $request->where('created_at', '<=', $request->input('end_time'));
+        }
+
         if ($request->has('export')) {
             return (new WechatUserMsgExport($query))->download('用户流资.xlsx');
         }

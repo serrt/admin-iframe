@@ -4,17 +4,26 @@
         <div class="box-header with-border">
             <form action="" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
-                    <div class="col-md-2 control-label">用户</div>
+                    <label class="col-md-2 control-label">用户</div>
                     <div class="col-md-2">
                         <select name="user" class="form-control" id="user" data-ajax-url="{{route('admin.wechat_users.search')}}">
                             <option value=""></option>
                         </select>
                     </div>
-                    <label for="select2" class="col-md-2 control-label">APP</label>
+                    <label class="col-md-2 control-label">APP</label>
                     <div class="col-md-2">
                         <select name="wechat" class="form-control" id="wechat" data-ajax-url="{{route('admin.wechat.search')}}">
                             <option value=""></option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">创建时间</label>
+                    <div class="col-md-2">
+                        <input type="text" name="start_time" class="form-control datetime" value="{{request('start_time')}}">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="end_time" class="form-control datetime" value="{{request('end_time')}}">
                     </div>
                 </div>
                 <div class="form-group">
