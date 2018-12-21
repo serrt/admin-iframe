@@ -39,11 +39,11 @@ class WechatUserMsgController extends Controller
         }
 
         if ($request->filled('start_time')) {
-            $request->where('created_at', '>=', $request->input('start_time'));
+            $query->where('created_at', '>=', $request->input('start_time'));
         }
 
         if ($request->filled('end_time')) {
-            $request->where('created_at', '<=', $request->input('end_time'));
+            $query->where('created_at', '<=', $request->input('end_time'));
         }
 
         if ($request->has('export')) {
