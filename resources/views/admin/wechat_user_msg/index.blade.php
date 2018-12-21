@@ -20,10 +20,10 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">创建时间</label>
                     <div class="col-md-2">
-                        <input type="text" name="start_time" class="form-control datetime" value="{{request('start_time')}}">
+                        <input type="text" name="start_time" class="form-control date" value="{{request('start_time')}}">
                     </div>
                     <div class="col-md-2">
-                        <input type="text" name="end_time" class="form-control datetime" value="{{request('end_time')}}">
+                        <input type="text" name="end_time" class="form-control date" value="{{request('end_time')}}">
                     </div>
                 </div>
                 <div class="form-group">
