@@ -79,11 +79,10 @@ class FaceController extends Controller
                 //     $path = 'face/'.uniqid().'.jpg';
                 //     $storage = Storage::disk('public');
                 //     $storage->put($path, base64_decode($result['result']));
-
                 //     $url = $storage->url($path);
                 // }
                 // $url = 'data:image/png;base64,'.base64_decode($result['result']);
-                $url = $result['result'];
+                $url = data_get($result, 'result');
                 array_push($data, $url);
             }
         }
