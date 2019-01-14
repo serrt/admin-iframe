@@ -50,7 +50,7 @@ class FaceController extends Controller
             $data = $result['result'];
             return $this->json($data);
         }
-        return $this->error('合成失败');
+        return $this->error(data_get($result, 'error', '合成失败'));
     }
 
     public function multipleMerge(Request $request)

@@ -121,7 +121,6 @@ class Face
 
         try {
             $result = json_decode($this->client()->post('imagepp/v1/mergeface', $options)->getBody()->getContents(), true);
-            logger('face++', $result);
         } catch (ClientException $e) {
             $result = ['error' => $e->getMessage()];
         }
