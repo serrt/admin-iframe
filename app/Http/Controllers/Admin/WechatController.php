@@ -66,7 +66,7 @@ class WechatController extends Controller
 
     public function show($id)
     {
-        $info = Wechat::withCount('users')->with('role')->findOrFail($id);
+        $info = Wechat::query()->withCount('users')->with('role')->findOrFail($id);
         return view('admin.wechat.show', compact('info'));
     }
 
