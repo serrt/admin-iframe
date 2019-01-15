@@ -20,8 +20,8 @@ class Face
 
     public function __construct($api_key = '', $api_secret = '')
     {
-        $this->api_key = $api_key?:env('FACE_API_KEY', 'RWf1To8ENtB5KbqdA5FghosINJPbvXOn');
-        $this->api_secret = $api_secret?:env('FACE_API_SECRET', 'csE5ufFYbNbSdR6XGeKwYTfsG3GsC9hZ');
+        $this->api_key = $api_key?:env('FACE_API_KEY', 'lZnP5mvTFiTOvZR1F1N50yPYITpqPs6s');
+        $this->api_secret = $api_secret?:env('FACE_API_SECRET', 'nuQzND40WFuWjEUUoSVhnPsu0UAlcpR4');
     }
 
     public function detect($file)
