@@ -1985,7 +1985,7 @@ var addTabs = function (options) {
     } else {
         // var self_location = findIframeById(pageId)[0].contentWindow.location;
         // if (self_location.href !== self_location.origin+'/'+options.url) {
-        //     refreshTabById(pageId);
+            refreshTabById(pageId);
         // }
     }
 
