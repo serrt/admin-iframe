@@ -94,6 +94,7 @@ class Face
                         'template_base64' => $content,
                         'template_rectangle' => $template_rectangle,
                         'merge_base64' => $merge,
+                        'merge_rate' => 100,
                     ],
                 ];
             }
@@ -101,6 +102,7 @@ class Face
             $options = [
                 'multipart' => [
                     ['name' => 'api_key', 'contents' => $this->api_key],
+                    ['name' => 'merge_rate', 'contents' => 100],
                     ['name' => 'api_secret', 'contents' => $this->api_secret],
                     ['name' => 'template_file', 'contents' => fopen($template->path(), 'r')],
                     ['name' => 'template_rectangle', 'contents' => $template_rectangle],
@@ -115,6 +117,7 @@ class Face
                     'template_url' => $template,
                     'template_rectangle' => $template_rectangle,
                     'merge_url' => $merge,
+                    'merge_rate' => 100,
                 ],
             ];
         }
