@@ -13,7 +13,7 @@ class WechatPayController extends Controller
         $config = [
             'app_id' => 'wxec1c45c29335c420',
             'mch_id' => '1502982171',
-            'key' => 'peidikejipeidikejipeidikejipeidi',   // API 密钥
+            'key' => 'peidikejipeidikejipeidikejipeidi',
             'cert_path' => '',
             'key_path' => '',
         ];
@@ -23,11 +23,22 @@ class WechatPayController extends Controller
         $result = $app->order->unify([
             'body' => '叫你付钱',
             'out_trade_no' => date('YmdHis'),
-            'total_fee' => 1,
+            'total_fee' => $request->input('money', 1),
             'notify_url' => 'https://www.baidu.com',
             'trade_type' => 'JSAPI',
             'openid' => $request->input('openid', 'oOx8B5TeeaNya-MBRyhYi7dpr3xQ'),
         ]);
-        return $this->json($result);
+
+        $jssdk = $app->jssdk;
+
+        if (data_get($result, 'return_code') != 'SUCCESS') {
+            return $this->error(data_get($result, 'return_msg'));
+        } elseif (data_get($result, 'result_code') != 'SUCCESS') {
+            return $this->error(data_get($result, 'err_code_des'));
+        }
+
+        $config = $jssdk->sdkConfig(data_get($result, 'prepay_id'));
+
+        return $this->json($config);
     }
 }
