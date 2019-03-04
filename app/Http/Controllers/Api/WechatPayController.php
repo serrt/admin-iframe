@@ -21,10 +21,10 @@ class WechatPayController extends Controller
         $app = Factory::payment($config);
 
         $result = $app->order->unify([
-            'body' => '叫你付钱',
-            'out_trade_no' => date('YmdHis'),
+            'body' => $request->input('body', '叫你付钱'),
+            'out_trade_no' => $request->input('out_trade_no', date('YmdHis')),
             'total_fee' => $request->input('money', 1),
-            'notify_url' => 'https://www.baidu.com',
+            'notify_url' => $request->input('notify_url', 'https://www.baidu.com'),
             'trade_type' => 'JSAPI',
             'openid' => $request->input('openid', 'oOx8B5TeeaNya-MBRyhYi7dpr3xQ'),
         ]);
@@ -37,7 +37,12 @@ class WechatPayController extends Controller
             return $this->error(data_get($result, 'err_code_des'));
         }
 
-        $config = $jssdk->sdkConfig(data_get($result, 'prepay_id'));
+        $prepay_id = data_get($result, 'prepay_id');
+        if (!$prepay_id) {
+            return $this->error('系统错误, 请稍后再试');
+        }
+
+        $config = $jssdk->sdkConfig($prepay_id);
 
         return $this->json($config);
     }
