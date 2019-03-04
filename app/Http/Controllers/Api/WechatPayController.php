@@ -26,7 +26,7 @@ class WechatPayController extends Controller
             'total_fee' => 1,
             'notify_url' => 'https://www.baidu.com',
             'trade_type' => 'JSAPI',
-            'openid' => 'oOx8B5TeeaNya-MBRyhYi7dpr3xQ',
+            'openid' => $request->input('openid', 'oOx8B5TeeaNya-MBRyhYi7dpr3xQ'),
         ]);
         return $this->json($result);
     }
