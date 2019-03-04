@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\WechatUserResource;
 use App\Models\Wechat;
-use App\Models\WechatDomain;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use EasyWeChat\Factory;
 use Overtrue\Socialite\User as SocialiteUser;
 use Overtrue\LaravelWeChat\Facade as EasyWechat;
 
@@ -21,11 +18,10 @@ class WechatController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->has('id')) {
-            $id = $request->input('id');
-            abort_if(!$id, Response::HTTP_BAD_REQUEST, 'id 参数必填');
+        if (!$request->has('id') && !$request->input('id')) {
+            abort( Response::HTTP_BAD_REQUEST, 'id 参数必填');
         }
-        $wechat = $this->getWechat($id);
+        $wechat = $this->getWechat($request->input('id'));
 
         $app = $this->getApp($wechat);
         // 微信公众号
@@ -61,7 +57,7 @@ class WechatController extends Controller
                 }
                 $openid = isset($result['openid'])?$result['openid']:'';
                 if ($openid) {
-                    $user = WechatUser::updateOrCreate(['openid' => $openid, 'role_id' => $wechat->role_id, 'wechat_id' => $wechat->id], ['session_key' => (isset($result['session_key'])?$result['session_key']:'')]);
+                    $user = WechatUser::query()->updateOrCreate(['openid' => $openid, 'role_id' => $wechat->role_id, 'wechat_id' => $wechat->id], ['session_key' => (isset($result['session_key'])?$result['session_key']:'')]);
                     return $this->json(['token' => $user->api_token, 'token_type' => 'Bearer']);
                 }
                 return $this->error('未获取到openid, 请重新授权');
