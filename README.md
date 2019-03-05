@@ -53,3 +53,7 @@ ALIOSS_ENDPOINT=阿里云OSS-源地址, 例如: oss-cn-hangzhou.aliyuncs.com
 ### 配置微信分享
 
 ### 后台扫码登陆
+
+### 微信支付
+
+- 已完成支付部分, 还有退款等功能没有完善

@@ -252,11 +252,11 @@ class WechatController extends Controller
         try {
             $message = XML::parse(strval($request->getContent()));
         } catch (\Throwable $e) {
-            return $this->error('Invalid request XML: '.$e->getMessage());
+            return $this->xmlResponse(false,'Invalid request XML: '.$e->getMessage());
         }
 
         if (!is_array($message) || empty($message)) {
-            return $this->error('Invalid request XML.');
+            return $this->xmlResponse(false,'Invalid request XML.');
         }
 
         // 查找对应的APP和订单
