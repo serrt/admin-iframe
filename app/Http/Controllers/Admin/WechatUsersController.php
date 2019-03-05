@@ -83,6 +83,14 @@ class WechatUsersController extends Controller
             $query->where('nickname', 'like' ,'%'.$name.'%');
         }
 
+        if ($request->filled('key')) {
+            $key = $request->input('key');
+            $query->where(function ($q) use ($key) {
+                $condition = '%'.$key.'%';
+                $q->where('nickname', 'like', $condition)->orWhere('openid', 'like', $condition);
+            });
+        }
+
         return $query;
     }
 }

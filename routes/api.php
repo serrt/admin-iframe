@@ -22,12 +22,16 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('keywords', ['uses'=>'Api\WebController@keywords', 'as' => 'api.web.keywords']);
     Route::any('file_remove', ['uses' => 'Api\WebController@fileRemove', 'as' => 'api.web.file_remove']);
 
-    Route::any('test', ['uses' => 'Api\WechatPayController@pay']);
+    Route::any('test', ['uses' => 'Api\WechatPayController@test']);
 });
 
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth:wechat', 'namespace' => 'Api'], function () {
 
+    // 留资(重复了, 后面再来删除)
     Route::apiResource('message', 'WechatUserMsgController', ['only' => ['index', 'store']])->names('api.wechat_user_msg');
+
+    // 支付
+    Route::post('pay', ['uses' => 'WechatUserController@pay']);
 });
 
 // 微信小程序code
@@ -41,7 +45,6 @@ Route::group(['middleware' => ['auth:wechat']], function () {
     // 解密
     Route::post('user/decrypt', ['uses' => 'Api\WechatUserController@decrypt']);
 
-
     // 留资
     Route::get('message', ['uses' => 'Api\WechatUserMsgController@index'])->name('api.message.index');
     Route::post('message', ['uses' => 'Api\WechatUserMsgController@store'])->name('api.message.store');
@@ -53,3 +56,5 @@ Route::group(['prefix' => 'face', 'namespace' => 'Api'], function () {
     Route::any('merge', ['uses' => 'FaceController@merge'])->name('api.face.merge');
     Route::any('multiple_merge', ['uses' => 'FaceController@multipleMerge'])->name('api.face.multiple_merge');
 });
+
+Route::any('wechat/notify', ['uses' => 'WechatController@notify', 'as' => 'api.wechat.notify']);

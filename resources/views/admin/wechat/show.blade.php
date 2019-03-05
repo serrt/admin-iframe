@@ -9,10 +9,19 @@
                     @endif
 
                     <h3 class="profile-username text-center">{{$info->name}}</h3>
-                    <p class="text-muted text-center">{{$info->type?'小程序':'公众号'}}</p>
+                    <p class="text-muted text-center">{{$info->type_name}}</p>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <b>用户</b> <a href="{{route('admin.wechat_users.index', ['wechat'=>$info->id])}}" class="pull-right">{{$info->users_count}}</a>
+                            <b>角色</b>
+                            <a href="{{route('admin.wechat.index', ['role' => $info->role_id])}}" class="pull-right">{{data_get($info, 'role.name')}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>用户数</b>
+                            <a href="{{route('admin.wechat_users.index', ['wechat'=>$info->id])}}" class="pull-right">{{$info->users_count}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>订单数</b>
+                            <a href="{{route('admin.wechat_order.index', ['wechat_id' => $info->id])}}" class="pull-right">{{$info->orders_count}}</a>
                         </li>
                         <li class="list-group-item clearfix">
                             <b>测试</b>
@@ -33,16 +42,13 @@
                     <li>
                         <a href="#oss" data-toggle="tab">阿里云-OSS</a>
                     </li>
+                    <li>
+                        <a href="#pay" data-toggle="tab">微信支付</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="info">
                         <div class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-sm-2 control-label">角色</div>
-                                <div class="col-md-10">
-                                    <div class="form-control-static">{{$info->role?$info->role->name:''}}</div>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">APP_Id</div>
                                 <div class="col-md-10">
@@ -55,7 +61,7 @@
                                     <div class="form-control-static">{{$info->app_secret}}</div>
                                 </div>
                             </div>
-                            @if (!$info->type)
+                            @if ($info->type == \App\Models\Wechat::TYPE_MP)
                             <div class="form-group">
                                 <div class="col-sm-2 control-label">授权地址</div>
                                 <div class="col-md-10">
@@ -117,6 +123,49 @@
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="cdnDomain" value="{{data_get($info, 'oss.cdnDomain')}}">
                                     <p class="help-block">不含 http://</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-2">
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="pay">
+                        <form action="{{route('admin.wechat.pay', $info)}}" class="form-horizontal validate" method="post" autocomplete="off">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">mach_id*</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="mch_id" value="{{data_get($info, 'pay.mch_id')}}" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">key*</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="key" value="{{data_get($info, 'pay.key')}}" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">cert_path</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="cert_path" value="{{data_get($info, 'pay.cert_path')}}">
+                                    <p class="help-block">证书绝对路径(/path/cert.pem)</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">key_path</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="key_path" value="{{data_get($info, 'pay.key_path')}}">
+                                    <p class="help-block">证书绝对路径(/path/key)</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">支付结果通知</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="notify_url" value="{{data_get($info, 'pay.notify_url', route('api.wechat.notify'))}}">
+                                    <p class="help-block">完整的域名, 不能包含参数</p>
                                 </div>
                             </div>
                             <div class="form-group">

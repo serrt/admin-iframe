@@ -21,12 +21,17 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     Route::get('wechat/search', ['uses'=>'WechatController@search', 'as'=>'admin.wechat.search']);
     Route::post('wechat/{wechat}/oss', ['uses' => 'WechatController@oss', 'as' => 'admin.wechat.oss']);
+    Route::post('wechat/{wechat}/pay', ['uses' => 'WechatController@pay', 'as' => 'admin.wechat.pay']);
+
     Route::resource('wechat', 'WechatController')->names('admin.wechat');
 
     Route::get('wechat_users/search', ['uses'=>'WechatUsersController@search', 'as'=>'admin.wechat_users.search']);
     Route::get('wechat_users', ['uses'=>'WechatUsersController@index', 'as'=>'admin.wechat_users.index']);
 
     Route::resource('wechat_user_msg', 'WechatUserMsgController', ['only' => ['index', 'show']])->names('admin.wechat_user_msg');
+
+    Route::get('wechat_order', ['uses' => 'WechatOrderController@index', 'as' => 'admin.wechat_order.index']);
+    Route::get('wechat_order/{id}', ['uses' => 'WechatOrderController@show', 'as' => 'admin.wechat_order.show']);
 });
 Route::get('login', ['uses'=>'AuthController@showLoginForm', 'as'=>'admin.login', 'middleware'=>['guest:admin']]);
 Route::post('login', ['uses'=>'AuthController@login', 'as'=>'admin.doLogin']);

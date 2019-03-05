@@ -21,7 +21,8 @@ class PermissionsTableSeeder extends Seeder
             ['name' => '微信', 'pid' => 0, 'key' => 'fa fa-wechat', 'url' => null, 'children' => [
                 ['name' => 'APP', 'key' => 'fa fa-apple', 'url' => 'admin/wechat'],
                 ['name' => '用户', 'key' => 'fa fa-users', 'url' => 'admin/wechat_users'],
-                ['name' => '资料', 'key' => 'fa fa-comments', 'url' => 'admin/wechat_user_msg'],
+                ['name' => '资料', 'key' => 'fa fa-database', 'url' => 'admin/wechat_user_msg'],
+                ['name' => '订单', 'key' => 'fa fa-list-alt', 'url' => 'admin/wechat_order']
             ]],
         ];
         $data = [];

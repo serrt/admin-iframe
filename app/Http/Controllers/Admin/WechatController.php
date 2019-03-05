@@ -15,8 +15,7 @@ class WechatController extends Controller
     {
         $query = Wechat::query()
             ->with('role')
-            ->withCount('users')
-            ->withCount('messages')
+            ->withCount(['users', 'messages', 'orders'])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc');
 
@@ -66,7 +65,7 @@ class WechatController extends Controller
 
     public function show($id)
     {
-        $info = Wechat::query()->withCount('users')->with('role')->findOrFail($id);
+        $info = Wechat::query()->withCount(['users', 'orders'])->with(['role', 'pay'])->findOrFail($id);
         return view('admin.wechat.show', compact('info'));
     }
 
@@ -87,7 +86,7 @@ class WechatController extends Controller
 
         $user = auth('admin')->user();
         if (!$user->isAdmin() && !$user->hasRole($wechat->role_id)) {
-            return back()->withErrors(['没有权限删除']);
+            return back()->withErrors(['没有权限修改']);
         }
 
         $wechat->update($request->all());
@@ -102,6 +101,10 @@ class WechatController extends Controller
         if (!$user->isAdmin() && !$user->hasRole($wechat->role_id)) {
             return back()->withErrors(['没有权限删除']);
         }
+        // 删除OSS记录
+        $wechat->oss()->delete();
+        // 删除订单
+        $wechat->orders()->delete();
         // 删除用户留资
         $wechat->messages()->delete();
         // 删除用户记录
@@ -138,6 +141,13 @@ class WechatController extends Controller
         $data['ssl'] = $request->input('ssl', 0);
         $data['isCName'] = $request->input('cdnDomain', '')?1:0;
         $wechat->oss()->updateOrCreate([], $data);
+        return back()->with('flash_message', '修改成功');
+    }
+
+    public function pay(Wechat $wechat, Request $request)
+    {
+        $data = $request->only(['mch_id', 'key', 'cert_path', 'key_path', 'notify_url']);
+        $wechat->pay()->updateOrCreate([], $data);
         return back()->with('flash_message', '修改成功');
     }
 }

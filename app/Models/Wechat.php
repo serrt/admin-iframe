@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use EasyWeChat\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,11 @@ class Wechat extends Model
     const TYPE_MP = 0;
     // 微信小程序
     const TYPE_MIN = 1;
+
+    public static $typeMap = [
+        self::TYPE_MP => '公众号',
+        self::TYPE_MIN => '小程序'
+    ];
 
     public function role()
     {
@@ -40,6 +46,21 @@ class Wechat extends Model
         return $this->hasMany(WechatUserMsg::class, 'wechat_id', 'id');
     }
 
+    public function pays()
+    {
+        return $this->hasMany(WechatPay::class, 'wechat_id', 'id');
+    }
+
+    public function pay()
+    {
+        return $this->hasOne(WechatPay::class, 'wechat_id', 'id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(WechatOrder::class, 'wechat_id', 'id');
+    }
+
     public function setLogoAttribute($file = null)
     {
         if (gettype($file) == 'object') {
@@ -54,6 +75,11 @@ class Wechat extends Model
         } else {
             $this->attributes['logo'] = $file;
         }
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return $this->attributes['type']?data_get(self::$typeMap, $this->attributes['type']):$this->attributes['type'];
     }
 
     public function getAuthUrlAttribute()
@@ -72,5 +98,26 @@ class Wechat extends Model
         }
         $storage = Storage::disk($disk);
         return $storage;
+    }
+
+    public function getPayment()
+    {
+        $pay = $this->pay;
+        if (!$pay || !$pay->mch_id) {
+            return false;
+        }
+
+        $config = [
+            'app_id' => $this->attributes['app_id'],
+            'mch_id' => $pay->mch_id,
+            'key' => $pay->key,
+            'cert_path' => $pay->cert_path,
+            'key_path' => $pay->key_path,
+            'notify_url' => $pay->notify_url,
+        ];
+
+        $app = Factory::payment($config);
+
+        return $app;
     }
 }

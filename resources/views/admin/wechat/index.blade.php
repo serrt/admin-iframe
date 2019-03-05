@@ -44,6 +44,7 @@
                     <th>名称</th>
                     <th>用户</th>
                     <th>资料</th>
+                    <th>订单</th>
                     <th>创建时间</th>
                     <th></th>
                 </tr>
@@ -62,6 +63,9 @@
                         </td>
                         <td><a href="{{route('admin.wechat_users.index', ['wechat'=>$item->id])}}">{{$item->users_count}}</a></td>
                         <td><a href="{{route('admin.wechat_user_msg.index', ['wechat'=>$item->id])}}">{{$item->messages_count}}</a></td>
+                        <td>
+                            <a href="{{route('admin.wechat_order.index', ['wechat_id' => $item->id])}}">{{$item->orders_count}}</a>
+                        </td>
                         <td>{{$item->created_at}}</td>
                         <td>
                             <a href="{{route('admin.wechat.show', $item)}}" class="btn btn-info btn-sm">查看</a>

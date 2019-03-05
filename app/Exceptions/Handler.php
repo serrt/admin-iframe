@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -62,6 +63,22 @@ class Handler extends ExceptionHandler
         } else {
             return in_array('admin', $exception->guards()) ? redirect()->guest(route('admin.login')) : redirect()->guest('login');
         }
+    }
+
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'code' => $exception->status,
+            'message' => $exception->validator->errors()->first(),
+            'errors' => $exception->errors(),
+        ], Response::HTTP_OK);
     }
 
 }

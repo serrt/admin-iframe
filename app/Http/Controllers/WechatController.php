@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wechat;
+use App\Models\WechatOrder;
 use App\Models\WechatUser;
+use function EasyWeChat\Kernel\Support\generate_sign;
+use EasyWeChat\Kernel\Support\XML;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Overtrue\Socialite\User as SocialiteUser;
@@ -241,6 +244,62 @@ class WechatController extends Controller
             echo "用户未授权";
             exit;
         }
+    }
+
+    public function notify(Request $request)
+    {
+        // 获取请求的XML信息
+        try {
+            $message = XML::parse(strval($request->getContent()));
+        } catch (\Throwable $e) {
+            return $this->error('Invalid request XML: '.$e->getMessage());
+        }
+
+        if (!is_array($message) || empty($message)) {
+            return $this->error('Invalid request XML.');
+        }
+
+        // 查找对应的APP和订单
+        $wechat_order = WechatOrder::with(['wechat'])->whereHas('wechat', function ($q) use ($message) {
+            $q->where('app_id', data_get($message, 'appid'));
+        })->where('out_trade_no', data_get($message, 'out_trade_no'))->first();
+
+        if (!$wechat_order) {
+            return $this->xmlResponse(false, '订单不存在');
+        }
+
+        $wechat = $wechat_order->wechat;
+        if (!$wechat) {
+            return $this->xmlResponse(false, 'app_id 不存在');
+        }
+
+        $app = $wechat->getPayment();
+
+        // 验证签名
+        $sign = $message['sign'];
+        if (config('app.env') == 'production' && generate_sign($message, $app->getKey()) !== $sign) {
+            return $this->xmlResponse(false, '签名错误');
+        }
+
+        // 判断支付结果
+        $result = formatResult($message);
+        if ($result === true && $wechat_order->status == WechatOrder::STATUS_PROCESS) {
+            // 更新订单状态
+            $wechat_order->status = WechatOrder::STATUS_SUCCESS;
+            $wechat_order->success_time = now();
+            $wechat_order->save();
+        }
+
+        return $this->xmlResponse();
+
+    }
+
+    protected function xmlResponse($success = true, $msg = 'OK')
+    {
+        return new Response(XML::build([
+            'return_code' => $success ? 'SUCCESS' : 'FAIL',
+            'return_msg' => $msg
+        ]));
     }
 
     protected function getWechat($id)

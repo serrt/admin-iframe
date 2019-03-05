@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class WechatPayController extends Controller
 {
-    public function pay(Request $request)
+    public function test(Request $request)
     {
         $config = [
             'app_id' => 'wxec1c45c29335c420',
@@ -29,8 +29,6 @@ class WechatPayController extends Controller
             'openid' => $request->input('openid', 'oOx8B5TeeaNya-MBRyhYi7dpr3xQ'),
         ]);
 
-        $jssdk = $app->jssdk;
-
         if (data_get($result, 'return_code') != 'SUCCESS') {
             return $this->error(data_get($result, 'return_msg'));
         } elseif (data_get($result, 'result_code') != 'SUCCESS') {
@@ -42,7 +40,7 @@ class WechatPayController extends Controller
             return $this->error('系统错误, 请稍后再试');
         }
 
-        $config = $jssdk->sdkConfig($prepay_id);
+        $config = $app->jssdk->sdkConfig($prepay_id);
 
         return $this->json($config);
     }

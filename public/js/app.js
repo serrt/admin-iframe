@@ -1,17 +1,13 @@
 // 网站 csrf_token
 var token = $("meta[name='csrf-token']").attr('content');
 // 通用的 select2 config
-function selectConfig(data, multiple, ajax) {
+function selectConfig(data) {
     var config = {
         allowClear: true,
         placeholder: '请选择',
         dataType: 'json',
         width: '100%',
-        escapeMarkup: function (markup) { return markup; }
-    };
-
-    if (ajax) {
-        config.ajax = {
+        ajax: {
             delay: 500,
             data: function (params) {
                 return {
@@ -27,21 +23,17 @@ function selectConfig(data, multiple, ajax) {
                     }
                 };
             },
-        }
-        config.templateResult = function (repo) {
+        },
+        escapeMarkup: function (markup) { return markup; },
+        templateResult: function (repo) {
+            return repo.text?repo.text:repo.name
+        },
+        templateSelection: function (repo) {
             return repo.text?repo.text:repo.name
         }
-        config.templateSelection = function (repo) {
-            return repo.text?repo.text:repo.name
-        }
-    }
-
+    };
     if (data) {
-        if (multiple && data.length !== undefined) {
-            config.data = data;
-        } else {
-            config.data = [data];
-        }
+        config.data = [data];
     }
     return config;
 }
@@ -89,7 +81,7 @@ $(function () {
     $('.datetime').datetimepicker({
         autoclose: true,
         clearBtn: true,
-        format: 'yyyy-mm-dd hh:ii',
+        format: 'yyyy-mm-dd hh:ii:ss',
         language: 'zh-CN'
     });
 
@@ -98,9 +90,6 @@ $(function () {
         language: 'zh-CN',
         minViewMode: 'days',
         enableOnReadonly: false,
-    });
-    $('.input-daterange input').each(function() {
-        $(this).datepicker('clearDates');
     });
 
     // Jquery 表单验证
@@ -137,7 +126,7 @@ $(function () {
                 // 遍历错误列表
                 for (var obj in errorMap) {
                     // 自定义错误提示效果
-                    var ele = $('[name="' + obj + '"]');
+                    var ele = form_validate.find('[name="' + obj + '"]');
                     ele.parents('.form-group').addClass(validate_error).removeClass(validate_success);
                     if (ele.hasClass('select2')) {
                         ele.next('.select2-container').addClass(validate_error).removeClass(validate_success);
@@ -153,18 +142,14 @@ $(function () {
             },
             // 错误元素出现的位置
             errorPlacement: function(error, element) {
-                error.addClass('text-danger');
+                error.addClass('help-block');
                 if (element.parent().hasClass('input-group')) {
                     element.parent().after(error);
-                } else if (element.attr('type') === 'file') {
+                } else if (element.hasClass('file-input')) {
                     element.parents('.file-input').after(error);
-                }  else {
+                } else {
                     error.appendTo(element.parent());
                 }
-            },
-            submitHandler: function (form) {
-                form_validate.find('button[type="submit"]').button('loading');
-                return true;
             },
             // 忽略.ignore
             ignore: '.ignore'
@@ -250,36 +235,11 @@ $(function () {
     $.fn.select2.defaults.set('theme', 'bootstrap');
     $('.select2').each(function () {
         var data = $(this).data('json');
-        var config_public = selectConfig(data, $(this).attr('multiple'), $(this).data('ajax-url'));
-        
+        var config_public = selectConfig(data);
         $(this).select2(config_public);
-
-        // 默认选中
         if (config_public.data) {
-            if ($(this).attr('multiple') && config_public.data.length !== undefined) {
-                var selected = [];
-                for (var i in config_public.data) {
-                    selected.push(config_public.data[i].id);
-                }
-                $(this).val(selected).trigger('change');
-            } else {
-                $(this).val([data.id]).trigger('change');
-            }
+            $(this).val([data.id]).trigger('change');
         }
-    });
-
-    // 监听 select2 删除事件, 去掉删除元素
-    $('.select2[data-ajax-url]').on('select2:unselecting', function (e) {
-        var item = e.params.args.data;
-        var data = $(this).select2('data');
-        var val = [];
-        for (var i in data) {
-            if (item.id != data[i].id) {
-                val.push(data[i].id);
-            }
-        }
-        $(this).val(val).trigger('change');
-        return true;
     });
 
     // file-input 初始化
