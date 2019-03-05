@@ -11,10 +11,12 @@
                     <h3 class="profile-username text-center">{{$info->name}}</h3>
                     <p class="text-muted text-center">{{$info->type_name}}</p>
                     <ul class="list-group list-group-unbordered">
+                        @if($info->role_id)
                         <li class="list-group-item">
                             <b>角色</b>
                             <a href="{{route('admin.wechat.index', ['role' => $info->role_id])}}" class="pull-right">{{data_get($info, 'role.name')}}</a>
                         </li>
+                        @endif
                         <li class="list-group-item">
                             <b>用户数</b>
                             <a href="{{route('admin.wechat_users.index', ['wechat'=>$info->id])}}" class="pull-right">{{$info->users_count}}</a>
