@@ -9,7 +9,6 @@
     @include('admin.layouts.css')
 </head>
 <body class="hold-transition login-page">
-    <img src="http://local.wechat-info.com/qrcode?content=1">
     <div class="login-box">
         <div class="login-logo">
             <a href="/"><b>{{config('app.name')}}</b></a>
