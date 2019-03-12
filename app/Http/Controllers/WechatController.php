@@ -307,7 +307,14 @@ class WechatController extends Controller
         if ($merge) {
             $qr->merge($merge, 0.3, true);
         }
-        return $qr->size($size)->generate($content);
+
+        $content = $qr->size($size)->generate($content);
+
+        if ($request->input('require') == 'base64') {
+            return base64_encode($content);
+        }
+
+        return $content;
     }
 
     protected function xmlResponse($success = true, $msg = 'OK')
