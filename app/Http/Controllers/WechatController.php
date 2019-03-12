@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Overtrue\Socialite\User as SocialiteUser;
 use Overtrue\LaravelWeChat\Facade as EasyWechat;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WechatController extends Controller
 {
@@ -291,7 +292,22 @@ class WechatController extends Controller
         }
 
         return $this->xmlResponse();
+    }
 
+    public function qrcode(Request $request)
+    {
+        $size = $request->input('size', 150);
+        $margin = $request->input('margin', 1);
+        $content = $request->input('content', 'test');
+        $merge = $request->input('merge');
+        $qr = QrCode::format('png')
+            ->margin($margin)
+            ->errorCorrection('H')
+            ->encoding('UTF-8');
+        if ($merge) {
+            $qr->merge($merge, 0.3, true);
+        }
+        return $qr->size($size)->generate($content);
     }
 
     protected function xmlResponse($success = true, $msg = 'OK')

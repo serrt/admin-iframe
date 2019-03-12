@@ -23,3 +23,5 @@ Route::post('access_token', ['uses' => 'WechatController@accessToken', 'as' => '
 
 Route::get('wx-auth', ['uses' => 'WechatController@wxAuth', 'as' => 'wechat.wx_auth', 'middleware' => ['wechat.oauth:snsapi_userinfo']]);
 Route::get('wx-base-auth', ['uses' => 'WechatController@wxBaseAuth', 'as' => 'wechat.wx_base_auth', 'middleware' => ['wechat.oauth:snsapi_base']]);
+
+Route::any('qrcode', ['uses' => 'WechatController@qrcode']);
