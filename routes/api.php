@@ -59,3 +59,4 @@ Route::any('wechat/notify', ['uses' => 'WechatController@notify', 'as' => 'api.w
 Route::get('msg', ['uses' => 'WechatMsgController@index']);
 Route::get('msg/send', ['uses' => 'WechatMsgController@send']);
 Route::get('msg/send_article', ['uses' => 'WechatMsgController@sendArticle']);
+Route::get('msg/send_message', ['uses' => 'WechatMsgController@sendMessage']);
