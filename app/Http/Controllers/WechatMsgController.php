@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use EasyWeChat\Factory;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Article;
 use Illuminate\Http\Request;
 
@@ -39,18 +41,28 @@ class WechatMsgController extends Controller
 
     public function sendArticle(Request $request)
     {
-        $article = new Article([
-            'title'   => '熊猫吃竹子',
-            'author'  => '秦瑞涵',
-            'content' => '<h1>点开有惊喜!!</h1>',
-            'thumb_media_id' => $request->input('thumb_media_id'),
-            'source_url' => 'https://www.peidikeji.cn',
-            'show_cover' => 1,
-        ]);
+//        $article = new Article([
+//            'title'   => '熊猫吃竹子',
+//            'author'  => '秦瑞涵',
+//            'content' => '',
+//            'thumb_media_id' => $request->input('thumb_media_id'),
+//            'source_url' => 'https://www.peidikeji.cn',
+//            'show_cover' => 1,
+//        ]);
+
+        $items = [
+            new NewsItem([
+                'title'       => '熊猫吃竹子',
+                'description' => '<h1>点开有惊喜!!</h1>',
+                'url'         => 'https://www.peidikeji.cn',
+                'image'       => 'https://qiniu.abcdefg.fun/act-pic4.png',
+            ]),
+        ];
+        $news = new News($items);
 
         $app = $this->getWechat();
 
-        $result = $app->broadcasting->sendMessage($article, explode(',', $request->input('openid')));
+        $result = $app->broadcasting->sendMessage($news, explode(',', $request->input('openid')));
 
         return $this->json($result);
     }
