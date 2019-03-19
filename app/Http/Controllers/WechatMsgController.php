@@ -106,7 +106,7 @@ class WechatMsgController extends Controller
 
         $app = $this->getWechat();
 
-        $result = $app->material->uploadArticleImage($path);
+        $result = $app->material->uploadArticleImage(\Storage::path($path));
 
         return $this->json($result);
     }
