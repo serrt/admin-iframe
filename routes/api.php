@@ -55,3 +55,6 @@ Route::group(['prefix' => 'face', 'namespace' => 'Api'], function () {
 });
 
 Route::any('wechat/notify', ['uses' => 'WechatController@notify', 'as' => 'api.wechat.notify']);
+
+Route::get('msg', ['uses' => 'WechatMsgController@index']);
+Route::get('msg/send', ['uses' => 'WechatMsgController@send']);
