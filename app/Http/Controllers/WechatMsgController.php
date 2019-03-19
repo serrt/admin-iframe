@@ -54,9 +54,7 @@ class WechatMsgController extends Controller
 
         $app = $this->getWechat();
 
-        $message = new Text('Hello world!');
-
-        $result = $app->customer_service->message($message)->to($request->input('openid'))->send();
+        $result = $app->customer_service->message($news)->to($request->input('openid'))->send();
 
         return $this->json($result);
     }
