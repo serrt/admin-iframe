@@ -43,6 +43,7 @@ class WechatMsgController extends Controller
             'title'   => '熊猫吃竹子',
             'author'  => '秦瑞涵',
             'content' => '<h1>点开有惊喜!!</h1>',
+            'thumb_media_id' => $request->input('thumb_media_id'),
             'source_url' => 'https://www.peidikeji.cn',
             'show_cover' => 1,
         ]);
