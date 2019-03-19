@@ -41,19 +41,22 @@ class WechatMsgController extends Controller
 
     public function sendArticle(Request $request)
     {
-        $items = [
-            new NewsItem([
-                'title'       => '熊猫吃竹子',
-                'description' => '<h1>点开有惊喜!!</h1>',
-                'url'         => 'https://www.peidikeji.cn',
-                'image'       => 'https://qiniu.abcdefg.fun/act-pic4.png',
-            ]),
-        ];
-        $news = new News($items);
+        $article = new Article([
+            'title'   => '熊猫吃竹子',
+            'author'  => '秦瑞涵',
+            'content' => '<h1>点开有惊喜!!</h1>',
+            'thumb_media_id' => $request->input('thumb_media_id'),
+            'source_url' => 'https://www.peidikeji.cn',
+            'show_cover' => 1,
+        ]);
 
         $app = $this->getWechat();
 
-        $result = $app->customer_service->message($news)->to($request->input('openid'))->send();
+        $result = $app->material->uploadArticle($article);
+
+        return $this->json($result);
+
+        $result = $app->broadcasting->sendMessage($article, explode(',', $request->input('openid')));
 
         return $this->json($result);
     }
