@@ -20,11 +20,11 @@ class WechatMsgController extends Controller
         return $app;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $app = $this->getWechat();
-        $data = $app->material->list('news', 0, 20);
-        dd($data);
+        $data = $app->material->list($request->input('type', 'news'), 0, 20);
+        return $this->json($data);
     }
 
     public function send(Request $request)
@@ -33,7 +33,25 @@ class WechatMsgController extends Controller
 
         $media_id = $request->input('id');
 
-        $result = $app->broadcasting->sendNews($media_id, $request->input('openid'));
+        $result = $app->broadcasting->sendNews($media_id, explode(',', $request->input('openid')));
+        return $this->json($result);
+    }
+
+    public function sendArticle(Request $request)
+    {
+        $article = new Article([
+            'title'   => '熊猫吃竹子',
+            'author'  => '秦瑞涵',
+            'content' => '<h1>点开有惊喜!!</h1>',
+            'thumb_media_id' => $request->input('thumb_media_id'),
+            'source_url' => 'https://www.peidikeji.cn',
+            'show_cover' => 1,
+        ]);
+
+        $app = $this->getWechat();
+
+        $result = $app->broadcasting->sendMessage($article, explode(',', $request->input('openid')));
+
         return $this->json($result);
     }
 }
