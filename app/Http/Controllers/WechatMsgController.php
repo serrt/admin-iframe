@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use EasyWeChat\Factory;
+use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\Messages\News;
 use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Article;
@@ -53,7 +54,9 @@ class WechatMsgController extends Controller
 
         $app = $this->getWechat();
 
-        $result = $app->customer_service->message($news)->to($request->input('openid'))->send();
+        $message = new Text('Hello world!');
+
+        $result = $app->customer_service->message($message)->to($request->input('openid'))->send();
 
         return $this->json($result);
     }
