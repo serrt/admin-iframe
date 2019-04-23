@@ -128,11 +128,53 @@ class Face
         return $result;
     }
 
+    public function scene($file)
+    {
+        $options = [];
+
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $file, $result)) {
+            $type = $result[2];
+            if(in_array($type,array('jpeg','jpg','gif','bmp','png'))) {
+                $content = str_replace($result[1], '', $file);
+                $options = [
+                    'form_params' => [
+                        'api_key' => $this->api_key,
+                        'api_secret' => $this->api_secret,
+                        'image_base64' => $content,
+                    ],
+                ];
+            }
+        }  else if (gettype($file) == 'object') {
+            $options = [
+                'multipart' => [
+                    ['name' => 'api_key', 'contents' => $this->api_key],
+                    ['name' => 'api_secret', 'contents' => $this->api_secret],
+                    ['name' => 'image_file', 'contents' => fopen($file->path(), 'r')]
+                ]
+            ];
+        } else {
+            $options = [
+                'form_params' => [
+                    'api_key' => $this->api_key,
+                    'api_secret' => $this->api_secret,
+                    'image_url' => $file,
+                ],
+            ];
+        }
+
+        try {
+            $result = json_decode($this->client()->post('imagepp/beta/detectsceneandobject', $options)->getBody()->getContents(), true);
+        } catch (ClientException $e) {
+            $result = ['error' => $e->getMessage()];
+        }
+
+        return $result;
+    }
+
     public static function init($api_key = '', $api_secret = '')
     {
         return new Face($api_key, $api_secret);
     }
-
 
     protected function client()
     {

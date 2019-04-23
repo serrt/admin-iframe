@@ -52,6 +52,8 @@ Route::group(['prefix' => 'face', 'namespace' => 'Api'], function () {
     Route::any('detect', ['uses' => 'FaceController@detect'])->name('api.face.detect');
     Route::any('merge', ['uses' => 'FaceController@merge'])->name('api.face.merge');
     Route::any('multiple_merge', ['uses' => 'FaceController@multipleMerge'])->name('api.face.multiple_merge');
+
+    Route::any('scene', ['uses' => 'FaceController@scene'])->name('api.face.scene');
 });
 
 Route::any('wechat/notify', ['uses' => 'WechatController@notify', 'as' => 'api.wechat.notify']);

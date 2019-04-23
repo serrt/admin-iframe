@@ -89,4 +89,22 @@ class FaceController extends Controller
 
         return $this->json($data);
     }
+
+    public function scene(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first());
+        }
+
+        $result = Face::init()->scene($request->file);
+
+        if (isset($result['objects']) && $result['objects']) {
+            return $this->json($result);
+        }
+
+        return $this->error(data_get($result, 'error', '查询失败'));
+    }
 }
