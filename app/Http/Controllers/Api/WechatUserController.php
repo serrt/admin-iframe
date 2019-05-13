@@ -164,6 +164,7 @@ class WechatUserController extends Controller
             logger($result);
 
             $format = formatResult($result);
+
             if ($format !== true) {
                 return $this->error($format);
             }
