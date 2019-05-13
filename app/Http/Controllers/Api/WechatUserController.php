@@ -161,6 +161,8 @@ class WechatUserController extends Controller
                 'auth_code' => $auth_code,
             ]);
 
+            logger($result);
+
             $format = formatResult($result);
             if ($format !== true) {
                 return $this->error($format);
