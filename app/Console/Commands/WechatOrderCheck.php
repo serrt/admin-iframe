@@ -49,7 +49,7 @@ class WechatOrderCheck extends Command
 
         $result = $payment->order->queryByOutTradeNumber($order->out_trade_no);
 
-        $this->info($result);
+        $this->info(json_encode($result, true));
 
         if ($order->status == WechatOrder::STATUS_PROCESS && data_get($result, 'trade_state', 'SUCCESS')) {
             $order->status = WechatOrder::STATUS_PROCESS;
