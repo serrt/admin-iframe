@@ -20,7 +20,7 @@ class WechatOrderCheck extends Command
      *
      * @var string
      */
-    protected $description = '查询微信支付的订单, --order: 查询单个订单号状态';
+    protected $description = '查询微信支付的订单, --out_trade_no: 微信商户订单号';
 
     /**
      * Create a new command instance.
@@ -40,11 +40,25 @@ class WechatOrderCheck extends Command
     public function handle()
     {
         $out_trade_no = $this->option('out_trade_no');
-        $order = WechatOrder::where('out_trade_no', $out_trade_no)->first();
-        if (!$order) {
-            $this->error('订单号 '.$out_trade_no.' 不存在');
-        }
+        if ($out_trade_no) {
+            $order = WechatOrder::where('out_trade_no', $out_trade_no)->first();
+            if (!$order) {
+                $this->error('订单号 '.$out_trade_no.' 不存在');
+                exit;
+            }
 
+            $this->handleOrder($order);
+        } else {
+            // 遍历所有 未支付 的订单
+            $list = WechatOrder::where('status', WechatOrder::STATUS_PROCESS)->with(['wechat'])->get();
+            foreach ($list as $item) {
+                $this->handleOrder($item);
+            }
+        }
+    }
+
+    protected function handleOrder(WechatOrder $order)
+    {
         $wechat = $order->wechat;
         $payment = $wechat->getPayment();
 
