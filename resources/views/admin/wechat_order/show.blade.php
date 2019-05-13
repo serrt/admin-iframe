@@ -13,7 +13,7 @@
                         </li>
                         <li class="list-group-item">
                             <b>用户</b>
-                            <p class="pull-right list-group-item-text">
+                            <p class="text-right list-group-item-text">
                                 @if($user->nickname)
                                     <img src="{{$user->headimgurl}}" alt="" width="50" class="img-thumbnail">
                                     {{$user->nickname}}

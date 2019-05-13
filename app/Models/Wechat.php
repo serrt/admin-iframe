@@ -79,7 +79,7 @@ class Wechat extends Model
 
     public function getTypeNameAttribute()
     {
-        return $this->attributes['type']?data_get(self::$typeMap, $this->attributes['type']):$this->attributes['type'];
+        return data_get(self::$typeMap, $this->attributes['type'], '未知类型');
     }
 
     public function getAuthUrlAttribute()

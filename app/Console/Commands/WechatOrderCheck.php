@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\WechatOrder;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class WechatOrderCheck extends Command
@@ -51,9 +52,9 @@ class WechatOrderCheck extends Command
 
         $this->info(json_encode($result, true));
 
-        if ($order->status == WechatOrder::STATUS_PROCESS && data_get($result, 'trade_state', 'SUCCESS')) {
-            $order->status = WechatOrder::STATUS_PROCESS;
-            $order->success_time = now();
+        if ($order->status == WechatOrder::STATUS_PROCESS && data_get($result, 'trade_state') == 'SUCCESS') {
+            $order->status = WechatOrder::STATUS_SUCCESS;
+            $order->success_time = Carbon::createFromFormat('YmdHis', data_get($result, 'time_end'));
             $order->save();
         }
     }
