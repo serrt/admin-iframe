@@ -177,7 +177,7 @@ class WechatController extends Controller
         } else {
             $token = $accessToken->getToken();
         }
-        return response()->json(['code' => 200, 'access_token' => $token['access_token']]);
+        return response()->json(['code' => 200, 'data' => $token]);
     }
 
     public function wxAuth(Request $request)
