@@ -25,3 +25,6 @@ Route::get('wx-auth', ['uses' => 'WechatController@wxAuth', 'as' => 'wechat.wx_a
 Route::get('wx-base-auth', ['uses' => 'WechatController@wxBaseAuth', 'as' => 'wechat.wx_base_auth', 'middleware' => ['wechat.oauth:snsapi_base']]);
 
 Route::any('qrcode', ['uses' => 'WechatController@qrcode']);
+
+Route::get('mp', ['uses' => 'MpController@index', 'as' => 'mp.index']);
+Route::get('image', ['uses' => 'MpController@image', 'as' => 'mp.image']);
