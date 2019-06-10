@@ -21,7 +21,7 @@
                                     </li>
                                 </ul>
                                 <div class="weui-uploader__input-box">
-                                    <input id="uploaderInput" class="weui-uploader__input" type="text" accept="image/*" capture="camera" multiple="" />
+                                    <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" capture="camera" multiple/>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +44,7 @@
             }
         })
     }
-    wx.config(<?php echo $app->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage', 'downloadImage'), false) ?>);
-    wx.ready(function () {
+    function chooseImage () {
         wx.chooseImage({
             count: 1, // 默认9
             sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -55,6 +54,7 @@
                 console.log(localIds)
             }
         });
-    });
+    }
+    wx.config(<?php echo $app->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage', 'downloadImage'), false) ?>);
 </script>
 @endsection
