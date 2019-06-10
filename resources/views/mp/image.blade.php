@@ -29,7 +29,20 @@
 @endsection
 @section('script')
 <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-    wx.config(<?php echo $app->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage', 'downloadImage'), true) ?>);
+    var vConsole = new VConsole();
+    wx.config(<?php echo $app->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage', 'downloadImage'), false) ?>);
+    wx.ready(function () {
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                console.log(localIds)
+            }
+        });
+    });
 </script>
 @endsection
