@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
     <title>JS</title>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css">
     <link rel="stylesheet" href="{{asset('css/mp-example.css')}}">
