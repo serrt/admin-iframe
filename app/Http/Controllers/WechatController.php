@@ -157,7 +157,7 @@ class WechatController extends Controller
 
         $debug = $request->input('debug', false);
 
-        $configure = $officialAccount->jssdk->buildConfig($jsConfigure, $debug);
+        $configure = $officialAccount->jssdk->buildConfig($jsConfigure, $debug, false, false);
 
         return $this->json($configure);
     }
