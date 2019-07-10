@@ -140,8 +140,8 @@ class WechatController extends Controller
         } else {
             $officialAccount = EasyWeChat::officialAccount();
         }
-        $origin = $request->header('origin');
-        $referer = $request->header('Referer');
+        $origin = $request->header('origin', $request->input('origin'));
+        $referer = $request->header('Referer', $request->input('referer'));
 
         if (empty($origin)) {
             return response()->json(['msg' => '授权地址出错', 'code' => 501], 200);
